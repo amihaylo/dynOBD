@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OBD2-Peek</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="test_button">Test</string>
 </resources>
