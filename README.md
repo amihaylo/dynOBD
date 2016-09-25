@@ -16,7 +16,7 @@
 * **OBD2 Simulator**: [ScanTool 602201 ECUsim 2000 ECU CAN Simulator for OBD-II Development](https://www.amazon.com/ScanTool-602201-ECUsim-Simulator-Development/dp/B008NAH6WE)
 
 ##Useful Links:
-[Hyundai OBD II diagnostic interface pinout](http://pinoutsguide.com/CarElectronics/hyundai_obd_2_pinout.shtml)
-[ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
-[Android Bluetooth](https://developer.android.com/guide/topics/connectivity/bluetooth.html)
-[OBDII Android Tutorial](http://blog.lemberg.co.uk/how-guide-obdii-reader-app-development)
+* [Hyundai OBD II diagnostic interface pinout](http://pinoutsguide.com/CarElectronics/hyundai_obd_2_pinout.shtml)
+* [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
+* [Android Bluetooth](https://developer.android.com/guide/topics/connectivity/bluetooth.html)
+* [OBDII Android Tutorial](http://blog.lemberg.co.uk/how-guide-obdii-reader-app-development)
