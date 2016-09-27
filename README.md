@@ -18,9 +18,15 @@
 ##Useful Links:
 * [Hyundai OBD II diagnostic interface pinout](http://pinoutsguide.com/CarElectronics/hyundai_obd_2_pinout.shtml)
 * [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
+* [ELM327 AT Commands](https://www.sparkfun.com/datasheets/Widgets/ELM327_AT_Commands.pdf)
+* [OBDII Commands](https://en.wikipedia.org/wiki/OBD-II_PIDs)
 * [Android Bluetooth](https://developer.android.com/guide/topics/connectivity/bluetooth.html)
 * [OBDII Android Tutorial](http://blog.lemberg.co.uk/how-guide-obdii-reader-app-development)
 * [ODBII Java api](https://github.com/pires/obd-java-api)
 * [Android OBD Reader](https://github.com/pires/android-obd-reader)
 * [OBD Sim](http://icculus.org/obdgpslogger/obdsim.html)
 * [OBD + GPS application](http://icculus.org/obdgpslogger/)
+
+
+#Problems/Fixes
+[Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)

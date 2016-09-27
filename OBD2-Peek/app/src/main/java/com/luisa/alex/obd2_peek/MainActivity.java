@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -35,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     String deviceAddress = new String();
+    BluetoothDevice device;
     private static final String TAG = "MyActivity";
 
     @Override
@@ -208,5 +208,70 @@ public class MainActivity extends AppCompatActivity {
             rpmResultTV.setText(resultRPM);
             fuelCRTV.setText(resultFuelCR);
         }
+    }
+
+    public void buttonTest2(View view){
+
+        //Toast
+        String testMsg = "testButton2() called";
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, testMsg, duration);
+        toast.show();
+
+        //--------------------------------------------
+        ArrayList<String> deviceStrs = new ArrayList();
+        final ArrayList<BluetoothDevice> devices = new ArrayList();
+
+
+        //Query all paired devices
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+        if(pairedDevices.size() > 0){
+            for(BluetoothDevice tempDevice : pairedDevices){
+                deviceStrs.add(tempDevice.getName() + "\n" + tempDevice.getAddress());
+                devices.add(tempDevice);
+            }
+        }
+
+        //Display the List
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        ArrayAdapter adapter = new ArrayAdapter(
+                this,
+                android.R.layout.select_dialog_singlechoice,
+                deviceStrs.toArray(new String[deviceStrs.size()]));
+
+        //The user selects the device
+        alertDialog.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Toast
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, "Device Selected", duration);
+
+                dialog.dismiss();
+                int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                device = devices.get(position);
+                deviceAddress = devices.get(position).getAddress();
+                toast.setText("Conneting to " + deviceAddress.toString() + "...");
+                Log.d(TAG, "Connecting to " + deviceAddress.toString() + " ...");
+                toast.show();
+                try {
+                    BluetoothConnector btConnector = new BluetoothConnector(device, false, BluetoothAdapter.getDefaultAdapter(), null);
+                    btConnector.connect();
+                    toast.setText("Successfully connected!!!");
+                    toast.show();
+                    Log.d(TAG, "Connected!!");
+                }catch(Exception e){
+                    toast.setText(e.toString());
+                    toast.show();
+                    Log.v(TAG, e.toString());
+                }
+            }
+        });
+
+        alertDialog.setTitle("Choose Bluetooth Device");
+        alertDialog.show();
     }
 }

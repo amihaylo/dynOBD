@@ -14,7 +14,7 @@
         android:text="@string/button_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="buttonTest"
+        android:onClick="buttonTest2"
         android:id="@+id/test_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
