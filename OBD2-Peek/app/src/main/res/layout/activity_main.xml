@@ -29,5 +29,27 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:text="@string/speed_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:layout_below="@+id/button_enableBT"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:id="@+id/speed_result"/>
+
+    <TextView
+        android:text="@string/rpm_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speed_result"
+        android:layout_alignStart="@+id/speed_result"
+        android:layout_marginTop="28dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:id="@+id/rpm_result" />
+
 
 </RelativeLayout>
