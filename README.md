@@ -20,4 +20,7 @@
 * [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
 * [Android Bluetooth](https://developer.android.com/guide/topics/connectivity/bluetooth.html)
 * [OBDII Android Tutorial](http://blog.lemberg.co.uk/how-guide-obdii-reader-app-development)
-[ODBII Java api](https://github.com/pires/obd-java-api)
+* [ODBII Java api](https://github.com/pires/obd-java-api)
+* [Android OBD Reader](https://github.com/pires/android-obd-reader)
+* [OBD Sim](http://icculus.org/obdgpslogger/obdsim.html)
+* [OBD + GPS application](http://icculus.org/obdgpslogger/)

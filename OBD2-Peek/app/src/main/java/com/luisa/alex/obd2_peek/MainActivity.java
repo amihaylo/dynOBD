@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -16,7 +17,7 @@ import android.view.View;
 import android.content.Intent;
 
 //import com.github.pires.obd.commands
-//import com.github.pires.obd.commands.fuel.ConsumptionRateCommand;
+import com.github.pires.obd.commands.fuel.ConsumptionRateCommand;
 import com.github.pires.obd.commands.engine.RPMCommand;
 import com.github.pires.obd.commands.SpeedCommand;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, "connecting to: " + deviceAddress, duration);
+        Log.d(TAG, "Bluetooth Device Address: " + deviceAddress);
         toast.show();
 
 
@@ -158,9 +160,12 @@ public class MainActivity extends AppCompatActivity {
         BluetoothAdapter btAdapater = BluetoothAdapter.getDefaultAdapter();
         BluetoothDevice device = btAdapater.getRemoteDevice(deviceAddress);
         UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-        btSocket = device.createInsecureRfcommSocketToServiceRecord(uuid);
-        btSocket.connect();
 
+
+        //Create the Bluetooth Socket
+        btSocket = device.createInsecureRfcommSocketToServiceRecord(uuid);
+
+        //btSocket.connect();
 
         //init the OBD Device with the following configuration commands
         new EchoOffCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
@@ -169,24 +174,39 @@ public class MainActivity extends AppCompatActivity {
         new SelectProtocolCommand(ObdProtocols.AUTO).run(btSocket.getInputStream(), btSocket.getOutputStream());
         new AmbientAirTemperatureCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
 
-        //Start the Communication
-        //ConsumptionRateCommand
 
+        //Start communicating
+
+        //Declare the commands
         SpeedCommand speedCommand = new SpeedCommand();
         RPMCommand rpmCommand = new RPMCommand();
+        ConsumptionRateCommand fuelCRCommand = new ConsumptionRateCommand();
+
+        //Obtain the TextViews
+        TextView speedResultTV = (TextView) findViewById(R.id.speed_result);
+        TextView rpmResultTV = (TextView) findViewById(R.id.rpm_result);
+        TextView fuelCRTV = (TextView) findViewById(R.id.fuelCR_result);
+
         while (!Thread.currentThread().isInterrupted())
         {
             speedCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
             rpmCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
+            fuelCRCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
+
             //handle commands result
             String resultSpeed = "Speed: " + speedCommand.getFormattedResult() + " km/h";
             String resultRPM = "Throttle: " + rpmCommand.getFormattedResult() + " RPM";
+            String resultFuelCR = "Throttle: " + fuelCRCommand.getFormattedResult() + " ??";
+
+            //Log the results
             Log.v(TAG, resultSpeed);
             Log.v(TAG, resultRPM);
-            TextView speedResultTV = (TextView) findViewById(R.id.speed_result);
-            TextView  rpmResultTV = (TextView) findViewById(R.id.rpm_result);
+            Log.v(TAG, resultFuelCR);
+
+            //Update the TextViews
             speedResultTV.setText(resultSpeed);
             rpmResultTV.setText(resultRPM);
+            fuelCRTV.setText(resultFuelCR);
         }
     }
 }

@@ -46,10 +46,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/speed_result"
         android:layout_alignStart="@+id/speed_result"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="21dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="36sp"
         android:id="@+id/rpm_result" />
+
+    <TextView
+        android:text="@string/fuelCR_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:id="@+id/fuelCR_result"
+        android:layout_below="@+id/rpm_result"
+        android:layout_alignStart="@+id/rpm_result" />
 
 
 </RelativeLayout>
