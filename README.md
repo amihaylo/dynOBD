@@ -20,3 +20,4 @@
 * [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
 * [Android Bluetooth](https://developer.android.com/guide/topics/connectivity/bluetooth.html)
 * [OBDII Android Tutorial](http://blog.lemberg.co.uk/how-guide-obdii-reader-app-development)
+[ODBII Java api](https://github.com/pires/obd-java-api)

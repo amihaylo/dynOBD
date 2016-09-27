@@ -11,22 +11,23 @@
     tools:context="com.luisa.alex.obd2_peek.MainActivity">
 
     <Button
-        android:text="@string/test_button"
+        android:text="@string/button_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="testButton"
+        android:onClick="buttonTest"
+        android:id="@+id/test_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/test_button"/>
+        android:layout_marginBottom="17dp" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:text="@string/button_enableBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="enableBTButton"
+        android:id="@+id/button_enableBT"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:id="@+id/test_listview"/>
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
