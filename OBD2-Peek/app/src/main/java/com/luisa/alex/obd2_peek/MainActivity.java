@@ -2,18 +2,18 @@ package com.luisa.alex.obd2_peek;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Context;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.view.View;
-import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 //import com.github.pires.obd.commands
 import com.github.pires.obd.commands.fuel.ConsumptionRateCommand;
@@ -26,252 +26,169 @@ import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-
-
 public class MainActivity extends AppCompatActivity {
-    String deviceAddress = new String();
-    BluetoothDevice device;
-    private static final String TAG = "MyActivity";
+    public static final String TAG = "MainActivity";
 
+    //************************MEMBER VARIABLES************************
+    //BLUETOOTH MEMBERS
+    public static final int REQUEST_ENABLE_BT = 8100;
+    public ConnectBTAsync connBTAsync = null;
+    //public  ConnectBTThread connBTThread = null;
+
+    //TOAST MEMBERS
+    private static Toast toast;
+
+    //****************************METHODS******************************
+
+    //--------------------LIFECYCLE METHODS----------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initialize the toast
+        this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
     }
 
-    public void enableBTButton(View view){
-        //Init the toast Message
-        CharSequence BTmsg = "Test Clicked!";
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "MainActivity.onDestroy() Called");
+        super.onDestroy();
 
+        //Close the Bluetooth Connection
+        if(connBTAsync != null){
+            connBTAsync.closeSocket();
+        }
+    }
 
-        //---------------BLUETOOTH-------------
-        //get the Bluetooth adapter
+    //--------------------INTENT RESULTS----------------------
+    @Override
+    public void onActivityResult(int requestCode,
+                                 int responseCode,
+                                 Intent resultIntent){
+
+        //Response Intent once the Bluetooth has been enabled
+        if(requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK){
+            Log.d(TAG, "[MainActivity.onActivityResult] Bluetooth has been Enabled");
+        }
+    }
+
+    //--------------------BUTTON CLICKS----------------------
+
+    //ENABLE BLUETOOTH BUTTON
+    public void enableBTBtnClick(View view){
+        Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
+
+        //check if device supports bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        //check if Bluetooth is supported
-        if(mBluetoothAdapter == null){
-            BTmsg = "Bluetooth NOT Supported!";
-        }else{
-            BTmsg = "Bluetooth is Supported!";
+        if (mBluetoothAdapter == null){
+            //Device does not support bluetooth
+            Log.d(TAG, "[MainActivity.enableBTBtnClick] Device does not support Bluetooth");
+            return;
         }
 
-        //Enable Bluetooth if not enabled
+        //Enabled bluetooth if it is not already enabled
         if(!mBluetoothAdapter.isEnabled()){
-            BTmsg = "requesting to enable Bluetooth";
-            //If the bluetooth is not enabled on the device
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            int REQUEST_ENABLE_BT = 1;
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }else{
+            Log.d(TAG, "[MainActivity.enableBTBtnClick] Bluetooth already enabled");
+            MainActivity.showToast("Bluetooth is already enabled");
         }
-
-        /*
-        //Query all paired Devices
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-        //If there are any paired devices found
-        if(pairedDevices.size() > 0){
-            //ArrayAdapter mArrayAdapter = TODO
-            //Loop through all the devices
-            for (BluetoothDevice device : pairedDevices){
-                //add to an Array adapter
-                //TODO
-            }
-        }
-        */
-
-        //Create and Display the Toast
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, BTmsg, duration);
-        toast.show();
     }
 
-    //-------------DEBUG----------------
-    public void buttonTest(View view){
-        String testMsg = "Test Clicked";
+    //CONNECT BLUETOOTH BUTTON
+    public void connectBtnClick(View view){
+        Log.d(TAG, "MainActivity.connectBtnClick() Called");
 
-        //---------------TUTORIAL-------------
-        ArrayList<String> deviceStrs = new ArrayList();
-        final ArrayList<BluetoothDevice> devices = new ArrayList();
+        //Init arrays that hold devices information
+        ArrayList<String> deviceStrs = new ArrayList<>(); //Holds the device names + addresses
+        final ArrayList<String> devicesAddress = new ArrayList<>(); //Holds only the device addresses
+        final ArrayList<BluetoothDevice> devices = new ArrayList<>(); //Holds the actual device object
 
-        //Query all paired devices
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+        //Obtain any already Paired/Bonded Bluetooth Devices
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+
+        //If there is more than 1 paired device
         if(pairedDevices.size() > 0){
+            //Iterate through all paired devices
             for(BluetoothDevice device : pairedDevices){
+                //Add the devices to the 3 respective arrays defined above
                 deviceStrs.add(device.getName() + "\n" + device.getAddress());
+                devicesAddress.add(device.getAddress());
                 devices.add(device);
             }
+        }else{
+            //There are no existing Paired Devices
+            Log.d(TAG, "[MainActivity.connectBtnClick] No Paired Devices Found");
+            MainActivity.showToast("Need to Pair with device first!");
+            return;
         }
 
-        //Display the List
+        //Set up the list of paired devices to be shown to the user
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.select_dialog_singlechoice, deviceStrs.toArray(new String[deviceStrs.size()]));
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        ArrayAdapter adapter = new ArrayAdapter(
-                this,
-                android.R.layout.select_dialog_singlechoice,
-                deviceStrs.toArray(new String[deviceStrs.size()]));
-
-        //The user selects the device
         alertDialog.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-                int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                deviceAddress = devices.get(position).getAddress();
-                try {
-                    connectBTDevice(deviceAddress);
-                }catch(Exception e){
-                    Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast exceptionToast = Toast.makeText(context, e.toString(), duration);
-                    exceptionToast.show();
-                    Log.v(TAG, e.toString());
-                }
-            }
-        });
-
-        alertDialog.setTitle("Choose Bluetooth Device");
-        alertDialog.show();
-
-        //Create and Display the Toast
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, testMsg, duration);
-        //toast.show();
-    }
-
-    //Given a BT device address creates a socket and connects to it
-    public void connectBTDevice(String deviceAddress)throws Exception{
-        Log.v(TAG, "connectBT() called");
-        //Create and Display the Toast
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, "connecting to: " + deviceAddress, duration);
-        Log.d(TAG, "Bluetooth Device Address: " + deviceAddress);
-        toast.show();
-
-
-        //connect to the actual device
-        BluetoothSocket btSocket;
-        BluetoothAdapter btAdapater = BluetoothAdapter.getDefaultAdapter();
-        BluetoothDevice device = btAdapater.getRemoteDevice(deviceAddress);
-        UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
-
-        //Create the Bluetooth Socket
-        btSocket = device.createInsecureRfcommSocketToServiceRecord(uuid);
-
-        //btSocket.connect();
-
-        //init the OBD Device with the following configuration commands
-        new EchoOffCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
-        new LineFeedOffCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
-        new TimeoutCommand(125).run(btSocket.getInputStream(), btSocket.getOutputStream());
-        new SelectProtocolCommand(ObdProtocols.AUTO).run(btSocket.getInputStream(), btSocket.getOutputStream());
-        new AmbientAirTemperatureCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
-
-
-        //Start communicating
-
-        //Declare the commands
-        SpeedCommand speedCommand = new SpeedCommand();
-        RPMCommand rpmCommand = new RPMCommand();
-        ConsumptionRateCommand fuelCRCommand = new ConsumptionRateCommand();
-
-        //Obtain the TextViews
-        TextView speedResultTV = (TextView) findViewById(R.id.speed_result);
-        TextView rpmResultTV = (TextView) findViewById(R.id.rpm_result);
-        TextView fuelCRTV = (TextView) findViewById(R.id.fuelCR_result);
-
-        while (!Thread.currentThread().isInterrupted())
-        {
-            speedCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
-            rpmCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
-            fuelCRCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
-
-            //handle commands result
-            String resultSpeed = "Speed: " + speedCommand.getFormattedResult() + " km/h";
-            String resultRPM = "Throttle: " + rpmCommand.getFormattedResult() + " RPM";
-            String resultFuelCR = "Throttle: " + fuelCRCommand.getFormattedResult() + " ??";
-
-            //Log the results
-            Log.v(TAG, resultSpeed);
-            Log.v(TAG, resultRPM);
-            Log.v(TAG, resultFuelCR);
-
-            //Update the TextViews
-            speedResultTV.setText(resultSpeed);
-            rpmResultTV.setText(resultRPM);
-            fuelCRTV.setText(resultFuelCR);
-        }
-    }
-
-    public void buttonTest2(View view){
-
-        //Toast
-        String testMsg = "testButton2() called";
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, testMsg, duration);
-        toast.show();
-
-        //--------------------------------------------
-        ArrayList<String> deviceStrs = new ArrayList();
-        final ArrayList<BluetoothDevice> devices = new ArrayList();
-
-
-        //Query all paired devices
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-        if(pairedDevices.size() > 0){
-            for(BluetoothDevice tempDevice : pairedDevices){
-                deviceStrs.add(tempDevice.getName() + "\n" + tempDevice.getAddress());
-                devices.add(tempDevice);
-            }
-        }
-
-        //Display the List
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        ArrayAdapter adapter = new ArrayAdapter(
-                this,
-                android.R.layout.select_dialog_singlechoice,
-                deviceStrs.toArray(new String[deviceStrs.size()]));
-
-        //The user selects the device
-        alertDialog.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
+            //Once the user clicks on the paired device they wish to connect to
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, "Device Selected", duration);
-
+                //Close the dialog
                 dialog.dismiss();
-                int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                device = devices.get(position);
-                deviceAddress = devices.get(position).getAddress();
-                toast.setText("Conneting to " + deviceAddress.toString() + "...");
-                Log.d(TAG, "Connecting to " + deviceAddress.toString() + " ...");
-                toast.show();
-                try {
-                    BluetoothConnector btConnector = new BluetoothConnector(device, false, BluetoothAdapter.getDefaultAdapter(), null);
-                    btConnector.connect();
-                    toast.setText("Successfully connected!!!");
-                    toast.show();
-                    Log.d(TAG, "Connected!!");
-                }catch(Exception e){
-                    toast.setText(e.toString());
-                    toast.show();
-                    Log.v(TAG, e.toString());
-                }
+
+                //Obtain the index of the device they clicked on
+                int deviceIndex = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+
+                //Obtain the device given the index
+                BluetoothDevice device = devices.get(deviceIndex);
+                String deviceAddress = devicesAddress.get(deviceIndex);
+                Log.d(TAG, "deviceAddress: " + deviceAddress);
+
+                //Finally Attempt to Initialize the connection
+                //ASYNC METHOD
+                MainActivity.showToast("Connecting...");
+                connBTAsync = new ConnectBTAsync();
+                connBTAsync.execute(device);
+
+                //THREAD METHOD
+                //connBTThread = new ConnectBTThread(device);
+                //connBTThread.start();
+
+
             }
         });
 
-        alertDialog.setTitle("Choose Bluetooth Device");
+        //Display the list of paired Devices to the user
+        alertDialog.setTitle("Select Bluetooth Device");
         alertDialog.show();
+
     }
+
+    //DISCONNECT BUTTON
+    public void disconnectBtnClick(View view){
+        //Disconnect the Bluetooth by closing the opened socket
+        Log.d(TAG, "MainActivity.disconnectBtnClick() called");
+        if(connBTAsync != null){
+            //connBTThread.cancel();
+            if(connBTAsync.closeSocket()){
+                //Show Success Toast
+                MainActivity.showToast("Disconnect Successful!");
+            }else{
+                //Show UnSuccess Toast
+                MainActivity.showToast("Disconnect Unsuccessful!");
+            }
+        }
+    }
+
+    //--------------------TOAST----------------------
+    public static void showToast(String message){
+        //Displays a toast given a message
+        MainActivity.toast.setText(message);
+        MainActivity.toast.show();
+    }
+
+    public void testBtnClick(View view){
+        Log.d(TAG, "MainActivity.testBtnClick()");
+    }
+
 }
