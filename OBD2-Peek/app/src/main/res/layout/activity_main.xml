@@ -22,47 +22,8 @@
         android:layout_alignParentEnd="true" />
 
     <!--  Async -->
-    <Button
-        android:id="@+id/btn_Main_connect_async"
-        android:text="@string/btn_Main_connect_async"
-        android:onClick="connectBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_Main_enableBT"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/btn_Main_test" />
-
-    <Button
-        android:id="@+id/btn_Main_disconnect_async"
-        android:text="@string/btn_Main_disconnect_async"
-        android:onClick="disconnectBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_Main_connect_async"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/btn_Main_connect_async" />
 
     <!--  Thread -->
-    <Button
-        android:id="@+id/btn_Main_connect_thread"
-        android:text="@string/btn_Main_connect_thread"
-        android:onClick="connectBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_Main_disconnect_async"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/btn_Main_test"
-        />
-
-    <Button
-        android:id="@+id/btn_Main_disconnect_thread"
-        android:text="@string/btn_Main_disconnect_thread"
-        android:onClick="disconnectBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn_Main_disconnect_async"
-        android:layout_alignStart="@+id/btn_Main_connect_thread"
-        android:layout_alignParentEnd="true" />
 
     <!-- Test button -->
     <Button
@@ -106,5 +67,25 @@
         android:id="@+id/fuelCR_result"
         android:layout_below="@+id/rpm_result"
         android:layout_alignStart="@+id/rpm_result" />
+
+    <Button
+        android:id="@+id/btn_Main_disconnect_async"
+        android:text="@string/btn_Main_disconnect"
+        android:onClick="disconnectBtnClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_Main_connect_async"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btn_Main_connect_async"
+        android:text="@string/btn_Main_connect"
+        android:onClick="connectBtnClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/btn_Main_enableBT"
+        android:layout_alignStart="@+id/btn_Main_disconnect_async"
+        android:layout_alignEnd="@+id/btn_Main_disconnect_async" />
 
 </RelativeLayout>

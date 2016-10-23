@@ -24,9 +24,7 @@ public class MainActivity
     //BLUETOOTH MEMBERS
     public static final int REQUEST_ENABLE_BT = 8100;
     public ConnectBTAsync connBTAsync = null;
-    public ConnectBTThread connBTThread = null;
     public BluetoothSocket commSocket;
-    //public  ConnectBTThread connBTThread = null;
 
     //TOAST MEMBERS
     private static Toast toast;
@@ -95,16 +93,6 @@ public class MainActivity
     public void connectBtnClick(View view){
         Log.d(TAG, "MainActivity.connectBtnClick() Called");
 
-        //Check to see which button was clicked (async/thread)
-        final Boolean isAsync;
-        if(view.getId() == R.id.btn_Main_connect_async){
-            isAsync = true;
-        }else if(view.getId() == R.id.btn_Main_connect_thread){
-            isAsync = false;
-        }else{
-            isAsync = false;
-        }
-
         //Init arrays that hold devices information
         ArrayList<String> deviceStrs = new ArrayList<>(); //Holds the device names + addresses
         final ArrayList<String> devicesAddress = new ArrayList<>(); //Holds only the device addresses
@@ -151,16 +139,9 @@ public class MainActivity
                 //Finally Attempt to Initialize the connection
                 //Check if the async or thread method should be used to connect
                 MainActivity.showToast("Connecting...");
-                if(isAsync) {
-                    //ASYNC METHOD
-                    connBTAsync = new ConnectBTAsync(commSocket);
-                    connBTAsync.execute(device);
-                }else{
-                    //THREAD METHOD
-                    connBTThread = new ConnectBTThread(device);
-                    connBTThread.start();
-                }
-
+                //ASYNC METHOD
+                connBTAsync = new ConnectBTAsync(commSocket);
+                connBTAsync.execute(device);
             }
         });
 
@@ -172,42 +153,18 @@ public class MainActivity
 
     //DISCONNECT BUTTON
     public void disconnectBtnClick(View view){
-        //Check to see which button was clicked (async/thread)
-        final Boolean isAsync;
-        if(view.getId() == R.id.btn_Main_disconnect_async){
-            isAsync = true;
-        }else if(view.getId() == R.id.btn_Main_disconnect_async){
-            isAsync = false;
-        }else{
-            isAsync = false;
-        }
-
         //Disconnect the Bluetooth by closing the opened socket
         Log.d(TAG, "MainActivity.disconnectBtnClick() called");
-        if(isAsync){
-            if(connBTAsync != null){
-                //connBTThread.cancel();
-                if(connBTAsync.closeSocket()){
-                    //Show Success Toast
-                    MainActivity.showToast("Disconnect Successful!");
-                }else{
-                    //Show UnSuccess Toast
-                    MainActivity.showToast("Disconnect Unsuccessful!");
-                }
-            }
-        }else{
-            if(connBTThread != null){
-                //connBTThread.cancel();
-                if(connBTThread.closeSocket()){
-                    //Show Success Toast
-                    MainActivity.showToast("Disconnect Successful!");
-                }else{
-                    //Show UnSuccess Toast
-                    MainActivity.showToast("Disconnect Unsuccessful!");
-                }
+        if(connBTAsync != null){
+            //connBTThread.cancel();
+            if(connBTAsync.closeSocket()){
+                //Show Success Toast
+                MainActivity.showToast("Disconnect Successful!");
+            }else{
+                //Show UnSuccess Toast
+                MainActivity.showToast("Disconnect Unsuccessful!");
             }
         }
-
     }
 
     //--------------------TOAST----------------------

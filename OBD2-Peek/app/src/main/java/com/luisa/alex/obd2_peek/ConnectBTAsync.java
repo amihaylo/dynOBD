@@ -81,10 +81,9 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
             }
         }
         Log.d(TAG, "[ConnectBTAsync.doInBackground] Successfully Connected!");
-        //TODO Mange the connected socket;
-        //ObdComThread obdComm = new ObdComThread(this.mmSocket);
-        //obdComm.start();
 
+
+        //Begin communicating the with OBD Device
         //TODO TEMP
         try {
             Log.d(TAG, "[ConnectBTAsync.doInBackground] Initializing OBD...");
@@ -118,7 +117,6 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
                 //Log the results
                 Log.d(TAG, resultSpeed);
                 Log.d(TAG, resultRPM);
-                //Log.d(TAG, resultFuelCR);
 
             }
         }catch(Exception e){
@@ -126,7 +124,6 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
         }
         Log.d(TAG, "[ConnectBTAsync.doInBackground] Communication stream Ended!");
         this.closeSocket();
-
 
         return true;
     }

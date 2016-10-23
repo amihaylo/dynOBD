@@ -1,0 +1,42 @@
+//btSocket.connect();
+
+//init the OBD Device with the following configuration commands
+new EchoOffCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
+new LineFeedOffCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
+new TimeoutCommand(125).run(btSocket.getInputStream(), btSocket.getOutputStream());
+new SelectProtocolCommand(ObdProtocols.AUTO).run(btSocket.getInputStream(), btSocket.getOutputStream());
+new AmbientAirTemperatureCommand().run(btSocket.getInputStream(), btSocket.getOutputStream());
+
+
+//Start communicating
+
+//Declare the commands
+SpeedCommand speedCommand = new SpeedCommand();
+RPMCommand rpmCommand = new RPMCommand();
+ConsumptionRateCommand fuelCRCommand = new ConsumptionRateCommand();
+
+//Obtain the TextViews
+TextView speedResultTV = (TextView) findViewById(R.id.speed_result);
+TextView rpmResultTV = (TextView) findViewById(R.id.rpm_result);
+TextView fuelCRTV = (TextView) findViewById(R.id.fuelCR_result);
+
+while (!Thread.currentThread().isInterrupted())
+    {
+	speedCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
+	rpmCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
+	fuelCRCommand.run(btSocket.getInputStream(), btSocket.getOutputStream());
+
+	//handle commands result
+	String resultSpeed = "Speed: " + speedCommand.getFormattedResult() + " km/h";
+	String resultRPM = "Throttle: " + rpmCommand.getFormattedResult() + " RPM";
+	String resultFuelCR = "Throttle: " + fuelCRCommand.getFormattedResult() + " ??";
+
+	//Log the results
+	Log.v(TAG, resultSpeed);
+	Log.v(TAG, resultRPM);
+	Log.v(TAG, resultFuelCR);
+
+	//Update the TextViews
+	speedResultTV.setText(resultSpeed);
+	rpmResultTV.setText(resultRPM);
+	fuelCRTV.setText(resultFuelCR);

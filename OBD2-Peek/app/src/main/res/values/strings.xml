@@ -11,8 +11,7 @@
 
     <string name="btn_Main_test">Test</string>
     <string name="btn_Main_enableBT">Enable BT</string>
-    <string name="btn_Main_connect_async">Connect via Async</string>
-    <string name="btn_Main_disconnect_async">Disconnect via Async</string>
-    <string name="btn_Main_connect_thread">Connect via Thread</string>
-    <string name="btn_Main_disconnect_thread">Disconnect via Thread</string>
+    <string name="btn_Main_connect">Connect</string>
+    <string name="btn_Main_disconnect">Disconnect</string>
+
 </resources>
