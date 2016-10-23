@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -87,6 +88,10 @@ public class MainActivity
         //Show Log + Toast
         Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
         MainActivity.showToast(toastMessage);
+
+        //Start communicating
+        OBDCommunicator obdConnection = new OBDCommunicator();
+        //obdConnection.execute(mmSocket);
     }
 
     //--------------------BUTTON CLICKS----------------------

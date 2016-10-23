@@ -29,5 +29,5 @@
 
 
 #Problems/Fixes
-[Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
-[Constant output issue](https://github.com/pires/obd-java-api/issues/98)
+* [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
+* [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
