@@ -32,8 +32,12 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
     private BluetoothAdapter mmAdapter;
     private BluetoothDevice mmDevice;
     private BluetoothSocket mmSocket;
+    private ConnectionHandler connHandler;
 
-    public ConnectBTAsync(BluetoothSocket socket){
+    public ConnectBTAsync(BluetoothSocket socket, ConnectionHandler connHandler){
+        this.connHandler = connHandler;
+
+        //Set the socket to be connected
         this.mmSocket = socket;
 
         //Get the Bluetooth adapter
@@ -71,60 +75,10 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
         }catch(IOException connectException){
             //Unable to connect, try to close and return
             Log.d(TAG, "[ConnectBTAsync.doInBackground] Unable to connect! Attempting to close socket...");
-            try{
-                mmSocket.close();
-                Log.d(TAG, "[ConnectBTAsync.doInBackground] Socket closed!");
-                return false;
-            }catch(IOException closeException){
-                Log.d(TAG, "[ConnectBTAsync.doInBackground] Unable to close the socket!");
-                return false;
-            }
+            this.closeSocket();
+            return false;
         }
         Log.d(TAG, "[ConnectBTAsync.doInBackground] Successfully Connected!");
-
-
-        //Begin communicating the with OBD Device
-        //TODO TEMP
-        try {
-            Log.d(TAG, "[ConnectBTAsync.doInBackground] Initializing OBD...");
-            //init the OBD Device with the following configuration commands
-            new EchoOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] EchoOffCommand Initialized!");
-            new LineFeedOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] LineFeedOffCommand Initialized!");
-            new TimeoutCommand(125).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] TimeoutCommand Initialized!");
-            new SelectProtocolCommand(ObdProtocols.AUTO).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] SelectProtocolCommand Initialized!");
-            new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] AmbientAirTemperatureCommand Initialized!");
-            Log.d(TAG, "[ConnectBTAsync.doInBackground] Initialized OBD Device with configuration commands.");
-
-            //Declare the commands
-            SpeedCommand speedCommand = new SpeedCommand();
-            RPMCommand rpmCommand = new RPMCommand();
-            //ConsumptionRateCommand fuelCRCommand = new ConsumptionRateCommand();
-
-            //Start communicating
-            Log.d(TAG, "[ConnectBTAsync.doInBackground] Starting the communication stream:");
-            //while (!Thread.currentThread().isInterrupted()) {
-            while(true){
-                //Log.d()
-                speedCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                rpmCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                //fuelCRCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-
-                //handle commands result
-                String resultSpeed = "Speed: " + speedCommand.getFormattedResult() + " km/h";
-                String resultRPM = "Throttle: " + rpmCommand.getFormattedResult() + " RPM";
-                //String resultFuelCR = "Throttle: " + fuelCRCommand.getFormattedResult() + " ??";
-
-                //Log the results
-                Log.d(TAG, resultSpeed);
-                Log.d(TAG, resultRPM);
-
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        Log.d(TAG, "[ConnectBTAsync.doInBackground] Communication stream Ended!");
-        this.closeSocket();
-
         return true;
     }
 
@@ -135,16 +89,9 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
         if(this.exception != null){
             exception.printStackTrace();
         }
-        //Let the user know that the connection was a success
-        if(isConnected){
-            toastMessage = "Connection Success!";
-        }else {
-            toastMessage= "Unsuccessful Connection!";
-        }
 
-        //Show Log + Toast
-        Log.d(TAG, "[ConnectBTAsync.onPostExecute]" + toastMessage);
-        MainActivity.showToast(toastMessage);
+        //Let the Main Activity Choose how to handle the bluetooth connection
+        this.connHandler.handleBTConnection(this.mmSocket);
     }
 
     //Closes the socket

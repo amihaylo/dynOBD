@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class MainActivity
-        extends AppCompatActivity {
+        extends AppCompatActivity
+        implements ConnectionHandler {
     public static final String TAG = "MainActivity";
 
     //************************MEMBER VARIABLES************************
@@ -65,6 +66,29 @@ public class MainActivity
         }
     }
 
+
+    //--------------------BT HANDLER----------------------
+    //Called after bluetooth has attempted to connect, either success or failure
+    //This is called by the onPostExecute method after the ConnectBTAsync has finished doInBackground
+    @Override
+    public void handleBTConnection(BluetoothSocket mmSocket){
+        //Check if the connection is valid
+        Boolean isConnected = mmSocket.isConnected();
+        //Placeholder message to be displayed to user
+        String toastMessage;
+
+        //Let the user know that the connection was a success
+        if(isConnected){
+            toastMessage = "Connection Success!";
+        }else {
+            toastMessage= "Unsuccessful Connection!";
+        }
+
+        //Show Log + Toast
+        Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
+        MainActivity.showToast(toastMessage);
+    }
+
     //--------------------BUTTON CLICKS----------------------
 
     //ENABLE BLUETOOTH BUTTON
@@ -92,6 +116,9 @@ public class MainActivity
     //CONNECT BLUETOOTH BUTTON
     public void connectBtnClick(View view){
         Log.d(TAG, "MainActivity.connectBtnClick() Called");
+
+        //get a reference to the mainActivity;
+        final ConnectionHandler connHandler = this;
 
         //Init arrays that hold devices information
         ArrayList<String> deviceStrs = new ArrayList<>(); //Holds the device names + addresses
@@ -140,7 +167,7 @@ public class MainActivity
                 //Check if the async or thread method should be used to connect
                 MainActivity.showToast("Connecting...");
                 //ASYNC METHOD
-                connBTAsync = new ConnectBTAsync(commSocket);
+                connBTAsync = new ConnectBTAsync(commSocket, connHandler);
                 connBTAsync.execute(device);
             }
         });
@@ -178,5 +205,4 @@ public class MainActivity
         Log.d(TAG, "MainActivity.testBtnClick()");
 
     }
-
 }
