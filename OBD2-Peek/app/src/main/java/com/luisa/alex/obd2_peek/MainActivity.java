@@ -2,6 +2,7 @@ package com.luisa.alex.obd2_peek;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -15,24 +16,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
-//import com.github.pires.obd.commands
-import com.github.pires.obd.commands.fuel.ConsumptionRateCommand;
-import com.github.pires.obd.commands.engine.RPMCommand;
-import com.github.pires.obd.commands.SpeedCommand;
-import com.github.pires.obd.commands.protocol.EchoOffCommand;
-import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
-import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
-import com.github.pires.obd.commands.protocol.TimeoutCommand;
-import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
-import com.github.pires.obd.enums.ObdProtocols;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity
+        extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     //************************MEMBER VARIABLES************************
     //BLUETOOTH MEMBERS
     public static final int REQUEST_ENABLE_BT = 8100;
     public ConnectBTAsync connBTAsync = null;
+    public ConnectBTThread connBTThread = null;
+    public BluetoothSocket commSocket;
     //public  ConnectBTThread connBTThread = null;
 
     //TOAST MEMBERS
@@ -70,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //Response Intent once the Bluetooth has been enabled
         if(requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK){
             Log.d(TAG, "[MainActivity.onActivityResult] Bluetooth has been Enabled");
+            MainActivity.showToast("Bluetooth Enabled");
         }
     }
 
@@ -100,6 +94,16 @@ public class MainActivity extends AppCompatActivity {
     //CONNECT BLUETOOTH BUTTON
     public void connectBtnClick(View view){
         Log.d(TAG, "MainActivity.connectBtnClick() Called");
+
+        //Check to see which button was clicked (async/thread)
+        final Boolean isAsync;
+        if(view.getId() == R.id.btn_Main_connect_async){
+            isAsync = true;
+        }else if(view.getId() == R.id.btn_Main_connect_thread){
+            isAsync = false;
+        }else{
+            isAsync = false;
+        }
 
         //Init arrays that hold devices information
         ArrayList<String> deviceStrs = new ArrayList<>(); //Holds the device names + addresses
@@ -145,15 +149,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "deviceAddress: " + deviceAddress);
 
                 //Finally Attempt to Initialize the connection
-                //ASYNC METHOD
+                //Check if the async or thread method should be used to connect
                 MainActivity.showToast("Connecting...");
-                connBTAsync = new ConnectBTAsync();
-                connBTAsync.execute(device);
-
-                //THREAD METHOD
-                //connBTThread = new ConnectBTThread(device);
-                //connBTThread.start();
-
+                if(isAsync) {
+                    //ASYNC METHOD
+                    connBTAsync = new ConnectBTAsync(commSocket);
+                    connBTAsync.execute(device);
+                }else{
+                    //THREAD METHOD
+                    connBTThread = new ConnectBTThread(device);
+                    connBTThread.start();
+                }
 
             }
         });
@@ -166,18 +172,42 @@ public class MainActivity extends AppCompatActivity {
 
     //DISCONNECT BUTTON
     public void disconnectBtnClick(View view){
+        //Check to see which button was clicked (async/thread)
+        final Boolean isAsync;
+        if(view.getId() == R.id.btn_Main_disconnect_async){
+            isAsync = true;
+        }else if(view.getId() == R.id.btn_Main_disconnect_async){
+            isAsync = false;
+        }else{
+            isAsync = false;
+        }
+
         //Disconnect the Bluetooth by closing the opened socket
         Log.d(TAG, "MainActivity.disconnectBtnClick() called");
-        if(connBTAsync != null){
-            //connBTThread.cancel();
-            if(connBTAsync.closeSocket()){
-                //Show Success Toast
-                MainActivity.showToast("Disconnect Successful!");
-            }else{
-                //Show UnSuccess Toast
-                MainActivity.showToast("Disconnect Unsuccessful!");
+        if(isAsync){
+            if(connBTAsync != null){
+                //connBTThread.cancel();
+                if(connBTAsync.closeSocket()){
+                    //Show Success Toast
+                    MainActivity.showToast("Disconnect Successful!");
+                }else{
+                    //Show UnSuccess Toast
+                    MainActivity.showToast("Disconnect Unsuccessful!");
+                }
+            }
+        }else{
+            if(connBTThread != null){
+                //connBTThread.cancel();
+                if(connBTThread.closeSocket()){
+                    //Show Success Toast
+                    MainActivity.showToast("Disconnect Successful!");
+                }else{
+                    //Show UnSuccess Toast
+                    MainActivity.showToast("Disconnect Unsuccessful!");
+                }
             }
         }
+
     }
 
     //--------------------TOAST----------------------
@@ -189,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void testBtnClick(View view){
         Log.d(TAG, "MainActivity.testBtnClick()");
+
     }
 
 }

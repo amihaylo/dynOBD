@@ -6,6 +6,16 @@ import android.bluetooth.BluetoothSocket;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.github.pires.obd.commands.SpeedCommand;
+import com.github.pires.obd.commands.engine.RPMCommand;
+import com.github.pires.obd.commands.fuel.ConsumptionRateCommand;
+import com.github.pires.obd.commands.protocol.EchoOffCommand;
+import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
+import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
+import com.github.pires.obd.commands.protocol.TimeoutCommand;
+import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
+import com.github.pires.obd.enums.ObdProtocols;
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -23,7 +33,9 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
     private BluetoothDevice mmDevice;
     private BluetoothSocket mmSocket;
 
-    public ConnectBTAsync(){
+    public ConnectBTAsync(BluetoothSocket socket){
+        this.mmSocket = socket;
+
         //Get the Bluetooth adapter
         this.mmAdapter = BluetoothAdapter.getDefaultAdapter();
     }
@@ -38,7 +50,7 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
         Log.d(TAG, "[ConnectBTAsync.doInBackground] Passed address: " + this.mmDevice.getAddress());
 
         //Get the Bluetooth socket that will be used to communicate
-        mmSocket = null;
+        //mmSocket = null;
         try{
             //Get the UUID and create the Bluetooth Socket
             UUID uuid = UUID.fromString(BT_BOARD_UUID_STRING);
@@ -68,9 +80,54 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
                 return false;
             }
         }
-
-        //TODO Mange the connected socket;
         Log.d(TAG, "[ConnectBTAsync.doInBackground] Successfully Connected!");
+        //TODO Mange the connected socket;
+        //ObdComThread obdComm = new ObdComThread(this.mmSocket);
+        //obdComm.start();
+
+        //TODO TEMP
+        try {
+            Log.d(TAG, "[ConnectBTAsync.doInBackground] Initializing OBD...");
+            //init the OBD Device with the following configuration commands
+            new EchoOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] EchoOffCommand Initialized!");
+            new LineFeedOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] LineFeedOffCommand Initialized!");
+            new TimeoutCommand(125).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] TimeoutCommand Initialized!");
+            new SelectProtocolCommand(ObdProtocols.AUTO).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] SelectProtocolCommand Initialized!");
+            new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] AmbientAirTemperatureCommand Initialized!");
+            Log.d(TAG, "[ConnectBTAsync.doInBackground] Initialized OBD Device with configuration commands.");
+
+            //Declare the commands
+            SpeedCommand speedCommand = new SpeedCommand();
+            RPMCommand rpmCommand = new RPMCommand();
+            //ConsumptionRateCommand fuelCRCommand = new ConsumptionRateCommand();
+
+            //Start communicating
+            Log.d(TAG, "[ConnectBTAsync.doInBackground] Starting the communication stream:");
+            //while (!Thread.currentThread().isInterrupted()) {
+            while(true){
+                //Log.d()
+                speedCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+                rpmCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+                //fuelCRCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+
+                //handle commands result
+                String resultSpeed = "Speed: " + speedCommand.getFormattedResult() + " km/h";
+                String resultRPM = "Throttle: " + rpmCommand.getFormattedResult() + " RPM";
+                //String resultFuelCR = "Throttle: " + fuelCRCommand.getFormattedResult() + " ??";
+
+                //Log the results
+                Log.d(TAG, resultSpeed);
+                Log.d(TAG, resultRPM);
+                //Log.d(TAG, resultFuelCR);
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        Log.d(TAG, "[ConnectBTAsync.doInBackground] Communication stream Ended!");
+        this.closeSocket();
+
+
         return true;
     }
 
@@ -86,7 +143,6 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
             toastMessage = "Connection Success!";
         }else {
             toastMessage= "Unsuccessful Connection!";
-
         }
 
         //Show Log + Toast
