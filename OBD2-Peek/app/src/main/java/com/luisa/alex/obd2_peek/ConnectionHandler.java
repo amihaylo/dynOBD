@@ -8,4 +8,5 @@ import android.bluetooth.BluetoothSocket;
 
 public interface ConnectionHandler {
     public void handleBTConnection(BluetoothSocket mmSocket);
+    public void updateUI(String speed, String rpm);
 }

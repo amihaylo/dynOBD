@@ -27,7 +27,7 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 
 //Connnect to a bluetooth device given its address
 class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
-    private final static String BT_BOARD_UUID_STRING = "00001101-0000-1000-8000-00805F9B34FB";
+    private final static String BT_BOARD_UUID_STRING = "00001101-0000-1000-8000-00805F9B34FB"; //Default unique Bluetooth ID
     private Exception exception = null;
     private BluetoothAdapter mmAdapter;
     private BluetoothDevice mmDevice;
@@ -85,7 +85,6 @@ class ConnectBTAsync extends AsyncTask<BluetoothDevice, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean isConnected){
         //isConnected is true if the socket was successfully opened
-        String toastMessage;
         if(this.exception != null){
             exception.printStackTrace();
         }

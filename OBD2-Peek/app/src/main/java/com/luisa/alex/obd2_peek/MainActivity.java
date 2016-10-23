@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class MainActivity
     //TOAST MEMBERS
     private static Toast toast;
 
+    private TextView lbl_speed;
+    private TextView lbl_rpm;
+
     //****************************METHODS******************************
 
     //--------------------LIFECYCLE METHODS----------------------
@@ -41,6 +45,9 @@ public class MainActivity
 
         //Initialize the toast
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
+
+        lbl_speed = (TextView) findViewById(R.id.speed_result);
+        lbl_rpm = (TextView) findViewById(R.id.rpm_result);
     }
 
     @Override
@@ -54,7 +61,7 @@ public class MainActivity
         }
     }
 
-    //--------------------INTENT RESULTS----------------------
+    //--------------INTENT RESULTS FROM BLUETOOTH--------------
     @Override
     public void onActivityResult(int requestCode,
                                  int responseCode,
@@ -90,8 +97,14 @@ public class MainActivity
         MainActivity.showToast(toastMessage);
 
         //Start communicating
-        OBDCommunicator obdConnection = new OBDCommunicator();
-        //obdConnection.execute(mmSocket);
+        OBDCommunicator obdConnection = new OBDCommunicator(this);
+        obdConnection.execute(mmSocket);
+    }
+
+    @Override
+    public void updateUI(String speed, String rpm) {
+        lbl_speed.setText("Speed: " + speed);
+        lbl_rpm.setText("Throttle: " + rpm);
     }
 
     //--------------------BUTTON CLICKS----------------------

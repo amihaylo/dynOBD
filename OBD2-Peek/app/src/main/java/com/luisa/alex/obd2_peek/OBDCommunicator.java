@@ -22,6 +22,11 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 
 public class OBDCommunicator extends AsyncTask<BluetoothSocket, Void, Boolean> {
     BluetoothSocket mmSocket;
+    ConnectionHandler connHandler;
+
+    public OBDCommunicator(ConnectionHandler connHandler) {
+        this.connHandler = connHandler;
+    }
 
     @Override
     protected Boolean doInBackground(BluetoothSocket... sockets) {
@@ -63,6 +68,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Void, Boolean> {
                 Log.d(TAG, resultSpeed);
                 Log.d(TAG, resultRPM);
 
+                connHandler.updateUI(resultSpeed, resultRPM);
             }
         }catch(Exception e){
             e.printStackTrace();
