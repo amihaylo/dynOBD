@@ -33,16 +33,25 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Void, Boolean> {
         //Obtain the socket
         this.mmSocket = sockets[0];
 
-
-//The communication
+        //The communication
         try {
             Log.d(TAG, "[OBDCommunicator.doInBackground] Initializing OBD...");
             //init the OBD Device with the following configuration commands
-            new EchoOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[OBDCommunicator.doInBackground] EchoOffCommand Initialized!");
-            new LineFeedOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[OBDCommunicator.doInBackground] LineFeedOffCommand Initialized!");
-            new TimeoutCommand(125).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[OBDCommunicator.doInBackground] TimeoutCommand Initialized!");
-            new SelectProtocolCommand(ObdProtocols.AUTO).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[OBDCommunicator.doInBackground] SelectProtocolCommand Initialized!");
-            new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[OBDCommunicator.doInBackground] AmbientAirTemperatureCommand Initialized!");
+            new EchoOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+            Log.d(TAG, "[OBDCommunicator.doInBackground] EchoOffCommand Initialized!");
+
+            new LineFeedOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+            Log.d(TAG, "[OBDCommunicator.doInBackground] LineFeedOffCommand Initialized!");
+
+            new TimeoutCommand(125).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+            Log.d(TAG, "[OBDCommunicator.doInBackground] TimeoutCommand Initialized!");
+
+            new SelectProtocolCommand(ObdProtocols.AUTO).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+            Log.d(TAG, "[OBDCommunicator.doInBackground] SelectProtocolCommand Initialized!");
+
+            new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+            Log.d(TAG, "[OBDCommunicator.doInBackground] AmbientAirTemperatureCommand Initialized!");
+
             Log.d(TAG, "[OBDCommunicator.doInBackground] Initialized OBD Device with configuration commands.");
 
             //Declare the commands
