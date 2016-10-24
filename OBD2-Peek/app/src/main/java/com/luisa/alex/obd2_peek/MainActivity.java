@@ -34,6 +34,7 @@ public class MainActivity
 
     private TextView lbl_speed;
     private TextView lbl_rpm;
+    private TextView lbl_fuelCR;
 
     //****************************METHODS******************************
 
@@ -48,6 +49,7 @@ public class MainActivity
 
         lbl_speed = (TextView) findViewById(R.id.speed_result);
         lbl_rpm = (TextView) findViewById(R.id.rpm_result);
+        lbl_fuelCR = (TextView) findViewById(R.id.fuelCR_result);
     }
 
     @Override
@@ -102,9 +104,10 @@ public class MainActivity
     }
 
     @Override
-    public void updateUI(String speed, String rpm) {
-        lbl_speed.setText("Speed: " + speed);
-        lbl_rpm.setText("Throttle: " + rpm);
+    public void updateUI(String speed, String rpm, String fuelCR) {
+        this.lbl_speed.setText("Speed: " + speed);
+        this.lbl_rpm.setText("Throttle: " + rpm);
+        this.lbl_fuelCR.setText("Fuel: " + fuelCR);
     }
 
     //--------------------BUTTON CLICKS----------------------

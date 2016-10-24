@@ -39,28 +39,8 @@
     <!--=========TEXT VIEWS===========-->
 
     <TextView
-        android:text="@string/rpm_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:id="@+id/rpm_result"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/speed_result" />
-
-    <TextView
-        android:text="@string/speed_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:id="@+id/speed_result"
-        android:layout_above="@+id/rpm_result"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:text="@string/fuelCR_result"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="36sp"
@@ -87,5 +67,25 @@
         android:layout_below="@+id/btn_Main_enableBT"
         android:layout_alignStart="@+id/btn_Main_disconnect_async"
         android:layout_alignEnd="@+id/btn_Main_disconnect_async" />
+
+    <TextView
+        android:text="@string/rpm_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:id="@+id/rpm_result"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/speed_result" />
+
+    <TextView
+        android:text="@string/speed_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:id="@+id/speed_result"
+        android:layout_above="@+id/rpm_result"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
