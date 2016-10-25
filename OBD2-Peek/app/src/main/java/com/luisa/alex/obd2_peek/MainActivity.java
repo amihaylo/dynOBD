@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +33,7 @@ public class MainActivity
 
     private TextView lbl_speed;
     private TextView lbl_rpm;
-    private TextView lbl_fuelCR;
+    private TextView lbl_engineLoad;
 
     //****************************METHODS******************************
 
@@ -47,9 +46,9 @@ public class MainActivity
         //Initialize the toast
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
-        lbl_speed = (TextView) findViewById(R.id.speed_result);
-        lbl_rpm = (TextView) findViewById(R.id.rpm_result);
-        lbl_fuelCR = (TextView) findViewById(R.id.fuelCR_result);
+        this.lbl_speed = (TextView) findViewById(R.id.speed_result);
+        this.lbl_rpm = (TextView) findViewById(R.id.rpm_result);
+        this.lbl_engineLoad = (TextView) findViewById(R.id.engineLoad_result);
     }
 
     @Override
@@ -104,10 +103,10 @@ public class MainActivity
     }
 
     @Override
-    public void updateUI(String speed, String rpm, String fuelCR) {
+    public void updateUI(String speed, String rpm, String engineLoad) {
         this.lbl_speed.setText("Speed: " + speed);
         this.lbl_rpm.setText("Throttle: " + rpm);
-        this.lbl_fuelCR.setText("Fuel: " + fuelCR);
+        this.lbl_engineLoad.setText("Load: " + engineLoad);
     }
 
     //--------------------BUTTON CLICKS----------------------

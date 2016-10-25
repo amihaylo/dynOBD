@@ -31,5 +31,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     //OBDII java API
-    compile 'com.github.pires:obd-java-api:1.0-RC16'
+    //compile 'com.github.pires:obd-java-api:1.0-RC16'
+    // https://mvnrepository.com/artifact/com.github.pires/obd-java-api
+    compile group: 'com.github.pires', name: 'obd-java-api', version: '1.0'
 }

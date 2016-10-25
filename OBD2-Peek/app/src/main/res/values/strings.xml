@@ -7,7 +7,7 @@
     <string name="button_enableBT">Enable Bluetooth</string>
     <string name="speed_result">Speed: 0 km/h</string>
     <string name="rpm_result">Throttle: 0 RPM</string>
-    <string name="fuelCR_result">Fuel: 0 L/100</string>
+    <string name="engineLoad_result">Load: 0 %</string>
 
     <string name="btn_Main_test">Test</string>
     <string name="btn_Main_enableBT">Enable BT</string>

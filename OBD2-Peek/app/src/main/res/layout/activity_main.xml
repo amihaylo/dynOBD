@@ -21,33 +21,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
-    <!--  Async -->
-
-    <!--  Thread -->
-
-    <!-- Test button -->
-    <Button
-        android:id="@+id/btn_Main_test"
-        android:text="@string/btn_Main_test"
-        android:onClick="testBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp" />
-
-    <!--=========TEXT VIEWS===========-->
-
-    <TextView
-        android:text="@string/fuelCR_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:id="@+id/fuelCR_result"
-        android:layout_below="@+id/rpm_result"
-        android:layout_alignStart="@+id/rpm_result" />
-
     <Button
         android:id="@+id/btn_Main_disconnect_async"
         android:text="@string/btn_Main_disconnect"
@@ -68,24 +41,51 @@
         android:layout_alignStart="@+id/btn_Main_disconnect_async"
         android:layout_alignEnd="@+id/btn_Main_disconnect_async" />
 
-    <TextView
-        android:text="@string/rpm_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:id="@+id/rpm_result"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/speed_result" />
 
+    <!-- Test button -->
+    <Button
+        android:id="@+id/btn_Main_test"
+        android:text="@string/btn_Main_test"
+        android:onClick="testBtnClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp" />
+
+    <!--=========TEXT VIEWS===========-->
+    <!-- SPEED-->
     <TextView
+        android:id="@+id/speed_result"
         android:text="@string/speed_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="36sp"
-        android:id="@+id/speed_result"
         android:layout_above="@+id/rpm_result"
         android:layout_alignParentStart="true" />
+
+    <!-- RPM-->
+    <TextView
+        android:id="@+id/rpm_result"
+        android:text="@string/rpm_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/speed_result" />
+
+    <!-- FUEL CR-->
+    <TextView
+        android:id="@+id/engineLoad_result"
+        android:text="@string/engineLoad_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:layout_below="@+id/rpm_result"
+        android:layout_alignStart="@+id/rpm_result" />
+
 
 </RelativeLayout>

@@ -31,3 +31,23 @@
 #Problems/Fixes
 * [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
 * [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
+
+#Re-connection to bluetooth issue
+
+	       MainActivity.disconnectBtnClick() called
+	       10-24 09:16:32.237 480-1191/com.luisa.alex.obd2_peek W/System.err: java.io.IOException: bt socket closed, read return: -1
+	       10-24 09:16:32.237 480-480/com.luisa.alex.obd2_peek D/MainActivity: [ConnectBTAsync.closeSocket] Socket closed!
+	       10-24 09:16:32.237 480-1191/com.luisa.alex.obd2_peek W/System.err:     at android.bluetooth.BluetoothSocket.read(BluetoothSocket.java:500)
+	       10-24 09:16:32.247 480-1191/com.luisa.alex.obd2_peek W/System.err:     at android.bluetooth.BluetoothInputStream.read(BluetoothInputStream.java:60)
+	       10-24 09:16:32.247 480-1191/com.luisa.alex.obd2_peek W/System.err:     at com.github.pires.obd.commands.ObdCommand.readRawData(ObdCommand.java:175)
+	       10-24 09:16:32.247 480-1191/com.luisa.alex.obd2_peek W/System.err:     at com.github.pires.obd.commands.ObdCommand.readResult(ObdCommand.java:127)
+	       10-24 09:16:32.267 480-1191/com.luisa.alex.obd2_peek W/System.err:     at com.github.pires.obd.commands.ObdCommand.run(ObdCommand.java:77)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at com.luisa.alex.obd2_peek.OBDCommunicator.doInBackground(OBDCommunicator.java:60)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at com.luisa.alex.obd2_peek.OBDCommunicator.doInBackground(OBDCommunicator.java:23)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at android.os.AsyncTask$2.call(AsyncTask.java:288)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at java.util.concurrent.FutureTask.run(FutureTask.java:237)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:231)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek W/System.err:     at java.lang.Thread.run(Thread.java:841)
+	       10-24 09:16:32.277 480-1191/com.luisa.alex.obd2_peek D/MainActivity: [OBDCommunicator.doInBackground] Communication stream Ended!
