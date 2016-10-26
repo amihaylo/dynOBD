@@ -2,8 +2,7 @@
 ##Due: Monday, November 28, 2016
 ###Members:
 * Luisa Rojas
-* Alexandar sMihaylov
-
+* Alexandar Mihaylov
 
 #Idea 1: OBD2 Car App
 * Using [OBD2](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) we aim to read a statistics from a car and incorporate them into an android application.
