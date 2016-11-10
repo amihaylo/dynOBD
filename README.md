@@ -42,17 +42,79 @@ OBD-II PIDs and Java OBD Api
 
 
 
+##Control:
 
-Command Type | Mode | PID(hex) | OBD-Java-Api | Definition
--------------|------|----------|--------------|-----------
-control | 01 | 21 | DistanceMILOnCommand.java | N/A
-control | 01 | 31 | DistanceSinceCCCommand.java | N/A
-control | 01 | 01 | DtcNumberCommand.java | N/A
-control | 01 | 44 | EquivalentRatioCommand.java | N/A
-control | AT | IGN | IgnitionMonitorCommand.java | N/A
-control | 01 | 42 | ModuleVoltageCommand.java | N/A
-control | -- | 07 | PendingTroubleCodesCommand.java | N/A
-control | -- | 0A | PermanentTroubleCodesCommand.java | N/A
-control | 01 | 0E | TimingAdvanceCommand.java | N/A
-control | -- | 03 | TroubleCodesCommand.java | N/A
-control | 09 | 02 | VinCommand.java | N/A
+Mode | PID(hex) | OBD-Java-Api | Definition
+-----|----------|--------------|-----------
+01 | 21 | DistanceMILOnCommand.java | N/A
+01 | 31 | DistanceSinceCCCommand.java | N/A
+01 | 01 | DtcNumberCommand.java | N/A
+01 | 44 | EquivalentRatioCommand.java | N/A
+AT | IGN | IgnitionMonitorCommand.java | N/A
+01 | 42 | ModuleVoltageCommand.java | N/A
+-- | 07 | PendingTroubleCodesCommand.java | N/A
+-- | 0A | PermanentTroubleCodesCommand.java | N/A
+01 | 0E | TimingAdvanceCommand.java | N/A
+-- | 03 | TroubleCodesCommand.java | N/A
+09 | 02 | VinCommand.java | N/A
+
+
+##Engine:
+
+Mode | PID(hex) | OBD-Java-Api | Definition
+-----|----------|--------------|-----------
+01 | 43 | AbsoluteLoadCommand.java | N/A
+01 | 04 | LoadCommand.java | N/A
+01 | 10 | MassAirFlowCommand.java | N/A
+01 | 5C | OilTempCommand.java | N/A
+AT | 0C | RPMCommand.java | N/A
+01 | 1F | RuntimeCommand.java | N/A
+01 | 11 | ThrottlePositionCommand.java | N/A
+
+##Fuel:
+
+Mode | PID(hex) | OBD-Java-Api | Definition
+-----|----------|--------------|-----------
+01 | 44 | AirFuelRatioCommand.java | N/A
+01 | 5E | ConsumptionRateCommand.java | N/A
+01 | 51 | FindFuelTypeCommand.java | N/A
+01 | 2F | FuelLevelCommand.java | N/A
+-- | -- | FuelTrimCommand.java | N/A
+01 | 34 | WidebandAirFuelRatioCommand.java | N/A
+
+##Pressure:
+
+Mode | PID(hex) | OBD-Java-Api | Definition
+-----|----------|--------------|-----------
+01 | 33 | BarometricPressureCommand.java | N/A
+01 | 0A | FuelPressureCommand.java | N/A
+01 | 23 | FuelRailPressureCommand.java | N/A
+01 | 0B | IntakeManifoldPressureCommand.java | N/A
+
+##Temperature:
+
+Mode | PID(hex) | OBD-Java-Api | Definition
+-----|----------|--------------|-----------
+01 | 0F | AirIntakeTemperatureCommand.java | N/A
+01 | 46 | AmbientAirTemperatureCommand.java | N/A
+01 | 05 | EngineCoolantTemperatureCommand.java | N/A
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
