@@ -44,60 +44,60 @@ OBD-II PIDs and Java OBD Api
 
 ##Control:
 
-Mode | PID(hex) | OBD-Java-Api | Definition
+Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
-01 | 21 | DistanceMILOnCommand.java | N/A
-01 | 31 | DistanceSinceCCCommand.java | N/A
-01 | 01 | DtcNumberCommand.java | N/A
-01 | 44 | EquivalentRatioCommand.java | N/A
+01 | 21 | DistanceMILOnCommand.java | Distance traveled with malfunction indicator lamp (MIL) on
+01 | 31 | DistanceSinceCCCommand.java | Distance traveled since codes cleared
+01 | 01 | DtcNumberCommand.java | Monitor status since DTCs cleared. (Includes malfunction indicator lamp (MIL) status and number of DTCs.)
+01 | 44 | EquivalentRatioCommand.java | Fuel–Air commanded equivalence ratio
 AT | IGN | IgnitionMonitorCommand.java | N/A
-01 | 42 | ModuleVoltageCommand.java | N/A
--- | 07 | PendingTroubleCodesCommand.java | N/A
--- | 0A | PermanentTroubleCodesCommand.java | N/A
-01 | 0E | TimingAdvanceCommand.java | N/A
--- | 03 | TroubleCodesCommand.java | N/A
-09 | 02 | VinCommand.java | N/A
+01 | 42 | ModuleVoltageCommand.java | Control module voltage
+-- | 07 | PendingTroubleCodesCommand.java | Show pending Diagnostic Trouble Codes (detected during current or last driving cycle)
+-- | 0A | PermanentTroubleCodesCommand.java | Permanent [Diagnostic Trouble Codes](https://en.wikipedia.org/wiki/On-board_diagnostics#EOBD_fault_codes) (DTCs) (Cleared DTCs)
+01 | 0E | TimingAdvanceCommand.java | [Timing advance](https://en.wikipedia.org/wiki/Ignition_timing#Setting_the_ignition_timing)
+-- | 03 | TroubleCodesCommand.java | Show stored Diagnostic Trouble Codes
+09 | 02 | VinCommand.java |  [Vehicle Identification Number (VIN)](https://en.wikipedia.org/wiki/Vehicle_identification_number)
 
 
 ##Engine:
 
-Mode | PID(hex) | OBD-Java-Api | Definition
+Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
-01 | 43 | AbsoluteLoadCommand.java | N/A
-01 | 04 | LoadCommand.java | N/A
-01 | 10 | MassAirFlowCommand.java | N/A
-01 | 5C | OilTempCommand.java | N/A
-AT | 0C | RPMCommand.java | N/A
-01 | 1F | RuntimeCommand.java | N/A
-01 | 11 | ThrottlePositionCommand.java | N/A
+01 | 43 | AbsoluteLoadCommand.java | Absolute load value
+01 | 04 | LoadCommand.java | Calculated Engine Load
+01 | 10 | MassAirFlowCommand.java | MAF air flow rate
+01 | 5C | OilTempCommand.java | Engine oil temperature
+AT | 0C | RPMCommand.java | Engine RPM
+01 | 1F | RuntimeCommand.java | Run time since engine start
+01 | 11 | ThrottlePositionCommand.java | Throttle position
 
 ##Fuel:
 
-Mode | PID(hex) | OBD-Java-Api | Definition
+Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
-01 | 44 | AirFuelRatioCommand.java | N/A
-01 | 5E | ConsumptionRateCommand.java | N/A
-01 | 51 | FindFuelTypeCommand.java | N/A
-01 | 2F | FuelLevelCommand.java | N/A
+01 | 44 | AirFuelRatioCommand.java | Fuel–Air commanded equivalence ratio
+01 | 5E | ConsumptionRateCommand.java | Engine fuel rate
+01 | 51 | FindFuelTypeCommand.java | Fuel Type
+01 | 2F | FuelLevelCommand.java | Fuel Tank Level Input
 -- | -- | FuelTrimCommand.java | N/A
-01 | 34 | WidebandAirFuelRatioCommand.java | N/A
+01 | 34 | WidebandAirFuelRatioCommand.java | ? Oxyegen Sensor 1
 
 ##Pressure:
 
-Mode | PID(hex) | OBD-Java-Api | Definition
+Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
-01 | 33 | BarometricPressureCommand.java | N/A
-01 | 0A | FuelPressureCommand.java | N/A
-01 | 23 | FuelRailPressureCommand.java | N/A
-01 | 0B | IntakeManifoldPressureCommand.java | N/A
+01 | 33 | BarometricPressureCommand.java | Absolute Barometric Pressure
+01 | 0A | FuelPressureCommand.java | Fuel pressure [(gauge pressure)](https://en.wikipedia.org/wiki/Pressure_measurement#Absolute.2C_gauge_and_differential_pressures_-_zero_reference)
+01 | 23 | FuelRailPressureCommand.java | [Fuel Rail](https://en.wikipedia.org/wiki/Common_rail) Gauge Pressure (diesel, or gasoline direct injection)
+01 | 0B | IntakeManifoldPressureCommand.java | 	Intake manifold absolute pressure
 
 ##Temperature:
 
-Mode | PID(hex) | OBD-Java-Api | Definition
+Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
-01 | 0F | AirIntakeTemperatureCommand.java | N/A
-01 | 46 | AmbientAirTemperatureCommand.java | N/A
-01 | 05 | EngineCoolantTemperatureCommand.java | N/A
+01 | 0F | AirIntakeTemperatureCommand.java | Intake air temperature
+01 | 46 | AmbientAirTemperatureCommand.java | Ambient air temperature
+01 | 05 | EngineCoolantTemperatureCommand.java | Engine coolant temperature
 
 
 
