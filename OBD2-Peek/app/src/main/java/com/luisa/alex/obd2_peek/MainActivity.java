@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity
@@ -43,12 +45,14 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         //Initialize the toast
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
         this.lbl_speed = (TextView) findViewById(R.id.speed_result);
         this.lbl_rpm = (TextView) findViewById(R.id.rpm_result);
         this.lbl_engineLoad = (TextView) findViewById(R.id.engineLoad_result);
+        */
     }
 
     @Override
@@ -107,6 +111,12 @@ public class MainActivity
         this.lbl_speed.setText("Speed: " + speed);
         this.lbl_rpm.setText("Throttle: " + rpm);
         this.lbl_engineLoad.setText("Load: " + engineLoad);
+    }
+
+    @Override
+    public void showData(List<OBDData> data) {
+        ListView dataList = (ListView) findViewById(R.id.allData);
+        dataList.setAdapter(new DisplayArrayAdapter(this, data));
     }
 
     //--------------------BUTTON CLICKS----------------------
@@ -222,7 +232,16 @@ public class MainActivity
     }
 
     public void testBtnClick(View view){
+
         Log.d(TAG, "MainActivity.testBtnClick()");
+
+        List<OBDData> testList = new ArrayList<>();
+
+        testList.add(new OBDData("Speed", "somespeed"));
+        testList.add(new OBDData("RPM", "somerpm"));
+        testList.add(new OBDData("Engine Load", "someenginestuffs"));
+
+        showData(testList);
 
     }
 }

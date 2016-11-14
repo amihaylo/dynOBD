@@ -20,22 +20,29 @@ import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.commands.temperature.TemperatureCommand;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 
 /**
  * Created by alex on 2016-10-22.
  */
 
-public class OBDCommunicator extends AsyncTask<BluetoothSocket, String, Boolean> {
+public class OBDCommunicator extends AsyncTask<BluetoothSocket, List<OBDData>, Boolean> {
     BluetoothSocket mmSocket;
     ConnectionHandler connHandler;
+    private List<OBDData> dataList;
 
     public OBDCommunicator(ConnectionHandler connHandler) {
+
         this.connHandler = connHandler;
     }
 
     @Override
     protected Boolean doInBackground(BluetoothSocket... sockets) {
+        dataList = new ArrayList<>();
+
         Log.d(TAG, "OBDCommunicator.doInBackground called()");
         //Obtain the socket
         this.mmSocket = sockets[0];
@@ -57,6 +64,11 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, String, Boolean>
             LoadCommand loadCommand = new LoadCommand();
             //ConsumptionRateCommand fuelCRCommand = new ConsumptionRateCommand();
 
+            //Create OBDData objects to store the values
+            dataList.add(new OBDData("Speed", "N/A"));
+            dataList.add(new OBDData("RPM", "N/A"));
+            dataList.add(new OBDData("Engine Load", "N/A"));
+
             //Start communicating
             Log.d(TAG, "[OBDCommunicator.doInBackground] Starting the communication stream:");
             //while (!Thread.currentThread().isInterrupted()) {
@@ -68,17 +80,26 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, String, Boolean>
                 loadCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
 
                 //handle commands result
+                /*
                 String resultSpeed = speedCommand.getFormattedResult();
                 String resultRPM = rpmCommand.getFormattedResult();
                 String resultEngineLoad = loadCommand.getFormattedResult();
+                */
 
-                //Display the result to the UI
-                publishProgress(resultSpeed, resultRPM, resultEngineLoad);
+                dataList.get(0).setData(speedCommand.getFormattedResult());
+                dataList.get(1).setData(rpmCommand.getFormattedResult());
+                dataList.get(2).setData(loadCommand.getFormattedResult());
+
+                //Display the result to the UI. Calls onProgressUpdate(String... carData)
+                //publishProgress(resultSpeed, resultRPM, resultEngineLoad);
+                publishProgress(dataList);
 
                 //Log the results
+                /*
                 Log.d(TAG, resultSpeed);
                 Log.d(TAG, resultRPM);
                 Log.d(TAG, resultEngineLoad);
+                */
             }
             Log.d(TAG, "[OBDCommunicator.doInBackground] Communication stream Ended!");
 
@@ -93,12 +114,9 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, String, Boolean>
         return true;
     }
 
-    protected void onProgressUpdate(String... carData) {
-        String resultSpeed = carData[0];
-        String resultRPM = carData[1];
-        String resultFuelCR = carData[2];
+    protected void onProgressUpdate(List<OBDData>... carData) {
 
-        connHandler.updateUI(resultSpeed, resultRPM, resultFuelCR);
+        connHandler.showData(carData[0]);
     }
 
     @Override

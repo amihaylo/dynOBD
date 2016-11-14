@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -41,7 +42,6 @@
         android:layout_alignStart="@+id/btn_Main_disconnect_async"
         android:layout_alignEnd="@+id/btn_Main_disconnect_async" />
 
-
     <!-- Test button -->
     <Button
         android:id="@+id/btn_Main_test"
@@ -55,6 +55,7 @@
 
     <!--=========TEXT VIEWS===========-->
     <!-- SPEED-->
+    <!--
     <TextView
         android:id="@+id/speed_result"
         android:text="@string/speed_result"
@@ -64,8 +65,10 @@
         android:textSize="36sp"
         android:layout_above="@+id/rpm_result"
         android:layout_alignParentStart="true" />
+        -->
 
     <!-- RPM-->
+    <!--
     <TextView
         android:id="@+id/rpm_result"
         android:text="@string/rpm_result"
@@ -75,8 +78,10 @@
         android:textSize="36sp"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/speed_result" />
+        -->
 
     <!-- FUEL CR-->
+    <!--
     <TextView
         android:id="@+id/engineLoad_result"
         android:text="@string/engineLoad_result"
@@ -86,6 +91,12 @@
         android:textSize="36sp"
         android:layout_below="@+id/rpm_result"
         android:layout_alignStart="@+id/rpm_result" />
+        -->
+
+    <ListView
+        android:id="@+id/allData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
-</RelativeLayout>
+</LinearLayout>
