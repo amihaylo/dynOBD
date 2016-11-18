@@ -11,13 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import pl.pawelkleczkowski.customgauge.CustomGauge;
@@ -40,8 +37,10 @@ public class MainActivity
     private DisplayArrayAdapter displayArrayAdapter;
 
     //TEMP
-    private CustomGauge gauge1;
-    private TextView gaugeView;
+    private CustomGauge gaugeSpeed;
+    private TextView gaugeViewSpeed;
+    private CustomGauge gaugeRPM;
+    private TextView gaugeViewRPM;
 
 
     //****************************METHODS******************************
@@ -57,14 +56,20 @@ public class MainActivity
 
 
         //Init the ListView
+        /*
         ArrayList<OBDData> data = new ArrayList<>();
         ListView dataList = (ListView) findViewById(R.id.allData);
         this.displayArrayAdapter = new DisplayArrayAdapter(this, data);
         dataList.setAdapter(this.displayArrayAdapter);
+        */
+
 
         //TEMP
-        this.gauge1 = (CustomGauge) findViewById(R.id.gauge1);
-        this.gaugeView  = (TextView) findViewById(R.id.gaugeView);
+        this.gaugeSpeed = (CustomGauge) findViewById(R.id.gauge_speed);
+        this.gaugeViewSpeed = (TextView) findViewById(R.id.gaugeView_speed);
+        this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
+        this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
+
 
 
 
@@ -129,8 +134,32 @@ public class MainActivity
     }
 
     @Override
-    public void updateUI(String speed, String rpm, String engineLoad) {
+    public void updateUI(OBDData speedOBD, OBDData rpmOBD) {
+        //Update the UI Gauge elements
 
+        //Update the speed
+        String speedStr = speedOBD.getData();
+        String speedStr_num= speedStr.replaceAll("[^0-9]", "");
+        final Integer speedInt = Integer.parseInt(speedStr_num);
+        //gaugeSpeed.setValue(speedInt);
+        //gaugeViewSpeed.setText(Integer.toString(gaugeSpeed.getValue()));
+
+        //Update the RPM
+        String rpmStr = rpmOBD.getData();
+        String rpmStr_num = rpmStr.replaceAll("[^0-9]", "");
+        final Integer rpmInt = Integer.parseInt(rpmStr_num);
+        gaugeRPM.setValue(rpmInt);
+        gaugeViewRPM.setText(Integer.toString(gaugeRPM.getValue()));
+    }
+
+
+    @Override
+    public void updateUI2(Integer speedInt, Integer rpmInt) {
+        gaugeSpeed.setValue(speedInt);
+        gaugeViewSpeed.setText(speedInt + "");
+
+        gaugeRPM.setValue(rpmInt);
+        gaugeViewRPM.setText(rpmInt + "");
     }
 
     @Override
@@ -140,7 +169,7 @@ public class MainActivity
         updateGauge(speedOBD);
 
         //Display all the data in the ListView
-        this.displayArrayAdapter.updateDataArray(data);
+        //this.displayArrayAdapter.updateDataArray(data);
     }
 
     @Override
@@ -152,8 +181,8 @@ public class MainActivity
         String numberStr= speedStr.replaceAll("[^0-9]", "");
         final Integer speedInt = Integer.parseInt(numberStr);
         if(speedInt % 1000 == 0) {
-            gauge1.setValue(speedInt);
-            gaugeView.setText(Integer.toString(gauge1.getValue()));
+            gaugeSpeed.setValue(speedInt);
+            gaugeViewSpeed.setText(Integer.toString(gaugeSpeed.getValue()));
         }
 
         /*
@@ -163,8 +192,8 @@ public class MainActivity
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                gauge1.setValue(speedInt);
-                                gaugeView.setText(Integer.toString(gauge1.getValue()));
+                                gaugeSpeed.setValue(speedInt);
+                                gaugeViewSpeed.setText(Integer.toString(gaugeSpeed.getValue()));
                             }
                         });
                     } catch (Exception e) {

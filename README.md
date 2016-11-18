@@ -30,6 +30,9 @@ Useful Links:
 * [Android OBD Reader](https://github.com/pires/android-obd-reader)
 * [OBD Sim](http://icculus.org/obdgpslogger/obdsim.html)
 * [OBD + GPS application](http://icculus.org/obdgpslogger/)
+* [Custom Gauge](https://github.com/pkleczko/CustomGauge)
+* [Otto - Android Event Bus](http://square.github.io/otto/)
+* [RxJava Github](https://github.com/ReactiveX/RxJava)
 
 
 Problems/Fixes
@@ -37,10 +40,9 @@ Problems/Fixes
 * [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
 * [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
 
+
 OBD-II PIDs and Java OBD Api
 --------------------------------
-
-
 
 ##Control:
 
