@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ConnectionHandler {
     void handleBTConnection(BluetoothSocket mmSocket);
-    void updateUI(OBDData speedOBD, OBDData rpmOBD);
-    void updateUI2(Integer speedInt, Integer rpmInt);
+    void updateUI2(OBDData speedOBD, OBDData rpmOBD);
+    void updateUI(Integer speedInt, Integer rpmInt);
     void showAllData(ArrayList<OBDData> data);
     void updateGauge(OBDData obdData);
 }

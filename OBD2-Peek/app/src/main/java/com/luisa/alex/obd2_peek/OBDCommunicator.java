@@ -34,6 +34,7 @@ import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
+import com.squareup.otto.Bus;
 
 
 import java.util.ArrayList;
@@ -47,9 +48,10 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolean> {
     BluetoothSocket mmSocket;
     ConnectionHandler connHandler;
+    Bus bus;
 
-    public OBDCommunicator(ConnectionHandler connHandler) {
-
+    public OBDCommunicator(ConnectionHandler connHandler, Bus bus) {
+        this.bus = bus;
         this.connHandler = connHandler;
     }
 
@@ -60,8 +62,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         this.mmSocket = sockets[0];
 
         //The communication
-        establishOBDComm();
-        //testCommunication();
+        //establishOBDComm();
+        testCommunication();
 
         return true;
     }
@@ -69,10 +71,16 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
     private void testCommunication() {
         Log.d("testCommunication", "called");
 
-        Random rand = new Random();
-        for (int i = 0; i < 1000000; i++){
+        for (int i = 0; i <= 100; i++){
 
-            if(i % 100 == 0) {
+
+                try{
+                    //Log.d("testCommunication", "i = " + i);
+                    Thread.sleep(10);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+
                 //OBDData speedOBD = new OBDData("Speed", i/5000 + " km/h"); //Speed
                 //OBDData rpmOBD = new OBDData("RPM", i/166 + "RPM"); //RPM
             /*
@@ -96,10 +104,9 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
             OBDData engCoolOBD = new OBDData("Engine coolant temperature",rand.nextInt(1000) + ""); //EngineCoolantTemperatureCommad
             */
 
-                //Convert the values to int
+            //Convert the values to int
 
-                publishProgress(i/5000, i/166);
-            }
+            publishProgress(i*2, i*60);
         }
 
     }
@@ -202,8 +209,6 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
                 //Convert the speed and rpm into Integers
                 publishProgress(speedCommand.getMetricSpeed(), rpmCommand.getRPM());
 
-                //publishProgress(speedOBD, rpmOBD); //TODO uncomment when running car
-
 
                 //-------DEBUG--------- TODO: Uncomment for debugging purposes
                 /*
@@ -230,14 +235,15 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     protected void onProgressUpdate(Integer[] carData) {
         //[0]=Speed [1]=RPM
-        connHandler.updateUI2(carData[0], carData[1]);
+        connHandler.updateUI(carData[0], carData[1]);
+        //this.bus.post(carData); //TODO Uncomment to use OTTO -
     }
 
     protected void onProgressUpdate(OBDData[] carData) {
 
         //Display the data in the UI
         //connHandler.showAllData(new ArrayList<>(Arrays.asList(carData)));
-        connHandler.updateUI(carData[0], carData[1]);
+        connHandler.updateUI2(carData[0], carData[1]);
     }
 
 

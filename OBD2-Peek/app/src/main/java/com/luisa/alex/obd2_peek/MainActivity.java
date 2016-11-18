@@ -17,7 +17,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
+//Gauge import
 import pl.pawelkleczkowski.customgauge.CustomGauge;
+
+//Otta - Android Event Bus
+import com.squareup.otto.*;
 
 public class MainActivity
         extends AppCompatActivity
@@ -36,11 +40,14 @@ public class MainActivity
     //ListView
     private DisplayArrayAdapter displayArrayAdapter;
 
-    //TEMP
+    //Gauges
     private CustomGauge gaugeSpeed;
     private TextView gaugeViewSpeed;
     private CustomGauge gaugeRPM;
     private TextView gaugeViewRPM;
+
+    //Otto - TEMP
+    private Bus bus;
 
 
     //****************************METHODS******************************
@@ -64,21 +71,15 @@ public class MainActivity
         */
 
 
-        //TEMP
+        //Init gauges
         this.gaugeSpeed = (CustomGauge) findViewById(R.id.gauge_speed);
         this.gaugeViewSpeed = (TextView) findViewById(R.id.gaugeView_speed);
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
 
-
-
-
-        /*
-
-        this.lbl_speed = (TextView) findViewById(R.id.speed_result);
-        this.lbl_rpm = (TextView) findViewById(R.id.rpm_result);
-        this.lbl_engineLoad = (TextView) findViewById(R.id.engineLoad_result);
-        */
+        //Init the bus
+        this.bus = new Bus(ThreadEnforcer.MAIN);
+        bus.register(this);
     }
 
     @Override
@@ -128,13 +129,13 @@ public class MainActivity
         Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
         MainActivity.showToast(toastMessage);
 
-        //Start communicating
-        OBDCommunicator obdConnection = new OBDCommunicator(this); //
+        //Start communicating with OBD Device
+        OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
         obdConnection.execute(mmSocket);
     }
 
     @Override
-    public void updateUI(OBDData speedOBD, OBDData rpmOBD) {
+    public void updateUI2(OBDData speedOBD, OBDData rpmOBD) {
         //Update the UI Gauge elements
 
         //Update the speed
@@ -154,18 +155,30 @@ public class MainActivity
 
 
     @Override
-    public void updateUI2(Integer speedInt, Integer rpmInt) {
+    public void updateUI(Integer speedInt, Integer rpmInt) {
         gaugeSpeed.setValue(speedInt);
-        gaugeViewSpeed.setText(speedInt + "");
+        gaugeViewSpeed.setText(speedInt + "km/h");
 
         gaugeRPM.setValue(rpmInt);
-        gaugeViewRPM.setText(rpmInt + "");
+        gaugeViewRPM.setText(rpmInt + "RPM");
+    }
+
+    //TEMP
+    @Subscribe public void updateSpeedUI(Integer[] carData) {
+        Integer speedInt = carData[0];
+        Integer rpmInt = carData[1];
+
+        gaugeSpeed.setValue(speedInt);
+        gaugeViewSpeed.setText(speedInt + "km/h");
+
+        gaugeRPM.setValue(rpmInt);
+        gaugeViewRPM.setText(rpmInt + "RPM");
     }
 
     @Override
     public void showAllData(ArrayList<OBDData> data) {
         //TEMP - get the speed OBD Data
-        OBDData speedOBD = data.get(0); //TODO Uncomment
+        OBDData speedOBD = data.get(0);
         updateGauge(speedOBD);
 
         //Display all the data in the ListView
@@ -320,7 +333,7 @@ public class MainActivity
         Log.d(TAG, "MainActivity.testBtnClick()");
 
         //Start communicating
-        OBDCommunicator obdConnection = new OBDCommunicator(this); //
+        OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus); //
         obdConnection.execute(this.commSocket);
 
     }
