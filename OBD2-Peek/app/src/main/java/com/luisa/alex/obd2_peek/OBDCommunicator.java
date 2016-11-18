@@ -4,31 +4,10 @@ import android.bluetooth.BluetoothSocket;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import com.github.pires.obd.commands.control.DistanceSinceCCCommand;
-import com.github.pires.obd.commands.control.VinCommand;
-import com.github.pires.obd.commands.engine.AbsoluteLoadCommand;
-import com.github.pires.obd.commands.engine.MassAirFlowCommand;
-import com.github.pires.obd.commands.engine.OilTempCommand;
-import com.github.pires.obd.commands.engine.RuntimeCommand;
-import com.github.pires.obd.commands.engine.ThrottlePositionCommand;
-import com.github.pires.obd.commands.fuel.AirFuelRatioCommand;
-import com.github.pires.obd.commands.fuel.FindFuelTypeCommand;
-import com.github.pires.obd.commands.pressure.BarometricPressureCommand;
-import com.github.pires.obd.commands.pressure.FuelPressureCommand;
-import com.github.pires.obd.commands.pressure.FuelRailPressureCommand;
-import com.github.pires.obd.commands.pressure.IntakeManifoldPressureCommand;
 import com.github.pires.obd.commands.protocol.CloseCommand;
-import com.github.pires.obd.commands.temperature.AirIntakeTemperatureCommand;
-import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.commands.SpeedCommand;
-import com.github.pires.obd.commands.engine.LoadCommand;
 import com.github.pires.obd.commands.engine.RPMCommand;
-import com.github.pires.obd.commands.fuel.ConsumptionRateCommand;
-import com.github.pires.obd.commands.fuel.FuelLevelCommand;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
@@ -36,8 +15,6 @@ import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.squareup.otto.Bus;
 
-
-import java.util.ArrayList;
 
 import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 
@@ -71,42 +48,24 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
     private void testCommunication() {
         Log.d("testCommunication", "called");
 
-        for (int i = 0; i <= 100; i++){
+        while(this.mmSocket.isConnected()) {
+            for (int i = 0; i <= 100; i++) {
 
+                //Disconnect immediately after user hits disconnect
+                if(!this.mmSocket.isConnected()){
+                    break;
+                }
 
-                try{
+                try {
                     //Log.d("testCommunication", "i = " + i);
-                    Thread.sleep(10);
-                }catch(Exception e){
+                    Thread.sleep(50);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                //OBDData speedOBD = new OBDData("Speed", i/5000 + " km/h"); //Speed
-                //OBDData rpmOBD = new OBDData("RPM", i/166 + "RPM"); //RPM
-            /*
-            OBDData loadvalCalcOBD = new OBDData("Engine Load Value (Calculated)",rand.nextInt(1000) + ""); //LOAD                OBDData distOBD = new OBDData("Distance traveled since codes cleared",rand.nextInt(1000) + ""); //DistanceSinceCCCommad
-            OBDData vinOBD = new OBDData("VIN",rand.nextInt(1000) + ""); //VinCommad
-            OBDData loadValAbsOBD = new OBDData("Engine Load Value (Absolute)",rand.nextInt(1000) + ""); //AbsoluteLoadCommad
-            OBDData mafOBD = new OBDData("MAF air flow rate",rand.nextInt(1000) + ""); //MassAirFlowCommad
-            OBDData oilTempOBD = new OBDData("Engine oil temperature",rand.nextInt(1000) + ""); //OilTempCommad
-            OBDData runtimeOBD = new OBDData("Run time since engine start",rand.nextInt(1000) + ""); //RuntimeCommad
-            OBDData throttlePosOBD = new OBDData("Throttle position",rand.nextInt(1000) + ""); //ThrottlePositionCommad
-            OBDData fuelAirRatioOBD = new OBDData("Fuel–Air commanded equivalence ratio",rand.nextInt(1000) + ""); //AirFuelRatioCommad
-            OBDData fuelRateOBD = new OBDData("Engine fuel rate",rand.nextInt(1000) + ""); //ConsumptionRateCommad
-            OBDData fuelTypeOBD = new OBDData("Fuel type",rand.nextInt(1000) + ""); //FindFuelTypeCommad
-            OBDData fuelLevelOBD = new OBDData("Fuel tank level output",rand.nextInt(1000) + ""); //FuelLevelCommad
-            OBDData absBPOBD = new OBDData("Absolute barometric pressure",rand.nextInt(1000) + ""); //BarometricPressureCommad
-            OBDData fuelPresOBD = new OBDData("Fuel pressure (gauge pressure)",rand.nextInt(1000) + ""); //FuelPressureCommad
-            OBDData fuelRailOBD = new OBDData("Fuel rail pressure (diesel, or gasoline direct injection)",rand.nextInt(1000) + ""); //FuelRailPressureCommad
-            OBDData intakeManOBD = new OBDData("Intake manifold absolute pressure",rand.nextInt(1000) + ""); //IntakeManifoldPressureCommad
-            OBDData intakeAirOBD = new OBDData("Intake air temperature",rand.nextInt(1000) + ""); //AirIntakeTemperatureCommad
-            OBDData ambOBD = new OBDData("Ambient air temperature",rand.nextInt(1000) + ""); //AmbientAirTemperatureCommad
-            OBDData engCoolOBD = new OBDData("Engine coolant temperature",rand.nextInt(1000) + ""); //EngineCoolantTemperatureCommad
-            */
-
-            //Convert the values to int
-
-            publishProgress(i*2, i*60);
+                //Update the UI with the speed and rpm values
+                publishProgress(i * 2, i * 60);
+            }
         }
 
     }
@@ -235,15 +194,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     protected void onProgressUpdate(Integer[] carData) {
         //[0]=Speed [1]=RPM
-        connHandler.updateUI(carData[0], carData[1]);
-        //this.bus.post(carData); //TODO Uncomment to use OTTO -
-    }
-
-    protected void onProgressUpdate(OBDData[] carData) {
-
-        //Display the data in the UI
-        //connHandler.showAllData(new ArrayList<>(Arrays.asList(carData)));
-        connHandler.updateUI2(carData[0], carData[1]);
+        connHandler.updateGauges(carData[0], carData[1]);
+        //this.bus.post(carData); //TODO Uncomment to use OTTO
     }
 
 

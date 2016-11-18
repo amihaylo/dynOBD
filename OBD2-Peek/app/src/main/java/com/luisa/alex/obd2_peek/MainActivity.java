@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,21 +27,21 @@ import com.squareup.otto.*;
 public class MainActivity
         extends AppCompatActivity
         implements ConnectionHandler {
+
+    //************************VARIABLES************************
+    //-----------Static-------------
     public static final String TAG = "MainActivity";
 
-    //************************MEMBER VARIABLES************************
+    //-----------Member-------------
     //BLUETOOTH MEMBERS
     public static final int REQUEST_ENABLE_BT = 8100;
     public ConnectBTAsync connBTAsync = null;
     public BluetoothSocket commSocket;
 
-    //TOAST MEMBERS
+    //TOAST
     private static Toast toast;
 
-    //ListView
-    private DisplayArrayAdapter displayArrayAdapter;
-
-    //Gauges
+    //GAUGES
     private CustomGauge gaugeSpeed;
     private TextView gaugeViewSpeed;
     private CustomGauge gaugeRPM;
@@ -52,26 +53,39 @@ public class MainActivity
 
     //****************************METHODS******************************
 
-    //--------------------LIFECYCLE METHODS----------------------
+    //-----------------------LIFECYCLE METHODS-----------------------
+    //-----------on Create-------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Load UI elements into member variables
+        initUIElements();
+    }
+
+    //-----------on Destroy-------------
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "MainActivity.onDestroy() Called");
+
+        //Close the Bluetooth Connection
+        if(connBTAsync != null){
+            connBTAsync.closeSocket();
+        }
+        super.onDestroy();
+    }
+
+
+    //-----------------------UI ELEMENT HELPERS-----------------------
+    //-----------Init UI elements-------------
+    private void initUIElements(){
+        //Load the UI elements from the resources into the private members of this class
+
         //Initialize the toast
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
-
-        //Init the ListView
-        /*
-        ArrayList<OBDData> data = new ArrayList<>();
-        ListView dataList = (ListView) findViewById(R.id.allData);
-        this.displayArrayAdapter = new DisplayArrayAdapter(this, data);
-        dataList.setAdapter(this.displayArrayAdapter);
-        */
-
-
-        //Init gauges
+        //Init gauge elements
         this.gaugeSpeed = (CustomGauge) findViewById(R.id.gauge_speed);
         this.gaugeViewSpeed = (TextView) findViewById(R.id.gaugeView_speed);
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
@@ -82,80 +96,9 @@ public class MainActivity
         bus.register(this);
     }
 
+    //-----------Update Gauges via Handler-------------
     @Override
-    protected void onDestroy() {
-        Log.d(TAG, "MainActivity.onDestroy() Called");
-
-        //Close the Bluetooth Connection
-        if(connBTAsync != null){
-            connBTAsync.closeSocket();
-        }
-
-        super.onDestroy();
-    }
-
-    //--------------INTENT RESULTS FROM BLUETOOTH--------------
-    @Override
-    public void onActivityResult(int requestCode,
-                                 int responseCode,
-                                 Intent resultIntent){
-
-        //Response Intent once the Bluetooth has been enabled
-        if(requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK){
-            Log.d(TAG, "[MainActivity.onActivityResult] Bluetooth has been Enabled");
-            MainActivity.showToast("Bluetooth Enabled");
-        }
-    }
-
-
-    //--------------------BT HANDLER----------------------
-    //Called after bluetooth has attempted to connect, either success or failure
-    //This is called by the onPostExecute method after the ConnectBTAsync has finished doInBackground
-    @Override
-    public void handleBTConnection(BluetoothSocket mmSocket){
-        //Check if the connection is valid
-        Boolean isConnected = mmSocket.isConnected();
-        //Placeholder message to be displayed to user
-        String toastMessage;
-
-        //Let the user know that the connection was a success
-        if(isConnected){
-            toastMessage = "Connection Success!";
-        }else {
-            toastMessage= "Unsuccessful Connection!";
-        }
-
-        //Show Log + Toast
-        Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
-        MainActivity.showToast(toastMessage);
-
-        //Start communicating with OBD Device
-        OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
-        obdConnection.execute(mmSocket);
-    }
-
-    @Override
-    public void updateUI2(OBDData speedOBD, OBDData rpmOBD) {
-        //Update the UI Gauge elements
-
-        //Update the speed
-        String speedStr = speedOBD.getData();
-        String speedStr_num= speedStr.replaceAll("[^0-9]", "");
-        final Integer speedInt = Integer.parseInt(speedStr_num);
-        //gaugeSpeed.setValue(speedInt);
-        //gaugeViewSpeed.setText(Integer.toString(gaugeSpeed.getValue()));
-
-        //Update the RPM
-        String rpmStr = rpmOBD.getData();
-        String rpmStr_num = rpmStr.replaceAll("[^0-9]", "");
-        final Integer rpmInt = Integer.parseInt(rpmStr_num);
-        gaugeRPM.setValue(rpmInt);
-        gaugeViewRPM.setText(Integer.toString(gaugeRPM.getValue()));
-    }
-
-
-    @Override
-    public void updateUI(Integer speedInt, Integer rpmInt) {
+    public void updateGauges(Integer speedInt, Integer rpmInt) {
         gaugeSpeed.setValue(speedInt);
         gaugeViewSpeed.setText(speedInt + "km/h");
 
@@ -163,8 +106,9 @@ public class MainActivity
         gaugeViewRPM.setText(rpmInt + "RPM");
     }
 
-    //TEMP
+    //
     @Subscribe public void updateSpeedUI(Integer[] carData) {
+        //-----------Updating Gauges via Otto-------------
         Integer speedInt = carData[0];
         Integer rpmInt = carData[1];
 
@@ -175,54 +119,9 @@ public class MainActivity
         gaugeViewRPM.setText(rpmInt + "RPM");
     }
 
-    @Override
-    public void showAllData(ArrayList<OBDData> data) {
-        //TEMP - get the speed OBD Data
-        OBDData speedOBD = data.get(0);
-        updateGauge(speedOBD);
-
-        //Display all the data in the ListView
-        //this.displayArrayAdapter.updateDataArray(data);
-    }
-
-    @Override
-    public void updateGauge(OBDData obdData) {
-        //Update the gauge with the appropriate numbers
-
-        //Get only the number from the speed
-        String speedStr = obdData.getData();
-        String numberStr= speedStr.replaceAll("[^0-9]", "");
-        final Integer speedInt = Integer.parseInt(numberStr);
-        if(speedInt % 1000 == 0) {
-            gaugeSpeed.setValue(speedInt);
-            gaugeViewSpeed.setText(Integer.toString(gaugeSpeed.getValue()));
-        }
-
-        /*
-        new Thread() {
-            public void run() {
-                    try {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                gaugeSpeed.setValue(speedInt);
-                                gaugeViewSpeed.setText(Integer.toString(gaugeSpeed.getValue()));
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        }.start();
-        */
-    }
-
-    //--------------------BUTTON CLICKS----------------------
-
-    //ENABLE BLUETOOTH BUTTON
-    public void enableBTBtnClick(View view){
-        Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
-
+    //-----------------------BLUETOOTH HELPERS-----------------------
+    //-----------Is Bluetooth enabled-------------
+    private void enableBluetooth(){
         //check if device supports bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null){
@@ -233,17 +132,23 @@ public class MainActivity
 
         //Enabled bluetooth if it is not already enabled
         if(!mBluetoothAdapter.isEnabled()){
+            //Launch intent to ask to turn bluetooth on
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }else{
             Log.d(TAG, "[MainActivity.enableBTBtnClick] Bluetooth already enabled");
-            MainActivity.showToast("Bluetooth is already enabled");
+            //MainActivity.showToast("Bluetooth is already enabled");
+
+            //Connect to a paired bluetooth device
+            connectToPairedDevice();
         }
     }
 
-    //CONNECT BLUETOOTH BUTTON
-    public void connectBtnClick(View view){
-        Log.d(TAG, "MainActivity.connectBtnClick() Called");
+    //-----------Connect Bluetooth to paired device-------------
+    private void connectToPairedDevice(){
+        //Connects the already enabled bluetooth to a paired device
+        //The user is given a list of paired devices from which
+        //they can click and select the device they wish to connec to
 
         //get a reference to the mainActivity;
         final ConnectionHandler connHandler = this;
@@ -303,13 +208,40 @@ public class MainActivity
         //Display the list of paired Devices to the user
         alertDialog.setTitle("Select Bluetooth Device");
         alertDialog.show();
-
     }
 
-    //DISCONNECT BUTTON
-    public void disconnectBtnClick(View view){
-        //Disconnect the Bluetooth by closing the opened socket
-        Log.d(TAG, "MainActivity.disconnectBtnClick() called");
+
+    //-----------Bluetooth Handler-------------
+    @Override
+    public void handleBTConnection(BluetoothSocket mmSocket){
+        //Called after bluetooth has attempted to connect, either success or failure
+        //This is called by the onPostExecute method after the ConnectBTAsync has finished doInBackground
+
+        //Check if the connection is valid
+        Boolean isConnected = mmSocket.isConnected();
+        //Placeholder message to be displayed to user
+        String toastMessage;
+
+        //Let the user know that the connection was a success
+        if(isConnected){
+            toastMessage = "Connection Success!";
+            //--show/hide the buttons--
+            startTripButtonDisplay();
+        }else {
+            toastMessage= "Unsuccessful Connection!";
+        }
+
+        //Show Log + Toast
+        Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
+        MainActivity.showToast(toastMessage);
+
+        //Start communicating with OBD Device
+        OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
+        obdConnection.execute(mmSocket);
+    }
+
+    //-----------Disconnect Bluetooth-------------
+    private void disconnectFromBluetooth(){
         if(connBTAsync != null){
             //connBTThread.cancel();
             if(connBTAsync.closeSocket()){
@@ -322,19 +254,114 @@ public class MainActivity
         }
     }
 
-    //--------------------TOAST----------------------
+
+    //-----------------------INTENT RESULTS-----------------------
+    @Override
+    public void onActivityResult(int requestCode,
+                                 int responseCode,
+                                 Intent resultIntent){
+
+        //-----------After enabling bluetooth-------------
+        //Response Intent once the Bluetooth has been enabled
+        if(requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK){
+            Log.d(TAG, "[MainActivity.onActivityResult] Bluetooth has been Enabled");
+            MainActivity.showToast("Bluetooth Enabled");
+
+            //Connect to a paired bluetooth device
+            connectToPairedDevice();
+        }
+    }
+
+    //-----------------------BUTTON CLICKS-----------------------
+    //-----------start trip-------------
+    public void startTripClick(View view) {
+        String METHOD = "startTripClick";
+        Log.d(METHOD, "called");
+
+        //Check if bluetooth is enabled and Start communicating
+        enableBluetooth();
+    }
+
+    //-----------end trip-------------
+    public void endTripClick(View view) {
+        String METHOD = "endTripClick";
+        Log.d(METHOD, "called");
+
+        //Disconnect the bluetooth (interrupts the
+        disconnectFromBluetooth();
+
+        endTripButtonDisplay();
+    }
+
+    //-----------------------UTILITY METHODS-----------------------
+    //-----------Start Trip Button Display-------------
+    private void startTripButtonDisplay() {
+        //Hides/Shows the necessary buttons when the trip starts
+
+        //Get the buttons
+        Button startButton = (Button)findViewById(R.id.btn_Main_startTrip);
+        Button endButton = (Button)findViewById(R.id.btn_Main_endTrip);
+
+        //Show the End Trip Button
+        startButton.setVisibility(View.GONE);
+
+        //Show the End Trip Button
+        endButton.setVisibility(View.VISIBLE);
+
+    }
+    //-----------End Trip Button Display-------------
+    private void endTripButtonDisplay(){
+        //Hides/Shows the necessary buttons when the trip ends
+        //Get the buttons
+        Button startButton = (Button)findViewById(R.id.btn_Main_startTrip);
+        Button endButton = (Button)findViewById(R.id.btn_Main_endTrip);
+
+        //Hide the End Trip button
+        endButton.setVisibility(View.GONE);
+
+        //Show the Start Trip Button
+        startButton.setVisibility(View.VISIBLE);
+    }
+
+    //-----------Show a Toast-------------
     public static void showToast(String message){
         //Displays a toast given a message
         MainActivity.toast.setText(message);
         MainActivity.toast.show();
     }
 
+
+    //-----------------------DEBUGGING/TESTING-----------------------
+    //-----------Enable Bluetooth Button-------------
+    public void enableBTBtnClick(View view){
+        Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
+        enableBluetooth();
+    }
+
+    //-----------Connect Bluetooth Button-------------
+    public void connectBtnClick(View view){
+        Log.d(TAG, "MainActivity.connectBtnClick() Called");
+        connectToPairedDevice();
+    }
+
+    //-----------Disconnect Bluetooth Button-------------
+    public void disconnectBtnClick(View view){
+        //Disconnect the Bluetooth by closing the opened socket
+        Log.d(TAG, "MainActivity.disconnectBtnClick() called");
+        disconnectFromBluetooth();
+    }
+
+    //-----------Test Button-------------
     public void testBtnClick(View view){
         Log.d(TAG, "MainActivity.testBtnClick()");
 
         //Start communicating
-        OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus); //
-        obdConnection.execute(this.commSocket);
+        enableBluetooth();
+        //OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
+        //obdConnection.execute(this.commSocket);
 
     }
+
 }
+
+

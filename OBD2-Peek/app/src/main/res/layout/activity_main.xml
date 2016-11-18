@@ -12,69 +12,38 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.luisa.alex.obd2_peek.MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/buttons_layout"
+    <!--============START/STOP BUTTONS===========-->
+    <!-- Start Trip -->
+    <Button
+        android:id="@+id/btn_Main_startTrip"
+        android:text="@string/btn_Main_start_trip"
+        android:onClick="startTripClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-    <!--=========BUTTONS===========-->
-        <Button
-            android:id="@+id/btn_Main_enableBT"
-            android:text="@string/btn_Main_enableBT"
-            android:onClick="enableBTBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+        />
 
+    <!-- END Trip -->
+    <Button
+        android:id="@+id/btn_Main_endTrip"
+        android:text="@string/btn_Main_end_trip"
+        android:onClick="endTripClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_Main_connect_async"
-            android:text="@string/btn_Main_connect"
-            android:onClick="connectBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btn_Main_enableBT"
-            />
-
-
-        <Button
-            android:id="@+id/btn_Main_disconnect_async"
-            android:text="@string/btn_Main_disconnect"
-            android:onClick="disconnectBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btn_Main_connect_async"
-            />
-
-        <!-- Test button -->
-        <Button
-            android:id="@+id/btn_Main_test"
-            android:text="@string/btn_Main_test"
-            android:onClick="testBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btn_Main_disconnect_async"
-            />
-    </RelativeLayout>
-
-    <!-- SPEED -->
+    <!--===========GAUGES===========-->
+    <!-- Speed Gauge -->
     <RelativeLayout
         android:id="@+id/speed_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttons_layout"
-        >
+        android:layout_below="@+id/layout_test_buttons">
 
         <TextView
             android:id="@+id/lbl_speed"
             android:text="Speed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
 
         <pl.pawelkleczkowski.customgauge.CustomGauge
@@ -94,7 +63,7 @@
             app:gaugeStrokeColor="@color/md_grey_400"
             app:gaugeStrokeWidth="10dp"
             app:gaugeStartValue="0"
-            app:gaugeEndValue="200"
+            app:gaugeEndValue="@string/param_gauge_max_speed"
             app:gaugeSweepAngle="270"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -109,32 +78,29 @@
             android:text="0"
             android:textSize="30dp"
             android:textStyle="bold" />
-
     </RelativeLayout>
 
 
-    <!-- Throttle -->
+    <!-- Throttle Gauge-->
     <LinearLayout
         android:id="@+id/rpm_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/speed_layout"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/lbl_rpm"
             android:text="RPM"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
 
         <pl.pawelkleczkowski.customgauge.CustomGauge
             android:id="@+id/gauge_rpm"
-            android:layout_below="@+id/lbl_rpm"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_below="@+id/lbl_rpm"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_alignParentBottom="true"
@@ -143,7 +109,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            app:gaugeEndValue="6000"
+            app:gaugeEndValue="@string/param_gauge_max_rpm"
             app:gaugePointEndColor="@color/md_red_500"
             app:gaugePointStartColor="@color/md_green_500"
             app:gaugeStartAngle="180"
@@ -156,16 +122,15 @@
             app:gaugeDividerColor="@color/md_yellow_500"
             app:gaugeDividerStep="10"
             app:gaugeDividerDrawFirst="false"
-            app:gaugeDividerDrawLast="true"
-            />
+            app:gaugeDividerDrawLast="true" />
 
         <TextView
             android:id="@+id/gaugeView_rpm"
-            android:layout_below="@+id/gauge_rpm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/gauge_rpm"
+            android:layout_below="@+id/gauge_rpm"
             android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@+id/gauge_rpm"
             android:layout_marginBottom="18dp"
             android:text="0"
             android:textSize="30dp"
@@ -174,45 +139,52 @@
     </LinearLayout>
 
 
-    <!--=========TEXT VIEWS===========-->
-    <!-- SPEED-->
-    <!--
-    <TextView
-        android:id="@+id/speed_result"
-        android:text="@string/speed_result"
+    <!--===========TESTING BUTTONS===========-->
+    <RelativeLayout
+        android:id="@+id/layout_test_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:layout_above="@+id/rpm_result"
-        android:layout_alignParentStart="true" />
-        -->
+        android:visibility="gone">
+        <!-- Enable Button -->
+        <Button
+            android:id="@+id/btn_TEST_enableBT"
+            android:text="@string/btn_TEST_enableBT"
+            android:onClick="enableBTBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
-    <!-- RPM-->
-    <!--
-    <TextView
-        android:id="@+id/rpm_result"
-        android:text="@string/rpm_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/speed_result" />
-        -->
+        <!-- Connect Button -->
+        <Button
+            android:id="@+id/btn_TEST_connect_async"
+            android:text="@string/btn_TEST_connect"
+            android:onClick="connectBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btn_TEST_enableBT" />
 
-    <!-- FUEL CR-->
-    <!--
-    <TextView
-        android:id="@+id/engineLoad_result"
-        android:text="@string/engineLoad_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="36sp"
-        android:layout_below="@+id/rpm_result"
-        android:layout_alignStart="@+id/rpm_result" />
-        -->
+        <!-- Disconnect Button -->
+        <Button
+            android:id="@+id/btn_TEST_disconnect_async"
+            android:text="@string/btn_TEST_disconnect"
+            android:onClick="disconnectBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btn_TEST_connect_async"
+            />
 
+        <!-- Test button -->
+        <Button
+            android:id="@+id/btn_TEST_test"
+            android:text="@string/btn_TEST_test"
+            android:onClick="testBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btn_TEST_disconnect_async" />
+    </RelativeLayout>
 
 </LinearLayout>
