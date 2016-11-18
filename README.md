@@ -1,50 +1,58 @@
-CSCI 4100 Final Project
------------------------------
+#CSCI 4100 Final Project
+---
 
 ##Due: Monday, November 28, 2016
 ###Members:
 * Luisa Rojas
 * Alexandar Mihaylov
 
-Idea 1: OBD2 Car App
------------------------------
+##Idea 1: OBD2 Car App
+---
 * Using [OBD2](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) we aim to read a statistics from a car and incorporate them into an android application.
 
-Specifics
------------------------------
+##Specifics
+---
 * **Car Make**: 2003 Hyundai Elantra
 * **OBDII Protocol**: ISO 14230-4 
 * **ISO 14230-4 Supported by**: ELM323, ELM327, ELM327/L
 * **OBD Device**: OBD2 ELM327 Bluetooth KW901/KW903 Car Auto Diagnostic Interface Scanner Tool KONNWEI
 * **OBD2 Simulator**: [ScanTool 602201 ECUsim 2000 ECU CAN Simulator for OBD-II Development](https://www.amazon.com/ScanTool-602201-ECUsim-Simulator-Development/dp/B008NAH6WE)
 
-Useful Links:
------------------------------
+##Useful Links:
+---
 * [Hyundai OBD II diagnostic interface pinout](http://pinoutsguide.com/CarElectronics/hyundai_obd_2_pinout.shtml)
 * [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
 * [ELM327 AT Commands](https://www.sparkfun.com/datasheets/Widgets/ELM327_AT_Commands.pdf)
 * [OBDII Commands](https://en.wikipedia.org/wiki/OBD-II_PIDs)
 * [Android Bluetooth](https://developer.android.com/guide/topics/connectivity/bluetooth.html)
 * [OBDII Android Tutorial](http://blog.lemberg.co.uk/how-guide-obdii-reader-app-development)
-* [ODBII Java api](https://github.com/pires/obd-java-api)
 * [Android OBD Reader](https://github.com/pires/android-obd-reader)
 * [OBD Sim](http://icculus.org/obdgpslogger/obdsim.html)
 * [OBD + GPS application](http://icculus.org/obdgpslogger/)
-* [Custom Gauge](https://github.com/pkleczko/CustomGauge)
-* [Otto - Android Event Bus](http://square.github.io/otto/)
 * [RxJava Github](https://github.com/ReactiveX/RxJava)
 
 
-Problems/Fixes
------------------------------
+##Problems/Fixes
+---
 * [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
 * [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
 
+##APIs Being Used
+---
+Name | Description 
+-----|----------
+[ODBII Java api](https://github.com/pires/obd-java-api) |
+[Otto - Android Event Bus](http://square.github.io/otto/) |
+[CustomGauge](https://github.com/pkleczko/CustomGauge) |
+[ColorArcProgressBar](https://github.com/Shinelw/ColorArcProgressBar) |
+[CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu) |
+[Sweet Alert Dialog](https://github.com/pedant/sweet-alert-dialog) or [DialogPlus](https://github.com/orhanobut/dialogplus) |
+[Roads API (Snap to roads)](https://developers.google.com/maps/documentation/roads/intro) |
 
-OBD-II PIDs and Java OBD Api
---------------------------------
+##OBD-II PIDs and Java OBD Api
+---
 
-##Control:
+###Control:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -61,7 +69,7 @@ AT | IGN | IgnitionMonitorCommand.java | N/A
 09 | 02 | VinCommand.java |  [Vehicle Identification Number (VIN)](https://en.wikipedia.org/wiki/Vehicle_identification_number)
 
 
-##Engine:
+###Engine:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -73,7 +81,7 @@ AT | 0C | RPMCommand.java | Engine RPM
 01 | 1F | RuntimeCommand.java | Run time since engine start
 01 | 11 | ThrottlePositionCommand.java | Throttle position
 
-##Fuel:
+###Fuel:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -84,7 +92,7 @@ Mode | PID(hex) | OBD-Java-Api | Description
 -- | -- | FuelTrimCommand.java | N/A
 01 | 34 | WidebandAirFuelRatioCommand.java | ? Oxyegen Sensor 1
 
-##Pressure:
+###Pressure:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -93,30 +101,10 @@ Mode | PID(hex) | OBD-Java-Api | Description
 01 | 23 | FuelRailPressureCommand.java | [Fuel Rail](https://en.wikipedia.org/wiki/Common_rail) Gauge Pressure (diesel, or gasoline direct injection)
 01 | 0B | IntakeManifoldPressureCommand.java | 	Intake manifold absolute pressure
 
-##Temperature:
+###Temperature:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
 01 | 0F | AirIntakeTemperatureCommand.java | Intake air temperature
 01 | 46 | AmbientAirTemperatureCommand.java | Ambient air temperature
 01 | 05 | EngineCoolantTemperatureCommand.java | Engine coolant temperature
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
