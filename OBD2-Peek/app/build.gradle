@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 repositories{
     mavenCentral();
+    jcenter()
 }
 
 android {
@@ -32,6 +33,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     //OBDII java API
     //compile 'com.github.pires:obd-java-api:1.0-RC16'
+
     // https://mvnrepository.com/artifact/com.github.pires/obd-java-api
     compile group: 'com.github.pires', name: 'obd-java-api', version: '1.0'
+
+    //https://github.com/pkleczko/CustomGauge
+    compile 'pl.pawelkleczkowski.customgauge:CustomGauge:1.0.3'
 }

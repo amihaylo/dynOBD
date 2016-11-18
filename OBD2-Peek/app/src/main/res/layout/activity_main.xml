@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -11,47 +12,90 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.luisa.alex.obd2_peek.MainActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <!--=========BUTTONS===========-->
-    <Button
-        android:id="@+id/btn_Main_enableBT"
-        android:text="@string/btn_Main_enableBT"
-        android:onClick="enableBTBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:id="@+id/btn_Main_enableBT"
+            android:text="@string/btn_Main_enableBT"
+            android:onClick="enableBTBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:id="@+id/btn_Main_disconnect_async"
-        android:text="@string/btn_Main_disconnect"
-        android:onClick="disconnectBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_Main_connect_async"
-        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/btn_Main_connect_async"
-        android:text="@string/btn_Main_connect"
-        android:onClick="connectBtnClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_below="@+id/btn_Main_enableBT"
-        android:layout_alignStart="@+id/btn_Main_disconnect_async"
-        android:layout_alignEnd="@+id/btn_Main_disconnect_async" />
+        <Button
+            android:id="@+id/btn_Main_connect_async"
+            android:text="@string/btn_Main_connect"
+            android:onClick="connectBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btn_Main_enableBT"
+            />
 
-    <!-- Test button -->
-    <Button
-        android:id="@+id/btn_Main_test"
-        android:text="@string/btn_Main_test"
-        android:onClick="testBtnClick"
-        android:layout_width="wrap_content"
+
+        <Button
+            android:id="@+id/btn_Main_disconnect_async"
+            android:text="@string/btn_Main_disconnect"
+            android:onClick="disconnectBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btn_Main_connect_async"
+            />
+
+        <!-- Test button -->
+        <Button
+            android:id="@+id/btn_Main_test"
+            android:text="@string/btn_Main_test"
+            android:onClick="testBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btn_Main_disconnect_async"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp" />
+        android:layout_below="@+id/button"
+        >
+        <pl.pawelkleczkowski.customgauge.CustomGauge
+            android:id="@+id/gauge1"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            app:gaugePointStartColor="@color/md_red_500"
+            app:gaugePointEndColor="@color/md_red_500"
+            app:gaugePointSize="6"
+            app:gaugeStartAngle="135"
+            app:gaugeStrokeCap="ROUND"
+            app:gaugeStrokeColor="@color/md_grey_400"
+            app:gaugeStrokeWidth="10dp"
+            app:gaugeStartValue="0"
+            app:gaugeEndValue="1000000"
+            app:gaugeSweepAngle="270" />
+
+        <TextView
+            android:id="@+id/gaugeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/gauge1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="18dp"
+            android:text="0"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <!--=========TEXT VIEWS===========-->
     <!-- SPEED-->

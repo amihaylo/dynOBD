@@ -2,6 +2,7 @@ package com.luisa.alex.obd2_peek;
 
 import android.bluetooth.BluetoothSocket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +10,8 @@ import java.util.List;
  */
 
 public interface ConnectionHandler {
-    public void handleBTConnection(BluetoothSocket mmSocket);
-    public void updateUI(String speed, String rpm, String fuelCR);
-    public void showData(List<OBDData> data);
+    void handleBTConnection(BluetoothSocket mmSocket);
+    void updateUI(String speed, String rpm, String fuelCR);
+    void showAllData(ArrayList<OBDData> data);
+    void updateGauge(OBDData obdData);
 }

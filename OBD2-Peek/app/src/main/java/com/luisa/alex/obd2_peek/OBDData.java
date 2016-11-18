@@ -29,4 +29,12 @@ public class OBDData {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "OBDData{" +
+                "title='" + title + '\'' +
+                ", data='" + data + '\'' +
+                '}';
+    }
 }

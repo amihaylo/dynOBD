@@ -23,6 +23,12 @@ public class DisplayArrayAdapter extends BaseAdapter {
         this.data = data;
     }
 
+    public void updateDataArray(List<OBDData> data){
+        this.data.clear();
+        this.data.addAll(data);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return data.size();

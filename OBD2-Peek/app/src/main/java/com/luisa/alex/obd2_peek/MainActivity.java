@@ -15,9 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class MainActivity
         extends AppCompatActivity
@@ -33,9 +36,13 @@ public class MainActivity
     //TOAST MEMBERS
     private static Toast toast;
 
-    private TextView lbl_speed;
-    private TextView lbl_rpm;
-    private TextView lbl_engineLoad;
+    //ListView
+    private DisplayArrayAdapter displayArrayAdapter;
+
+    //TEMP
+    private CustomGauge gauge1;
+    private TextView gaugeView;
+
 
     //****************************METHODS******************************
 
@@ -45,9 +52,23 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
         //Initialize the toast
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
+
+
+        //Init the ListView
+        ArrayList<OBDData> data = new ArrayList<>();
+        ListView dataList = (ListView) findViewById(R.id.allData);
+        this.displayArrayAdapter = new DisplayArrayAdapter(this, data);
+        dataList.setAdapter(this.displayArrayAdapter);
+
+        //TEMP
+        this.gauge1 = (CustomGauge) findViewById(R.id.gauge1);
+        this.gaugeView  = (TextView) findViewById(R.id.gaugeView);
+
+
+
+        /*
 
         this.lbl_speed = (TextView) findViewById(R.id.speed_result);
         this.lbl_rpm = (TextView) findViewById(R.id.rpm_result);
@@ -58,12 +79,13 @@ public class MainActivity
     @Override
     protected void onDestroy() {
         Log.d(TAG, "MainActivity.onDestroy() Called");
-        super.onDestroy();
 
         //Close the Bluetooth Connection
         if(connBTAsync != null){
             connBTAsync.closeSocket();
         }
+
+        super.onDestroy();
     }
 
     //--------------INTENT RESULTS FROM BLUETOOTH--------------
@@ -102,21 +124,55 @@ public class MainActivity
         MainActivity.showToast(toastMessage);
 
         //Start communicating
-        OBDCommunicator obdConnection = new OBDCommunicator(this);
+        OBDCommunicator obdConnection = new OBDCommunicator(this); //
         obdConnection.execute(mmSocket);
     }
 
     @Override
     public void updateUI(String speed, String rpm, String engineLoad) {
-        this.lbl_speed.setText("Speed: " + speed);
-        this.lbl_rpm.setText("Throttle: " + rpm);
-        this.lbl_engineLoad.setText("Load: " + engineLoad);
+
     }
 
     @Override
-    public void showData(List<OBDData> data) {
-        ListView dataList = (ListView) findViewById(R.id.allData);
-        dataList.setAdapter(new DisplayArrayAdapter(this, data));
+    public void showAllData(ArrayList<OBDData> data) {
+        //TEMP - get the speed OBD Data
+        OBDData speedOBD = data.get(0); //TODO Uncomment
+        updateGauge(speedOBD);
+
+        //Display all the data in the ListView
+        this.displayArrayAdapter.updateDataArray(data);
+    }
+
+    @Override
+    public void updateGauge(OBDData obdData) {
+        //Update the gauge with the appropriate numbers
+
+        //Get only the number from the speed
+        String speedStr = obdData.getData();
+        String numberStr= speedStr.replaceAll("[^0-9]", "");
+        final Integer speedInt = Integer.parseInt(numberStr);
+        if(speedInt % 1000 == 0) {
+            gauge1.setValue(speedInt);
+            gaugeView.setText(Integer.toString(gauge1.getValue()));
+        }
+
+        /*
+        new Thread() {
+            public void run() {
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                gauge1.setValue(speedInt);
+                                gaugeView.setText(Integer.toString(gauge1.getValue()));
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        }.start();
+        */
     }
 
     //--------------------BUTTON CLICKS----------------------
@@ -232,16 +288,11 @@ public class MainActivity
     }
 
     public void testBtnClick(View view){
-
         Log.d(TAG, "MainActivity.testBtnClick()");
 
-        List<OBDData> testList = new ArrayList<>();
-
-        testList.add(new OBDData("Speed", "somespeed"));
-        testList.add(new OBDData("RPM", "somerpm"));
-        testList.add(new OBDData("Engine Load", "someenginestuffs"));
-
-        showData(testList);
+        //Start communicating
+        OBDCommunicator obdConnection = new OBDCommunicator(this); //
+        obdConnection.execute(this.commSocket);
 
     }
 }
