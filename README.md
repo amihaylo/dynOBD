@@ -36,13 +36,12 @@
 ##APIs Being Used
 Name | Description 
 -----|----------
-[ODBII Java api](https://github.com/pires/obd-java-api) |
-[Otto - Android Event Bus](http://square.github.io/otto/) |
-[CustomGauge](https://github.com/pkleczko/CustomGauge) |
-[ColorArcProgressBar](https://github.com/Shinelw/ColorArcProgressBar) |
-[CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu) |
-[Sweet Alert Dialog](https://github.com/pedant/sweet-alert-dialog) or [DialogPlus](https://github.com/orhanobut/dialogplus) |
-[Roads API (Snap to roads)](https://developers.google.com/maps/documentation/roads/intro) |
+[ODBII Java api](https://github.com/pires/obd-java-api) | Handle the data collected by the ODBII diagnostic's system
+[Otto - Android Event Bus](http://square.github.io/otto/) | Decouple different parts of yotheur application while still allowing them to communicate efficiently.
+[CustomGauge](https://github.com/pkleczko/CustomGauge) <br> [ColorArcProgressBar](https://github.com/Shinelw/ColorArcProgressBar) | Graphic UI for speed and throttle live data output.
+[CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu) | Animated, customizable circular floating menu
+[Sweet Alert Dialog](https://github.com/pedant/sweet-alert-dialog) <br> [DialogPlus](https://github.com/orhanobut/dialogplus) | Dialog animation
+[Roads API (Snap to roads)](https://developers.google.com/maps/documentation/roads/intro) | Best-fit road geometry for a given set of GPS coordinates.
 
 ##OBD-II PIDs and Java OBD Api
 ###Control:
