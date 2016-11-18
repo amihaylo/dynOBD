@@ -7,11 +7,9 @@
 * Alexandar Mihaylov
 
 ##Idea 1: OBD2 Car App
----
 * Using [OBD2](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) we aim to read a statistics from a car and incorporate them into an android application.
 
 ##Specifics
----
 * **Car Make**: 2003 Hyundai Elantra
 * **OBDII Protocol**: ISO 14230-4 
 * **ISO 14230-4 Supported by**: ELM323, ELM327, ELM327/L
@@ -19,7 +17,6 @@
 * **OBD2 Simulator**: [ScanTool 602201 ECUsim 2000 ECU CAN Simulator for OBD-II Development](https://www.amazon.com/ScanTool-602201-ECUsim-Simulator-Development/dp/B008NAH6WE)
 
 ##Useful Links:
----
 * [Hyundai OBD II diagnostic interface pinout](http://pinoutsguide.com/CarElectronics/hyundai_obd_2_pinout.shtml)
 * [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
 * [ELM327 AT Commands](https://www.sparkfun.com/datasheets/Widgets/ELM327_AT_Commands.pdf)
@@ -33,12 +30,10 @@
 
 
 ##Problems/Fixes
----
 * [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
 * [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
 
 ##APIs Being Used
----
 Name | Description 
 -----|----------
 [ODBII Java api](https://github.com/pires/obd-java-api) |
@@ -50,8 +45,6 @@ Name | Description
 [Roads API (Snap to roads)](https://developers.google.com/maps/documentation/roads/intro) |
 
 ##OBD-II PIDs and Java OBD Api
----
-
 ###Control:
 
 Mode | PID(hex) | OBD-Java-Api | Description
