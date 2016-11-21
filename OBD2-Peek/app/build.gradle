@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-repositories{
+repositories {
     mavenCentral();
     jcenter()
 }
@@ -10,7 +10,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.luisa.alex.obd2_peek"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -24,11 +24,13 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
 
@@ -40,8 +42,11 @@ dependencies {
 
     //http://square.github.io/otto/
     compile 'com.squareup:otto:1.3.8'
-
+    
     //https://github.com/Nightonke/BoomMenu
     compile 'com.nightonke:boommenu:1.0.9'
+
+    //Google Maps API
+    compile 'com.google.android.gms:play-services:9.8.0'
 
 }

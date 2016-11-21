@@ -14,5 +14,6 @@
     <string name="btn_TEST_connect">Con</string>
     <string name="btn_TEST_disconnect">Dis</string>
     <string name="btn_TEST_test">Tst</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
