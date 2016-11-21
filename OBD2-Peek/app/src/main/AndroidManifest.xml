@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".DetailedStatsActivity" />
         <activity android:name=".HelpActivity" />
-        <activity android:name=".PastTripsActivity"></activity>
+        <activity android:name=".PastTripsActivity" />
+        <activity android:name=".LocatorActivity"></activity>
     </application>
 
 </manifest>

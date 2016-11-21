@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="com.luisa.alex.obd2_peek.DetailedStatsActivity">
+    tools:context="com.luisa.alex.obd2_peek.LocatorActivity">
 
     <com.nightonke.boommenu.BoomMenuButton
         android:id="@+id/boom"

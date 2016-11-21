@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,7 @@ import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 //Otta - Android Event Bus
 
+import com.nightonke.boommenu.CircleButton;
 import com.squareup.otto.*;
 
 //Floating menu
@@ -380,37 +382,71 @@ public class MainActivity
 
         // Use a param to record whether the boom button has been initialized
         // Because we don't need to init it again when onResume()
-        if (init) return;
+        if (init)
+            return;
+
         init = true;
 
-        Drawable[] subButtonDrawables = new Drawable[3];
-        int[] drawablesResource = new int[] {
-                R.drawable.boom,
-                R.drawable.java,
-                R.drawable.github
-        };
-        for (int i = 0; i < 3; i++)
-            subButtonDrawables[i] = ContextCompat.getDrawable(this, drawablesResource[i]);
+        int[][] subButton1Colors = new int[1][2];
+        int[][] subButton2Colors = new int[1][2];
+        int[][] subButton3Colors = new int[1][2];
 
-        String[] subButtonTexts = new String[]{"BoomMenuButton", "View source code", "Follow me"};
+        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
+        subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
-        int[][] subButtonColors = new int[3][2];
-        for (int i = 0; i < 3; i++) {
-            subButtonColors[i][1] = ContextCompat.getColor(this, R.color.md_white_1000);
-            subButtonColors[i][0] = Util.getInstance().getPressedColor(subButtonColors[i][1]);
-        }
+        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
+        subButton2Colors[0][0] = Util.getInstance().getPressedColor(subButton2Colors[0][1]);
+
+        subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
+        subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.boom), subButtonColors[0], "BoomMenuButton")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.java), subButtonColors[0], "View source code")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.github), subButtonColors[0], "Follow me")
-                .button(ButtonType.HAM)
-                .boom(BoomType.PARABOLA)
-                .place(PlaceType.HAM_3_1)
-                .subButtonTextColor(ContextCompat.getColor(this, R.color.md_black_1000))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton1Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
+                .button(ButtonType.CIRCLE)
+                .boom(BoomType.HORIZONTAL_THROW_2)
+                .place(PlaceType.CIRCLE_3_1)
+                //.subButtonTextColor(Color.BLACK)
                 .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
-                .init(boomMenuButton);
+                .onSubButtonClick(new BoomMenuButton.OnSubButtonClickListener() {
+                    @Override
+                    public void onClick(int buttonIndex) {
 
+                        Log.d(TAG, "button " + buttonIndex + " was clicked!");
+
+                        switch (buttonIndex) {
+                            case 0:
+                                LaunchPastTripsActivity();
+                                break;
+                            case 1:
+                                LaunchLocatorActivity();
+                                break;
+                            case 2:
+                                LaunchHelpActivity();
+                                break;
+                            default:
+                                Log.d(TAG, "There has been an error involving the subbuttons.");
+                                break;
+                        }
+                    }
+                })
+                .init(boomMenuButton);
+    }
+
+    private void LaunchHelpActivity() {
+        Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+        startActivity(intent);
+    }
+
+    private void LaunchLocatorActivity() {
+        Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
+        startActivity(intent);
+    }
+
+    private void LaunchPastTripsActivity() {
+        Intent intent = new Intent(MainActivity.this, DetailedStatsActivity.class);
+        startActivity(intent);
     }
 }

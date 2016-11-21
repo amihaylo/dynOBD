@@ -11,9 +11,9 @@ import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 
-public class PastTripsActivity extends AppCompatActivity {
+public class LocatorActivity extends AppCompatActivity {
 
-    private final static String TAG = "PastTripsActivity";
+    private final static String TAG = "LocatorActivity";
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
@@ -21,7 +21,7 @@ public class PastTripsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_past_trips);
+        setContentView(R.layout.activity_locator);
 
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
     }
@@ -44,7 +44,7 @@ public class PastTripsActivity extends AppCompatActivity {
         subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
-        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
+        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
         subButton2Colors[0][0] = Util.getInstance().getPressedColor(subButton2Colors[0][1]);
 
         subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
@@ -53,7 +53,7 @@ public class PastTripsActivity extends AppCompatActivity {
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton3Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton1Colors[0], "Locator")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton1Colors[0], "Trips")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton2Colors[0], "Help")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
@@ -71,7 +71,7 @@ public class PastTripsActivity extends AppCompatActivity {
                                 //break;
                             case 1:
                                 //LaunchLocatorActivity();
-                                Log.d(TAG, "Locator was clicked");
+                                Log.d(TAG, "Past Trips was clicked");
                                 break;
                             case 2:
                                 //LaunchHelpActivity();
