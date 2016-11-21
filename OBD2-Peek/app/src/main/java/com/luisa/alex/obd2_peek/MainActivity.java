@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +24,15 @@ import java.util.Set;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 //Otta - Android Event Bus
+
 import com.squareup.otto.*;
+
+//Floating menu
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.Types.BoomType;
+import com.nightonke.boommenu.Types.ButtonType;
+import com.nightonke.boommenu.Types.PlaceType;
+import com.nightonke.boommenu.Util;
 
 public class MainActivity
         extends AppCompatActivity
@@ -50,6 +60,8 @@ public class MainActivity
     //Otto - TEMP
     private Bus bus;
 
+    private boolean init = false;
+    private BoomMenuButton boomMenuButton;
 
     //****************************METHODS******************************
 
@@ -62,6 +74,8 @@ public class MainActivity
 
         //Load UI elements into member variables
         initUIElements();
+
+        boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
     }
 
     //-----------on Destroy-------------
@@ -70,16 +84,15 @@ public class MainActivity
         Log.d(TAG, "MainActivity.onDestroy() Called");
 
         //Close the Bluetooth Connection
-        if(connBTAsync != null){
+        if (connBTAsync != null) {
             connBTAsync.closeSocket();
         }
         super.onDestroy();
     }
 
-
     //-----------------------UI ELEMENT HELPERS-----------------------
     //-----------Init UI elements-------------
-    private void initUIElements(){
+    private void initUIElements() {
         //Load the UI elements from the resources into the private members of this class
 
         //Initialize the toast
@@ -107,7 +120,8 @@ public class MainActivity
     }
 
     //
-    @Subscribe public void updateSpeedUI(Integer[] carData) {
+    @Subscribe
+    public void updateSpeedUI(Integer[] carData) {
         //-----------Updating Gauges via Otto-------------
         Integer speedInt = carData[0];
         Integer rpmInt = carData[1];
@@ -121,21 +135,21 @@ public class MainActivity
 
     //-----------------------BLUETOOTH HELPERS-----------------------
     //-----------Is Bluetooth enabled-------------
-    private void enableBluetooth(){
+    private void enableBluetooth() {
         //check if device supports bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter == null){
+        if (mBluetoothAdapter == null) {
             //Device does not support bluetooth
             Log.d(TAG, "[MainActivity.enableBTBtnClick] Device does not support Bluetooth");
             return;
         }
 
         //Enabled bluetooth if it is not already enabled
-        if(!mBluetoothAdapter.isEnabled()){
+        if (!mBluetoothAdapter.isEnabled()) {
             //Launch intent to ask to turn bluetooth on
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }else{
+        } else {
             Log.d(TAG, "[MainActivity.enableBTBtnClick] Bluetooth already enabled");
             //MainActivity.showToast("Bluetooth is already enabled");
 
@@ -145,7 +159,7 @@ public class MainActivity
     }
 
     //-----------Connect Bluetooth to paired device-------------
-    private void connectToPairedDevice(){
+    private void connectToPairedDevice() {
         //Connects the already enabled bluetooth to a paired device
         //The user is given a list of paired devices from which
         //they can click and select the device they wish to connec to
@@ -163,15 +177,15 @@ public class MainActivity
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
         //If there is more than 1 paired device
-        if(pairedDevices.size() > 0){
+        if (pairedDevices.size() > 0) {
             //Iterate through all paired devices
-            for(BluetoothDevice device : pairedDevices){
+            for (BluetoothDevice device : pairedDevices) {
                 //Add the devices to the 3 respective arrays defined above
                 deviceStrs.add(device.getName() + "\n" + device.getAddress());
                 devicesAddress.add(device.getAddress());
                 devices.add(device);
             }
-        }else{
+        } else {
             //There are no existing Paired Devices
             Log.d(TAG, "[MainActivity.connectBtnClick] No Paired Devices Found");
             MainActivity.showToast("Need to Pair with device first!");
@@ -210,10 +224,9 @@ public class MainActivity
         alertDialog.show();
     }
 
-
     //-----------Bluetooth Handler-------------
     @Override
-    public void handleBTConnection(BluetoothSocket mmSocket){
+    public void handleBTConnection(BluetoothSocket mmSocket) {
         //Called after bluetooth has attempted to connect, either success or failure
         //This is called by the onPostExecute method after the ConnectBTAsync has finished doInBackground
 
@@ -223,12 +236,12 @@ public class MainActivity
         String toastMessage;
 
         //Let the user know that the connection was a success
-        if(isConnected){
+        if (isConnected) {
             toastMessage = "Connection Success!";
             //--show/hide the buttons--
             startTripButtonDisplay();
-        }else {
-            toastMessage= "Unsuccessful Connection!";
+        } else {
+            toastMessage = "Unsuccessful Connection!";
         }
 
         //Show Log + Toast
@@ -241,29 +254,28 @@ public class MainActivity
     }
 
     //-----------Disconnect Bluetooth-------------
-    private void disconnectFromBluetooth(){
-        if(connBTAsync != null){
+    private void disconnectFromBluetooth() {
+        if (connBTAsync != null) {
             //connBTThread.cancel();
-            if(connBTAsync.closeSocket()){
+            if (connBTAsync.closeSocket()) {
                 //Show Success Toast
                 MainActivity.showToast("Disconnect Successful!");
-            }else{
+            } else {
                 //Show UnSuccess Toast
                 MainActivity.showToast("Disconnect Unsuccessful!");
             }
         }
     }
 
-
     //-----------------------INTENT RESULTS-----------------------
     @Override
     public void onActivityResult(int requestCode,
                                  int responseCode,
-                                 Intent resultIntent){
+                                 Intent resultIntent) {
 
         //-----------After enabling bluetooth-------------
         //Response Intent once the Bluetooth has been enabled
-        if(requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK){
+        if (requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK) {
             Log.d(TAG, "[MainActivity.onActivityResult] Bluetooth has been Enabled");
             MainActivity.showToast("Bluetooth Enabled");
 
@@ -299,8 +311,8 @@ public class MainActivity
         //Hides/Shows the necessary buttons when the trip starts
 
         //Get the buttons
-        Button startButton = (Button)findViewById(R.id.btn_Main_startTrip);
-        Button endButton = (Button)findViewById(R.id.btn_Main_endTrip);
+        Button startButton = (Button) findViewById(R.id.btn_Main_startTrip);
+        Button endButton = (Button) findViewById(R.id.btn_Main_endTrip);
 
         //Show the End Trip Button
         startButton.setVisibility(View.GONE);
@@ -309,12 +321,13 @@ public class MainActivity
         endButton.setVisibility(View.VISIBLE);
 
     }
+
     //-----------End Trip Button Display-------------
-    private void endTripButtonDisplay(){
+    private void endTripButtonDisplay() {
         //Hides/Shows the necessary buttons when the trip ends
         //Get the buttons
-        Button startButton = (Button)findViewById(R.id.btn_Main_startTrip);
-        Button endButton = (Button)findViewById(R.id.btn_Main_endTrip);
+        Button startButton = (Button) findViewById(R.id.btn_Main_startTrip);
+        Button endButton = (Button) findViewById(R.id.btn_Main_endTrip);
 
         //Hide the End Trip button
         endButton.setVisibility(View.GONE);
@@ -324,35 +337,34 @@ public class MainActivity
     }
 
     //-----------Show a Toast-------------
-    public static void showToast(String message){
+    public static void showToast(String message) {
         //Displays a toast given a message
         MainActivity.toast.setText(message);
         MainActivity.toast.show();
     }
 
-
     //-----------------------DEBUGGING/TESTING-----------------------
     //-----------Enable Bluetooth Button-------------
-    public void enableBTBtnClick(View view){
+    public void enableBTBtnClick(View view) {
         Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
         enableBluetooth();
     }
 
     //-----------Connect Bluetooth Button-------------
-    public void connectBtnClick(View view){
+    public void connectBtnClick(View view) {
         Log.d(TAG, "MainActivity.connectBtnClick() Called");
         connectToPairedDevice();
     }
 
     //-----------Disconnect Bluetooth Button-------------
-    public void disconnectBtnClick(View view){
+    public void disconnectBtnClick(View view) {
         //Disconnect the Bluetooth by closing the opened socket
         Log.d(TAG, "MainActivity.disconnectBtnClick() called");
         disconnectFromBluetooth();
     }
 
     //-----------Test Button-------------
-    public void testBtnClick(View view){
+    public void testBtnClick(View view) {
         Log.d(TAG, "MainActivity.testBtnClick()");
 
         //Start communicating
@@ -362,6 +374,43 @@ public class MainActivity
 
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        // Use a param to record whether the boom button has been initialized
+        // Because we don't need to init it again when onResume()
+        if (init) return;
+        init = true;
+
+        Drawable[] subButtonDrawables = new Drawable[3];
+        int[] drawablesResource = new int[] {
+                R.drawable.boom,
+                R.drawable.java,
+                R.drawable.github
+        };
+        for (int i = 0; i < 3; i++)
+            subButtonDrawables[i] = ContextCompat.getDrawable(this, drawablesResource[i]);
+
+        String[] subButtonTexts = new String[]{"BoomMenuButton", "View source code", "Follow me"};
+
+        int[][] subButtonColors = new int[3][2];
+        for (int i = 0; i < 3; i++) {
+            subButtonColors[i][1] = ContextCompat.getColor(this, R.color.md_white_1000);
+            subButtonColors[i][0] = Util.getInstance().getPressedColor(subButtonColors[i][1]);
+        }
+
+        // Now with Builder, you can init BMB more convenient
+        new BoomMenuButton.Builder()
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.boom), subButtonColors[0], "BoomMenuButton")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.java), subButtonColors[0], "View source code")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.github), subButtonColors[0], "Follow me")
+                .button(ButtonType.HAM)
+                .boom(BoomType.PARABOLA)
+                .place(PlaceType.HAM_3_1)
+                .subButtonTextColor(ContextCompat.getColor(this, R.color.md_black_1000))
+                .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+                .init(boomMenuButton);
+
+    }
 }
-
-

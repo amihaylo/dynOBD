@@ -23,9 +23,9 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
  */
 
 public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolean> {
-    BluetoothSocket mmSocket;
-    ConnectionHandler connHandler;
-    Bus bus;
+    private BluetoothSocket mmSocket;
+    private ConnectionHandler connHandler;
+    private Bus bus;
 
     public OBDCommunicator(ConnectionHandler connHandler, Bus bus) {
         this.bus = bus;
@@ -200,7 +200,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
 
     @Override
-    protected void onPostExecute(Boolean bool){
-
+    protected void onPostExecute(Boolean bool) {
+        //TODO: set speed and rpm fields back to 0
     }
 }
