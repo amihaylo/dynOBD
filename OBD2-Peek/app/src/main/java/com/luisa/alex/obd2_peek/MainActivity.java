@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,11 +21,6 @@ import java.util.Set;
 
 //Gauge import
 import pl.pawelkleczkowski.customgauge.CustomGauge;
-
-//Otta - Android Event Bus
-
-import com.nightonke.boommenu.CircleButton;
-import com.squareup.otto.*;
 
 //Floating menu
 import com.nightonke.boommenu.BoomMenuButton;
@@ -58,9 +51,6 @@ public class MainActivity
     private TextView gaugeViewSpeed;
     private CustomGauge gaugeRPM;
     private TextView gaugeViewRPM;
-
-    //Otto - TEMP
-    private Bus bus;
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
@@ -106,9 +96,6 @@ public class MainActivity
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
 
-        //Init the bus
-        this.bus = new Bus(ThreadEnforcer.MAIN);
-        bus.register(this);
     }
 
     //-----------Update Gauges via Handler-------------
@@ -121,18 +108,11 @@ public class MainActivity
         gaugeViewRPM.setText(rpmInt + "RPM");
     }
 
-    //
-    @Subscribe
-    public void updateSpeedUI(Integer[] carData) {
-        //-----------Updating Gauges via Otto-------------
-        Integer speedInt = carData[0];
-        Integer rpmInt = carData[1];
-
-        gaugeSpeed.setValue(speedInt);
-        gaugeViewSpeed.setText(speedInt + "km/h");
-
-        gaugeRPM.setValue(rpmInt);
-        gaugeViewRPM.setText(rpmInt + "RPM");
+    //-----------Reset the Gauges via Handler-------------
+    @Override
+    public void resetGauges(){
+        //Reset the Gauges back to 0
+        this.updateGauges(0,0);
     }
 
     //-----------------------BLUETOOTH HELPERS-----------------------
@@ -240,8 +220,11 @@ public class MainActivity
         //Let the user know that the connection was a success
         if (isConnected) {
             toastMessage = "Connection Success!";
-            //--show/hide the buttons--
-            startTripButtonDisplay();
+            //set the socket
+            this.commSocket = mmSocket;
+
+            //Hide the connect button and show the Disconnect one
+            afterConnectDisplay();
         } else {
             toastMessage = "Unsuccessful Connection!";
         }
@@ -249,10 +232,6 @@ public class MainActivity
         //Show Log + Toast
         Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
         MainActivity.showToast(toastMessage);
-
-        //Start communicating with OBD Device
-        OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
-        obdConnection.execute(mmSocket);
     }
 
     //-----------Disconnect Bluetooth-------------
@@ -287,13 +266,34 @@ public class MainActivity
     }
 
     //-----------------------BUTTON CLICKS-----------------------
+    //-----------Connect Bluetooth to the OBD Device-------------
+    public void connectOBDClick(View view) {
+        String METHOD = "connectOBDClick";
+        Log.d(METHOD, "called");
+
+        //Check if bluetooth is enabled and connect to OBD
+        enableBluetooth();
+    }
+
     //-----------start trip-------------
     public void startTripClick(View view) {
         String METHOD = "startTripClick";
         Log.d(METHOD, "called");
 
-        //Check if bluetooth is enabled and Start communicating
-        enableBluetooth();
+        //Check if socket is connected
+        if(this.commSocket.isConnected()){
+            showToast("Starting communication stream...");
+
+            //Start the OBD Communcation Stream
+            OBDCommunicator obdConnection = new OBDCommunicator(this);
+            obdConnection.execute(this.commSocket);
+
+            //Hide/Show Buttons
+            afterStartTripDisplay();
+        }else{
+            showToast("Not connected to OBD");
+        }
+
     }
 
     //-----------end trip-------------
@@ -301,80 +301,14 @@ public class MainActivity
         String METHOD = "endTripClick";
         Log.d(METHOD, "called");
 
-        //Disconnect the bluetooth (interrupts the
+        //Disconnect the bluetooth (closes the bluetooth socket)
         disconnectFromBluetooth();
 
-        endTripButtonDisplay();
+        //Hide Show the Buttons
+        afterEndTripDisplay();
     }
 
-    //-----------------------UTILITY METHODS-----------------------
-    //-----------Start Trip Button Display-------------
-    private void startTripButtonDisplay() {
-        //Hides/Shows the necessary buttons when the trip starts
-
-        //Get the buttons
-        Button startButton = (Button) findViewById(R.id.btn_Main_startTrip);
-        Button endButton = (Button) findViewById(R.id.btn_Main_endTrip);
-
-        //Show the End Trip Button
-        startButton.setVisibility(View.GONE);
-
-        //Show the End Trip Button
-        endButton.setVisibility(View.VISIBLE);
-
-    }
-
-    //-----------End Trip Button Display-------------
-    private void endTripButtonDisplay() {
-        //Hides/Shows the necessary buttons when the trip ends
-        //Get the buttons
-        Button startButton = (Button) findViewById(R.id.btn_Main_startTrip);
-        Button endButton = (Button) findViewById(R.id.btn_Main_endTrip);
-
-        //Hide the End Trip button
-        endButton.setVisibility(View.GONE);
-
-        //Show the Start Trip Button
-        startButton.setVisibility(View.VISIBLE);
-    }
-
-    //-----------Show a Toast-------------
-    public static void showToast(String message) {
-        //Displays a toast given a message
-        MainActivity.toast.setText(message);
-        MainActivity.toast.show();
-    }
-
-    //-----------------------DEBUGGING/TESTING-----------------------
-    //-----------Enable Bluetooth Button-------------
-    public void enableBTBtnClick(View view) {
-        Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
-        enableBluetooth();
-    }
-
-    //-----------Connect Bluetooth Button-------------
-    public void connectBtnClick(View view) {
-        Log.d(TAG, "MainActivity.connectBtnClick() Called");
-        connectToPairedDevice();
-    }
-
-    //-----------Disconnect Bluetooth Button-------------
-    public void disconnectBtnClick(View view) {
-        //Disconnect the Bluetooth by closing the opened socket
-        Log.d(TAG, "MainActivity.disconnectBtnClick() called");
-        disconnectFromBluetooth();
-    }
-
-    //-----------Test Button-------------
-    public void testBtnClick(View view) {
-        Log.d(TAG, "MainActivity.testBtnClick()");
-
-        //Start communicating
-        enableBluetooth();
-        //OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
-        //obdConnection.execute(this.commSocket);
-
-    }
+    //-----------------------MENU-----------------------
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -449,4 +383,84 @@ public class MainActivity
         Intent intent = new Intent(MainActivity.this, DetailedStatsActivity.class);
         startActivity(intent);
     }
+
+    //-----------------------UTILITY METHODS-----------------------
+    //-----------After Connect has been Clicked-------------
+    private void afterConnectDisplay() {
+        //Hide the connect button
+        //Show the Start trip one
+
+        //Obtain the button references
+        Button connButton = (Button) findViewById(R.id.btn_Main_connect_obd);
+        Button startTripButton = (Button) findViewById(R.id.btn_Main_startTrip);
+
+        //Set the visibilities
+        connButton.setVisibility(View.GONE);
+        startTripButton.setVisibility(View.VISIBLE);
+    }
+
+    //-----------After Start Trip has been Clicked-------------
+    private void afterStartTripDisplay() {
+        //Hide the Start Trip
+        //Show the End Trip
+
+        //Obtain the button references
+        Button startTripButton = (Button) findViewById(R.id.btn_Main_startTrip);
+        Button endTripButton = (Button) findViewById(R.id.btn_Main_endTrip);
+
+        //Set the visibilities
+        startTripButton.setVisibility(View.GONE);
+        endTripButton.setVisibility(View.VISIBLE);
+    }
+
+    private void afterEndTripDisplay() {
+        //Hide the End Trip
+        //Show the Connect Button
+
+        //Obtain the button references
+        Button endTripButton = (Button) findViewById(R.id.btn_Main_endTrip);
+        Button connButton = (Button) findViewById(R.id.btn_Main_connect_obd);
+
+        //Set the visibilities
+        endTripButton.setVisibility(View.GONE);
+        connButton.setVisibility(View.VISIBLE);
+    }
+
+
+    //-----------Show a Toast-------------
+    public static void showToast(String message) {
+        //Displays a toast given a message
+        MainActivity.toast.setText(message);
+        MainActivity.toast.show();
+    }
+
+    //-----------------------DEBUGGING/TESTING-----------------------
+    //-----------Enable Bluetooth Button-------------
+    public void enableBTBtnClick(View view) {
+        Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
+        enableBluetooth();
+    }
+
+    //-----------Connect Bluetooth Button-------------
+    public void connectBtnClick(View view) {
+        Log.d(TAG, "MainActivity.connectBtnClick() Called");
+        connectToPairedDevice();
+    }
+
+    //-----------Disconnect Bluetooth Button-------------
+    public void disconnectBtnClick(View view) {
+        //Disconnect the Bluetooth by closing the opened socket
+        Log.d(TAG, "MainActivity.disconnectBtnClick() called");
+        disconnectFromBluetooth();
+    }
+
+    //-----------Test Button-------------
+    public void testBtnClick(View view) {
+        Log.d(TAG, "MainActivity.testBtnClick()");
+
+        //Start communicating
+        enableBluetooth();
+
+    }
+
 }

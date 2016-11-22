@@ -16,6 +16,15 @@
         android:layout_gravity="top|center_horizontal">
 
         <!--============START/STOP BUTTONS===========-->
+        <!-- Connect to OBD -->
+        <Button
+            android:id="@+id/btn_Main_connect_obd"
+            android:text="@string/btn_Main_connect_obd"
+            android:onClick="connectOBDClick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
         <!-- Start Trip -->
         <Button
             android:id="@+id/btn_Main_startTrip"
@@ -23,6 +32,7 @@
             android:onClick="startTripClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             />
 
         <!-- END Trip -->
@@ -32,7 +42,8 @@
             android:onClick="endTripClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
         <!--===========GAUGES===========-->
         <!-- Speed Gauge -->
