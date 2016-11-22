@@ -519,6 +519,7 @@ public class MainActivity
     //-----------------------DEBUGGING/TESTING-----------------------
     //-----------Test Button-------------
     public void testBtnClick(View view) {
+        /*
         String METHOD = "testBtnClick";
         Log.d(METHOD, "called");
 
@@ -539,5 +540,6 @@ public class MainActivity
         OBDCommunicator obdConnection = new OBDCommunicator(this, true);
         obdConnection.execute(this.commSocket);
         //After the Vin is obtain a handleVin() function is called
+        */
     }
 }
