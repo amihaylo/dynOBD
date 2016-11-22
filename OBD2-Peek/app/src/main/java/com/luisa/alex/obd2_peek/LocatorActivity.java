@@ -51,7 +51,6 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -303,7 +302,7 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton1Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton2Colors[0], "Trips")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
