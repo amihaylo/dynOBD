@@ -44,7 +44,6 @@ public class DetailedStatsActivity extends AppCompatActivity {
         int[][] subButton3Colors = new int[1][2];
         int[][] subButton4Colors = new int[1][2];
 
-
         subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
@@ -84,11 +83,10 @@ public class DetailedStatsActivity extends AppCompatActivity {
                                 Log.d(TAG, "Locator was clicked");
                                 break;
                             case 2:
-                                Log.d(TAG, "About was clicked");
+                                Log.d(TAG, "Help was clicked");
                                 break;
                             case 3:
-                                //LaunchHelpActivity();
-                                Log.d(TAG, "Help was clicked");
+                                Log.d(TAG, "About was clicked");
                                 break;
                             default:
                                 Log.d(TAG, "There has been an error involving the subbuttons.");
