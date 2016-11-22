@@ -52,9 +52,9 @@ public class LocatorActivity extends AppCompatActivity {
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton3Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton1Colors[0], "Trips")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton2Colors[0], "Help")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton1Colors[0], "Home")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
                 .place(PlaceType.CIRCLE_3_1)
