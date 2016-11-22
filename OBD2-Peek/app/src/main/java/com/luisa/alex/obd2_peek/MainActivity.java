@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 //Gauge import
@@ -284,8 +285,8 @@ public class MainActivity
         if(this.commSocket.isConnected()){
             showToast("Starting communication stream...");
 
-            //Start the OBD Communcation Stream
-            OBDCommunicator obdConnection = new OBDCommunicator(this);
+            //Start the OBD Communcation Stream - false (2nd arg) indicating we are no quering for vin
+            OBDCommunicator obdConnection = new OBDCommunicator(this, false);
             obdConnection.execute(this.commSocket);
 
             //Hide/Show Buttons
@@ -369,20 +370,57 @@ public class MainActivity
                 .init(boomMenuButton);
     }
 
+    //-----------------------VIN QUERY-----------------------
+    @Override
+    public void handleVin(String vinNumber){
+        String METHOD = "handleVin";
+        Log.d(METHOD, "called");
+
+        //Check if Vin was not found
+        if(vinNumber.isEmpty()){
+            showToast("Unable to Obtain Vin!");
+            return;
+        }
+
+        //Vin was found
+        //Log.d(METHOD, "Vin = " + vinNumber);
+        showToast("Got Vin! Getting Data...");
+
+        //Start downloading the car data from the internet
+        vinDataDownloader vinDataDownloader = new vinDataDownloader(this);
+        vinDataDownloader.execute(vinNumber);
+    }
+
+    //-----------------------ACTIVITY LAUNCHERS-----------------------
+    //-----------Help Activity-------------
     private void LaunchHelpActivity() {
         Intent intent = new Intent(MainActivity.this, HelpActivity.class);
         startActivity(intent);
     }
 
+    //-----------Locator Activity-------------
     private void LaunchLocatorActivity() {
         Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
         startActivity(intent);
     }
 
+    //-----------Past Trip Activity-------------
     private void LaunchPastTripsActivity() {
         Intent intent = new Intent(MainActivity.this, DetailedStatsActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void showCarDataList(List<String> data){
+        String METHOD = "showCarDataList";
+        //TODO Launch the intent to display the car data
+
+        //TEMP - log the data
+        for(String ele : data){
+            Log.d(METHOD, ele);
+        }
+    }
+
 
     //-----------------------UTILITY METHODS-----------------------
     //-----------After Connect has been Clicked-------------
@@ -435,32 +473,28 @@ public class MainActivity
     }
 
     //-----------------------DEBUGGING/TESTING-----------------------
-    //-----------Enable Bluetooth Button-------------
-    public void enableBTBtnClick(View view) {
-        Log.d(TAG, "MainActivity.enableBTBtnClick() Called");
-        enableBluetooth();
-    }
-
-    //-----------Connect Bluetooth Button-------------
-    public void connectBtnClick(View view) {
-        Log.d(TAG, "MainActivity.connectBtnClick() Called");
-        connectToPairedDevice();
-    }
-
-    //-----------Disconnect Bluetooth Button-------------
-    public void disconnectBtnClick(View view) {
-        //Disconnect the Bluetooth by closing the opened socket
-        Log.d(TAG, "MainActivity.disconnectBtnClick() called");
-        disconnectFromBluetooth();
-    }
-
     //-----------Test Button-------------
     public void testBtnClick(View view) {
-        Log.d(TAG, "MainActivity.testBtnClick()");
+        String METHOD = "testBtnClick";
+        Log.d(METHOD, "called");
 
-        //Start communicating
-        enableBluetooth();
+        if(this.commSocket == null){
+            showToast("Please Connect First!");
+            return;
+        }
 
+        //If not null, check if there is a connection
+        if(!this.commSocket.isConnected()){
+            showToast("OBD Not Connected!");
+            return;
+        }
+
+        showToast("Obtaining Vin...");
+        //Query for vin - 2nd arg is set to true
+        //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
+        OBDCommunicator obdConnection = new OBDCommunicator(this, true);
+        obdConnection.execute(this.commSocket);
+        //After the Vin is obtain a handleVin() function is called
     }
 
 }

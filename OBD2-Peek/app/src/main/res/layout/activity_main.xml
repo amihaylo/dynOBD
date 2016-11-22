@@ -138,6 +138,18 @@
                 android:textSize="25sp"
                 android:textStyle="bold"/>
 
+            <!--===========TESTING BUTTONS===========-->
+
+            <!-- Test button -->
+            <Button
+                android:id="@+id/btn_TEST_test"
+                android:text="@string/btn_TEST_test"
+                android:onClick="testBtnClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                />
+
         </LinearLayout>
     </LinearLayout>
 
@@ -151,53 +163,5 @@
         app:boom_button_pressed_color="@color/colorPrimary"
         android:layout_gravity="bottom|end"
         />
-
-    <!--===========TESTING BUTTONS===========-->
-    <RelativeLayout
-        android:id="@+id/layout_test_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-        <!-- Enable Button -->
-        <Button
-            android:id="@+id/btn_TEST_enableBT"
-            android:text="@string/btn_TEST_enableBT"
-            android:onClick="enableBTBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-        <!-- Connect Button -->
-        <Button
-            android:id="@+id/btn_TEST_connect_async"
-            android:text="@string/btn_TEST_connect"
-            android:onClick="connectBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btn_TEST_enableBT" />
-
-        <!-- Disconnect Button -->
-        <Button
-            android:id="@+id/btn_TEST_disconnect_async"
-            android:text="@string/btn_TEST_disconnect"
-            android:onClick="disconnectBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btn_TEST_connect_async"
-            />
-
-        <!-- Test button -->
-        <Button
-            android:id="@+id/btn_TEST_test"
-            android:text="@string/btn_TEST_test"
-            android:onClick="testBtnClick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btn_TEST_disconnect_async" />
-    </RelativeLayout>
 
 </FrameLayout>

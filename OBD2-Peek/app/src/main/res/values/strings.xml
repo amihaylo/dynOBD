@@ -11,11 +11,10 @@
     <string name="param_gauge_max_speed">200</string>
     <string name="param_gauge_max_rpm">6000</string>
 
-    <!-- TEST BUTTONS -->
-    <string name="btn_TEST_enableBT">Ena</string>
-    <string name="btn_TEST_connect">Con</string>
-    <string name="btn_TEST_disconnect">Dis</string>
-    <string name="btn_TEST_test">Tst</string>
+    <!-- LOCATOR ACTIVITY -->
     <string name="title_activity_maps">Map</string>
+
+    <!-- TEST BUTTONS -->
+    <string name="btn_TEST_test">Tst</string>
 
 </resources>

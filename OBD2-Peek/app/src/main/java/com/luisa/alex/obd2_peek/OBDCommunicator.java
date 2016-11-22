@@ -23,9 +23,18 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolean> {
     private BluetoothSocket mmSocket;
     private ConnectionHandler connHandler;
+    private Boolean queryForVin;
+    private String vinNumber;
 
-    public OBDCommunicator(ConnectionHandler connHandler) {
+    public OBDCommunicator(ConnectionHandler connHandler, Boolean queryForVin) {
         this.connHandler = connHandler;
+
+        //If queryForVin is TRUE then doInBackground will simply query the obd device
+        //For some data and then exit without entering a whileloop stream
+        this.queryForVin = queryForVin;
+
+        //Initialize Vin to empty;
+        this.vinNumber = "";
     }
 
     @Override
@@ -42,9 +51,28 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
     }
 
     private void testCommunication() {
-        Log.d("testCommunication", "called");
+        String METHOD = "testCommunication";
+        //Log.d(METHOD, "called()");
+        if(this.mmSocket == null){Log.d(METHOD, "mmsocket = null"); return;}
+
+        //Just for testing purposes
+        String secretVinNumber = "KMHHxxxDx3Uxxxxxx";
 
         while(this.mmSocket.isConnected()) {
+
+            //We only query for specific data and then exit
+            if(this.queryForVin){
+                //Obtain the vin
+                String vinNumber = secretVinNumber;
+
+                //Save the vin
+                this.vinNumber = vinNumber;
+
+                //exit
+                return;
+            }
+
+            //Not querying for vin
             for (int i = 0; i <= 100; i++) {
 
                 //Disconnect immediately after user hits disconnect
@@ -196,7 +224,13 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     @Override
     protected void onPostExecute(Boolean bool) {
-        //set speed and rpm fields back to 0
-        connHandler.resetGauges();
+        String METHOD = "onPostExecute";
+        if(this.queryForVin){
+            //Send the vin back to the user
+            connHandler.handleVin(this.vinNumber);
+        }else{
+            //set speed and rpm fields back to 0
+            connHandler.resetGauges();
+        }
     }
 }
