@@ -42,6 +42,8 @@ public class DetailedStatsActivity extends AppCompatActivity {
         int[][] subButton1Colors = new int[1][2];
         int[][] subButton2Colors = new int[1][2];
         int[][] subButton3Colors = new int[1][2];
+        int[][] subButton4Colors = new int[1][2];
+
 
         subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
@@ -49,33 +51,42 @@ public class DetailedStatsActivity extends AppCompatActivity {
         subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
         subButton2Colors[0][0] = Util.getInstance().getPressedColor(subButton2Colors[0][1]);
 
-        subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
+        subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
         subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
+
+        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
+        subButton4Colors[0][0] = Util.getInstance().getPressedColor(subButton4Colors[0][1]);
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton1Colors[0], "Home")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton4Colors[0], "Help")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton3Colors[0], "About")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
-                .place(PlaceType.CIRCLE_3_1)
+                .place(PlaceType.CIRCLE_4_2)
                 //.subButtonTextColor(Color.BLACK)
                 .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
                 .onSubButtonClick(new BoomMenuButton.OnSubButtonClickListener() {
                     @Override
                     public void onClick(int buttonIndex) {
 
+                        Log.d(TAG, "Button " + buttonIndex + " was clicked.");
+
                         switch (buttonIndex) {
                             case 0:
                                 finish();
-                                //Log.d(TAG, "Home was clicked");
-                                //break;
+                                Log.d(TAG, "Home was clicked");
+                                break;
                             case 1:
                                 //LaunchLocatorActivity();
                                 Log.d(TAG, "Locator was clicked");
                                 break;
                             case 2:
+                                Log.d(TAG, "About was clicked");
+                                break;
+                            case 3:
                                 //LaunchHelpActivity();
                                 Log.d(TAG, "Help was clicked");
                                 break;

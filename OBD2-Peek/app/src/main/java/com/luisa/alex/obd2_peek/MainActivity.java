@@ -325,6 +325,7 @@ public class MainActivity
         int[][] subButton1Colors = new int[1][2];
         int[][] subButton2Colors = new int[1][2];
         int[][] subButton3Colors = new int[1][2];
+        int[][] subButton4Colors = new int[1][2];
 
         subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
@@ -335,25 +336,29 @@ public class MainActivity
         subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
         subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
 
+        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
+        subButton4Colors[0][0] = Util.getInstance().getPressedColor(subButton4Colors[0][1]);
+
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton1Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton4Colors[0], "About")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton1Colors[0], "Trips")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
-                .place(PlaceType.CIRCLE_3_1)
+                .place(PlaceType.CIRCLE_4_2)
                 //.subButtonTextColor(Color.BLACK)
                 .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
                 .onSubButtonClick(new BoomMenuButton.OnSubButtonClickListener() {
                     @Override
                     public void onClick(int buttonIndex) {
 
-                        Log.d(TAG, "button " + buttonIndex + " was clicked!");
+                        Log.d(TAG, "Button " + buttonIndex + " was clicked.");
 
                         switch (buttonIndex) {
                             case 0:
-                                LaunchPastTripsActivity();
+                                LaunchAboutCarActivity();
                                 break;
                             case 1:
                                 LaunchLocatorActivity();
@@ -361,8 +366,11 @@ public class MainActivity
                             case 2:
                                 LaunchHelpActivity();
                                 break;
+                            case 3:
+                                LaunchPastTripsActivity();
+                                break;
                             default:
-                                Log.d(TAG, "There has been an error involving the subbuttons.");
+                                Log.d(TAG, "There has been an error with the subbuttons.");
                                 break;
                         }
                     }
@@ -410,6 +418,30 @@ public class MainActivity
         startActivity(intent);
     }
 
+    //-----------About Car Activity-------------
+    public void LaunchAboutCarActivity() {
+        String METHOD = "testBtnClick";
+        Log.d(METHOD, "called");
+
+        if(this.commSocket == null){
+            showToast("Please Connect First!");
+            return;
+        }
+
+        //If not null, check if there is a connection
+        if(!this.commSocket.isConnected()){
+            showToast("OBD Not Connected!");
+            return;
+        }
+
+        showToast("Obtaining Vin...");
+        //Query for vin - 2nd arg is set to true
+        //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
+        OBDCommunicator obdConnection = new OBDCommunicator(this, true);
+        obdConnection.execute(this.commSocket);
+        //After the Vin is obtain a handleVin() function is called
+    }
+
     @Override
     public void showCarDataList(List<String> data){
         String METHOD = "showCarDataList";
@@ -420,7 +452,6 @@ public class MainActivity
             Log.d(METHOD, ele);
         }
     }
-
 
     //-----------------------UTILITY METHODS-----------------------
     //-----------After Connect has been Clicked-------------
@@ -496,5 +527,4 @@ public class MainActivity
         obdConnection.execute(this.commSocket);
         //After the Vin is obtain a handleVin() function is called
     }
-
 }
