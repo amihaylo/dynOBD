@@ -22,10 +22,6 @@ import java.util.Set;
 //Gauge import
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
-//Otta - Android Event Bus
-
-import com.squareup.otto.*;
-
 //Floating menu
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
@@ -55,9 +51,6 @@ public class MainActivity
     private TextView gaugeViewSpeed;
     private CustomGauge gaugeRPM;
     private TextView gaugeViewRPM;
-
-    //Otto - TEMP
-    private Bus bus;
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
@@ -103,9 +96,6 @@ public class MainActivity
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
 
-        //Init the bus
-        this.bus = new Bus(ThreadEnforcer.MAIN);
-        bus.register(this);
     }
 
     //-----------Update Gauges via Handler-------------
@@ -118,18 +108,11 @@ public class MainActivity
         gaugeViewRPM.setText(rpmInt + "RPM");
     }
 
-    //
-    @Subscribe
-    public void updateSpeedUI(Integer[] carData) {
-        //-----------Updating Gauges via Otto-------------
-        Integer speedInt = carData[0];
-        Integer rpmInt = carData[1];
-
-        gaugeSpeed.setValue(speedInt);
-        gaugeViewSpeed.setText(speedInt + "km/h");
-
-        gaugeRPM.setValue(rpmInt);
-        gaugeViewRPM.setText(rpmInt + "RPM");
+    //-----------Reset the Gauges via Handler-------------
+    @Override
+    public void resetGauges(){
+        //Reset the Gauges back to 0
+        this.updateGauges(0,0);
     }
 
     //-----------------------BLUETOOTH HELPERS-----------------------
@@ -302,7 +285,7 @@ public class MainActivity
             showToast("Starting communication stream...");
 
             //Start the OBD Communcation Stream
-            OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
+            OBDCommunicator obdConnection = new OBDCommunicator(this);
             obdConnection.execute(this.commSocket);
 
             //Hide/Show Buttons
@@ -477,8 +460,6 @@ public class MainActivity
 
         //Start communicating
         enableBluetooth();
-        //OBDCommunicator obdConnection = new OBDCommunicator(this, this.bus);
-        //obdConnection.execute(this.commSocket);
 
     }
 

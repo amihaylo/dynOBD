@@ -39,9 +39,6 @@ dependencies {
 
     //https://github.com/pkleczko/CustomGauge
     compile 'pl.pawelkleczkowski.customgauge:CustomGauge:1.0.3'
-
-    //http://square.github.io/otto/
-    compile 'com.squareup:otto:1.3.8'
     
     //https://github.com/Nightonke/BoomMenu
     compile 'com.nightonke:boommenu:1.0.9'

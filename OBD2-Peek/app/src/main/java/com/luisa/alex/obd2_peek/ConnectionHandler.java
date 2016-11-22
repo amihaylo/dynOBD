@@ -12,4 +12,5 @@ import java.util.List;
 public interface ConnectionHandler {
     void handleBTConnection(BluetoothSocket mmSocket);
     void updateGauges(Integer speedInt, Integer rpmInt);
+    void resetGauges();
 }

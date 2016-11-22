@@ -13,8 +13,6 @@ import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
-import com.squareup.otto.Bus;
-
 
 import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 
@@ -25,10 +23,8 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolean> {
     private BluetoothSocket mmSocket;
     private ConnectionHandler connHandler;
-    private Bus bus;
 
-    public OBDCommunicator(ConnectionHandler connHandler, Bus bus) {
-        this.bus = bus;
+    public OBDCommunicator(ConnectionHandler connHandler) {
         this.connHandler = connHandler;
     }
 
@@ -195,12 +191,12 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
     protected void onProgressUpdate(Integer[] carData) {
         //[0]=Speed [1]=RPM
         connHandler.updateGauges(carData[0], carData[1]);
-        //this.bus.post(carData); //TODO Uncomment to use OTTO
     }
 
 
     @Override
     protected void onPostExecute(Boolean bool) {
-        //TODO: set speed and rpm fields back to 0
+        //set speed and rpm fields back to 0
+        connHandler.resetGauges();
     }
 }
