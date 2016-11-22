@@ -13,4 +13,6 @@ public interface ConnectionHandler {
     void handleBTConnection(BluetoothSocket mmSocket);
     void updateGauges(Integer speedInt, Integer rpmInt);
     void resetGauges();
+    void handleVin(String vinNumber);
+    void showCarDataList(List<String> data);
 }
