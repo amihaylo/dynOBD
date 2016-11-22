@@ -44,7 +44,8 @@
 
         <activity
             android:name=".LocatorActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".AboutCarActivity"></activity>
     </application>
 
 </manifest>

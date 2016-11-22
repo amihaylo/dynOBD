@@ -443,14 +443,27 @@ public class MainActivity
     }
 
     @Override
-    public void showCarDataList(List<String> data){
+    public void showCarDataList(ArrayList<String> data){
         String METHOD = "showCarDataList";
+
+        //Check if there was an error in downloading the data from the site
+        if(data.isEmpty()){
+            showToast("Unable to Download Data!");
+            return;
+        }
+
         //TODO Launch the intent to display the car data
+        Intent intent = new Intent(this, AboutCarActivity.class);
+        intent.putStringArrayListExtra("carData", data);
+        startActivity(intent);
+
 
         //TEMP - log the data
+        /*
         for(String ele : data){
             Log.d(METHOD, ele);
         }
+        */
     }
 
     //-----------------------UTILITY METHODS-----------------------

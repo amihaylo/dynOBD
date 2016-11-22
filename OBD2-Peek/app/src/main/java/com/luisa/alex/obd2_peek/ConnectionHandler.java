@@ -14,5 +14,5 @@ public interface ConnectionHandler {
     void updateGauges(Integer speedInt, Integer rpmInt);
     void resetGauges();
     void handleVin(String vinNumber);
-    void showCarDataList(List<String> data);
+    void showCarDataList(ArrayList<String> data);
 }

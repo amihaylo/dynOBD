@@ -23,7 +23,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class vinDataDownloader extends AsyncTask<String, Integer, String> {
     private static final String VIN_BASE_URL = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/";
 
-    List<String> data;
+    ArrayList<String> data;
     ConnectionHandler listener;
 
     public vinDataDownloader(ConnectionHandler listener) {

@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.github.pires.obd.commands.control.VinCommand;
 import com.github.pires.obd.commands.protocol.CloseCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.commands.SpeedCommand;
@@ -58,6 +59,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         //Just for testing purposes
         String secretVinNumber = "KMHHxxxDx3Uxxxxxx";
 
+        //Query the OBD for the Vin Data ONLY
         while(this.mmSocket.isConnected()) {
 
             //We only query for specific data and then exit
@@ -107,6 +109,27 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
             new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] AmbientAirTemperatureCommand Initialized!");
 
             Log.d(TAG, "[ConnectBTAsync.doInBackground] Initialized OBD Device with configuration commands.");
+
+            //Check if Vin is being Queried - Query the OBD for the Vin Data ONLY
+            if(this.mmSocket.isConnected() && this.queryForVin) {
+                //We only query for specific data and then exit
+                //Declare the vin Command
+                VinCommand vinCommand = new VinCommand();
+                //Run it
+                vinCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
+                //Obtain the vin
+                String vinNumber = vinCommand.getFormattedResult();
+
+                //Save the vin
+                this.vinNumber = vinNumber;
+
+                //exit
+                return;
+            }
+
+            //Proceed with regular communication
+
+
             //Declare the commands
             SpeedCommand speedCommand = new SpeedCommand();
             RPMCommand rpmCommand = new RPMCommand();
