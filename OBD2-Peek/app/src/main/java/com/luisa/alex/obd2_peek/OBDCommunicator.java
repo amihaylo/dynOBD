@@ -15,6 +15,8 @@ import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 
+import java.util.Random;
+
 import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 
 /**
@@ -27,6 +29,15 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
     private Boolean queryForVin;
     private String vinNumber;
 
+    //Used in Simulation
+    final Integer MAX_SPEED = 200; //km/h
+    final Integer MAX_RPM = 6000;
+    final Integer SPEED_THRESHOLD = Math.round(new Float(MAX_SPEED * 0.1));
+    final Integer RPM_THRESHOLD = Math.round(new Float(MAX_RPM * 0.1));
+    Boolean accelerating = true;
+
+
+    //---------------CONSTRUCTOR--------------
     public OBDCommunicator(ConnectionHandler connHandler, Boolean queryForVin) {
         this.connHandler = connHandler;
 
@@ -38,6 +49,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         this.vinNumber = "";
     }
 
+    //---------------DO IN BACKGROUND--------------
     @Override
     protected Boolean doInBackground(BluetoothSocket... sockets) {
         Log.d(TAG, "OBDCommunicator.doInBackground called()");
@@ -51,13 +63,15 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         return true;
     }
 
+    //---------------TEST COMMUNICATION--------------
     private void testCommunication() {
         String METHOD = "testCommunication";
         //Log.d(METHOD, "called()");
         if(this.mmSocket == null){Log.d(METHOD, "mmsocket = null"); return;}
 
-        //Just for testing purposes
+        //SIMULATION DUMMY DATA
         String secretVinNumber = "KMHHxxxDx3Uxxxxxx";
+        Integer simDataStream[] = {0,0};
 
         //Query the OBD for the Vin Data ONLY
         while(this.mmSocket.isConnected()) {
@@ -88,14 +102,74 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                simulateData(simDataStream);
 
                 //Update the UI with the speed and rpm values
-                publishProgress(i * 2, i * 60);
+                //publishProgress(i * 2, i * 60);
+                publishProgress(simDataStream[0], simDataStream[1]);
             }
         }
 
     }
 
+    //---------------SIMULATE DATA--------------
+    //Simulates a stream of data including the speed and RPM
+    private void simulateData(Integer[] oldDataStream){
+        String METHOD = "simulateData";
+        //Log.d(METHOD, "called");
+
+        //Obtain the old data
+        Integer speed = oldDataStream[0];
+        Integer rpm = oldDataStream[1];
+
+        //Accelerate to roughly halfway
+        if(speed < MAX_SPEED/2 - SPEED_THRESHOLD) {
+            speed = (speed + 2) % MAX_SPEED;
+            rpm = (rpm + 70) % MAX_RPM;
+        }else{
+            //fluctuate the speed between the threshold
+            Random rand = new Random();
+            Boolean randBool = rand.nextBoolean();
+
+            //The random chance of increasing or decreasing the speed
+            int increaseChance = 1;
+            int decreaseChance = 1;
+            if(accelerating && (speed < (MAX_SPEED/2 + SPEED_THRESHOLD))){
+                //Log.d(METHOD, "Accelerating");
+                increaseChance = 2; //give advantage
+                decreaseChance = 1;
+            }else if(accelerating && (speed >= (MAX_SPEED/2 + SPEED_THRESHOLD))){
+                //Log.d(METHOD, "Setting accelerating = false");
+                accelerating = false;
+            }else if(!accelerating && (speed > (MAX_SPEED/2 - SPEED_THRESHOLD))){
+                //Log.d(METHOD, "Decelerating");
+                increaseChance = 1;
+                decreaseChance = 2; //give advantage
+            }else if(!accelerating && (speed <= (MAX_SPEED/2 - SPEED_THRESHOLD))){
+                //Log.d(METHOD, "Setting accelerating = true");
+                accelerating = true;
+            }else{
+                //Log.d(METHOD, "No conditions met!");
+            }
+
+            //Random increase or decrease the speed
+            if(randBool){
+                speed += rand.nextInt(increaseChance);
+                rpm  += rand.nextInt(increaseChance * 10);
+            }else{
+                speed -= rand.nextInt(decreaseChance);
+                rpm  -= rand.nextInt(decreaseChance * 10);
+            }
+        }
+
+
+        //Set the new speed
+        oldDataStream[0] = speed;
+        oldDataStream[1] = rpm;
+    }
+
+
+    //---------------OBD CAR COMMUNICATION--------------
     //Runs the OBD commands from doInBackground
     private void establishOBDComm() {
         String METHOD = "establishOBDComm";
@@ -244,12 +318,14 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         }
     }
 
+    //---------------ON PROGRESS UPDATE--------------
     protected void onProgressUpdate(Integer[] carData) {
         //[0]=Speed [1]=RPM
         connHandler.updateGauges(carData[0], carData[1]);
     }
 
 
+    //---------------ON POST EXECUTE--------------
     @Override
     protected void onPostExecute(Boolean bool) {
         String METHOD = "onPostExecute";

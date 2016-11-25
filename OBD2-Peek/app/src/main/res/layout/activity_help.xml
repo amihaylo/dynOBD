@@ -12,6 +12,7 @@
         android:text="@string/title_help_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         />
 
     <com.nightonke.boommenu.BoomMenuButton
