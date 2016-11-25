@@ -529,9 +529,14 @@ public class MainActivity
     }
 
     //-----------Save Trip Alert-------------
-    public void saveTripAlert(Trip trip){
+    public void saveTripAlert(final Trip tripMissingID){
+        //Takes in a Trip with a missing ID since it hasn't been added to the database
+
         final String METHOD = "saveTripAlert";
         //Log.d("saveTripAlert", "called");
+
+        //Obtain the database incase in the event that user wishes to save the trip
+        final TripDatabase tripDatabase = new TripDatabase(this);
 
         //Display an alert asking if the user wants to save the trip
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
@@ -543,12 +548,12 @@ public class MainActivity
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        //Log.d(METHOD, "Saving Trip!!");
+                        Log.d(METHOD, "Saving Trip!!");
                         sDialog.dismissWithAnimation();
+
+                        //Save the trip details in the database
+                        tripDatabase.addTrip(tripMissingID);
                         saveTripSuccessAlert();
-
-                        //TODO: Save the trip details in the database
-
                     }
                 })
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {

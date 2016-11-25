@@ -77,18 +77,18 @@ public class HelpActivity extends AppCompatActivity {
 
                         switch (buttonIndex) {
                             case 0:
-                                Log.d(TAG, "About was clicked");
+                                //Log.d(TAG, "About was clicked");
                                 setResult(MainActivity.ABOUT_REQ,resultIntent);
                                 break;
                             case 1:
-                                Log.d(TAG, "Locator was clicked");
+                                //Log.d(TAG, "Locator was clicked");
                                 setResult(MainActivity.LOCATION_REQ,resultIntent);
                                 break;
                             case 2:
-                                Log.d(TAG, "Home was clicked");
+                                //Log.d(TAG, "Home was clicked");
                                 break;
                             case 3:
-                                Log.d(TAG, "Past Trips was clicked");
+                                //Log.d(TAG, "Past Trips was clicked");
                                 setResult(MainActivity.TRIPS_REQ,resultIntent);
                                 break;
                             default:

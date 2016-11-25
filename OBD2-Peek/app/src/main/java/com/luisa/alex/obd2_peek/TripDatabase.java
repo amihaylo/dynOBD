@@ -71,6 +71,24 @@ public class TripDatabase extends SQLiteOpenHelper{
         return new Trip(id, date, duration, origin, destination, maxSpeed, maxRPM);
     }
 
+    //---------------ADD TRIP ---------------
+    public Trip addTrip(Trip tripMissingId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("date", tripMissingId.getDate());
+        values.put("duration", tripMissingId.getDuration());
+        values.put("origin", tripMissingId.getOrigin());
+        values.put("destination", tripMissingId.getDestination());
+        values.put("maxSpeed", tripMissingId.getMaxSpeed() + "");
+        values.put("maxRPM", tripMissingId.getMaxRPM() + "");
+
+
+        long id = db.insert(TABLE_NAME, null, values);
+        tripMissingId.setId(id); //add the id
+        return tripMissingId;
+    }
+
     //---------------DELETE TRIP ---------------
     public void deleteTrip(long id) {
         SQLiteDatabase db = this.getWritableDatabase();

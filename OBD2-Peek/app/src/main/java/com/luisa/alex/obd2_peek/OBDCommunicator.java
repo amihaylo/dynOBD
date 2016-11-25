@@ -340,12 +340,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
 
             //Trip has ended - prompt the user to save the trip data
-            Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
-            connHandler.saveTripAlert(currentTrip);
-
-
-            //TEMP
-            //tripDatabase.addTrip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
+            Trip tripMissingId = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
+            connHandler.saveTripAlert(tripMissingId);
         }
     }
 }
