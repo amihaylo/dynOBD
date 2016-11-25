@@ -416,7 +416,7 @@ public class MainActivity
 
     //-----------Past Trip Activity-------------
     private void LaunchPastTripsActivity() {
-        Intent intent = new Intent(MainActivity.this, DetailedStatsActivity.class);
+        Intent intent = new Intent(MainActivity.this, PastTripsActivity.class);
         startActivity(intent);
     }
 

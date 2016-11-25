@@ -8,6 +8,13 @@
     android:layout_height="fill_parent"
     tools:context="com.luisa.alex.obd2_peek.PastTripsActivity">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Past Trips"
+        android:textSize="24sp" />
+
     <com.nightonke.boommenu.BoomMenuButton
         android:id="@+id/boom"
         android:layout_width="wrap_content"

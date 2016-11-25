@@ -1,0 +1,104 @@
+package com.luisa.alex.obd2_peek;
+
+import android.location.Address;
+
+import java.util.Date;
+
+/**
+ * Created by alex on 2016-11-24.
+ */
+
+public class Trip {
+    //General Stats about the trip
+    private Long id;
+
+    private String date;
+    private Long duration;
+    private String origin;
+    private String destination;
+
+    //OBD Specific stats about the trip
+    private Integer maxSpeed;
+    private Integer maxRPM;
+
+
+
+    public Trip(Long id, String date, Long duration, String origin, String destination, Integer maxSpeed, Integer maxRPM) {
+        this.id = id;
+        this.date = date;
+        this.duration = duration;
+        this.origin = origin;
+        this.destination = destination;
+        this.maxSpeed = maxSpeed;
+        this.maxRPM = maxRPM;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public Integer getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(Integer maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public Integer getMaxRPM() {
+        return maxRPM;
+    }
+
+    public void setMaxRPM(Integer maxRPM) {
+        this.maxRPM = maxRPM;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", duration=" + duration +
+                ", origin='" + origin + '\'' +
+                ", destination='" + destination + '\'' +
+                ", maxSpeed=" + maxSpeed +
+                ", maxRPM=" + maxRPM +
+                '}';
+    }
+}

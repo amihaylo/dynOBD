@@ -74,7 +74,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
                 return;
             }
 
-            //Not querying for vin
+            //Not querying for vin - Run actual data communication
             for (int i = 0; i <= 100; i++) {
 
                 //Disconnect immediately after user hits disconnect
