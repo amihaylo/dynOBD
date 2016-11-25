@@ -327,7 +327,7 @@ public class MainActivity
         int[][] subButton3Colors = new int[1][2];
         int[][] subButton4Colors = new int[1][2];
 
-        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
+        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
         subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
@@ -336,15 +336,15 @@ public class MainActivity
         subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
         subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
 
-        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
+        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
         subButton4Colors[0][0] = Util.getInstance().getPressedColor(subButton4Colors[0][1]);
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton4Colors[0], "About")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton1Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], "Trips")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
                 .place(PlaceType.CIRCLE_4_2)

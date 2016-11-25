@@ -43,24 +43,24 @@ public class HelpActivity extends AppCompatActivity {
         int[][] subButton3Colors = new int[1][2];
         int[][] subButton4Colors = new int[1][2];
 
-        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
+        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
-        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
+        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
         subButton2Colors[0][0] = Util.getInstance().getPressedColor(subButton2Colors[0][1]);
 
-        subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
+        subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
         subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
 
-        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
+        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
         subButton4Colors[0][0] = Util.getInstance().getPressedColor(subButton4Colors[0][1]);
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton1Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton4Colors[0], "Locator")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton3Colors[0], "About")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton2Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton3Colors[0], "Home")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], "Trips")
 
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
@@ -73,19 +73,16 @@ public class HelpActivity extends AppCompatActivity {
 
                         switch (buttonIndex) {
                             case 0:
-                                finish();
-                                //Log.d(TAG, "Home was clicked");
-                                //break;
+                                Log.d(TAG, "About was clicked");
+                                break;
                             case 1:
-                                //LaunchHelpActivity();
                                 Log.d(TAG, "Locator was clicked");
                                 break;
                             case 2:
-                                //LaunchAboutCarActivity();
-                                Log.d(TAG, "About was clicked");
+                                Log.d(TAG, "Home was clicked");
+                                finish();
                                 break;
                             case 3:
-                                //LaunchLocatorActivity();
                                 Log.d(TAG, "Past Trips was clicked");
                                 break;
                             default:

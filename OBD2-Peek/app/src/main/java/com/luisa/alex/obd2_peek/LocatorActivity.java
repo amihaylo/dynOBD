@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -90,6 +91,10 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         marker.position(position);
         marker.title("Marker!");
         mMap.addMarker(marker);
+
+        //Zoom in with the camera
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(7);
+        mMap.animateCamera(zoom);
 
         //TODO ADD ALL THE ADDRESS INFO TO THE MARKER
 
@@ -291,24 +296,24 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         int[][] subButton3Colors = new int[1][2];
         int[][] subButton4Colors = new int[1][2];
 
-        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
+        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
-        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
+        subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
         subButton2Colors[0][0] = Util.getInstance().getPressedColor(subButton2Colors[0][1]);
 
         subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
         subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
 
-        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
+        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_deep_purple_400);
         subButton4Colors[0][0] = Util.getInstance().getPressedColor(subButton4Colors[0][1]);
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton1Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton4Colors[0], "About")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton2Colors[0], "Home")
                 .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton2Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], "Trips")
 
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
@@ -321,19 +326,16 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
 
                         switch (buttonIndex) {
                             case 0:
-                                finish();
-                                Log.d(TAG, "Home was clicked");
-                                break;
-                            case 1:
-                                //LaunchAboutCarActivity();
                                 Log.d(TAG, "About was clicked");
                                 break;
+                            case 1:
+                                Log.d(TAG, "Home was clicked");
+                                finish();
+                                break;
                             case 2:
-                                //LaunchHelpActivity();
                                 Log.d(TAG, "Help was clicked");
                                 break;
                             case 3:
-                                //LaunchPastTripsActivity();
                                 Log.d(TAG, "Trips was clicked");
                                 break;
                             default:

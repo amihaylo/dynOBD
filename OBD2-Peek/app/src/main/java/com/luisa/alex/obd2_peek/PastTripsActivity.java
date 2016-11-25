@@ -89,7 +89,7 @@ public class PastTripsActivity extends AppCompatActivity {
         int[][] subButton3Colors = new int[1][2];
         int[][] subButton4Colors = new int[1][2];
 
-        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
+        subButton1Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400); //
         subButton1Colors[0][0] = Util.getInstance().getPressedColor(subButton1Colors[0][1]);
 
         subButton2Colors[0][1] = ContextCompat.getColor(this, R.color.md_green_400);
@@ -98,15 +98,15 @@ public class PastTripsActivity extends AppCompatActivity {
         subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_amber_600);
         subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
 
-        subButton3Colors[0][1] = ContextCompat.getColor(this, R.color.md_red_400);
-        subButton3Colors[0][0] = Util.getInstance().getPressedColor(subButton3Colors[0][1]);
+        subButton4Colors[0][1] = ContextCompat.getColor(this, R.color.md_light_blue_600);
+        subButton4Colors[0][0] = Util.getInstance().getPressedColor(subButton4Colors[0][1]);
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton3Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton1Colors[0], "Locator")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton2Colors[0], "Help")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton4Colors[0], "About")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton4Colors[0], "Home")
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
                 .place(PlaceType.CIRCLE_4_2)
@@ -118,20 +118,17 @@ public class PastTripsActivity extends AppCompatActivity {
 
                         switch (buttonIndex) {
                             case 0:
-                                finish();
-                                Log.d(TAG, "Home was clicked");
+                                Log.d(TAG, "About was clicked");
                                 break;
                             case 1:
-                                //LaunchLocatorActivity();
                                 Log.d(TAG, "Locator was clicked");
                                 break;
                             case 2:
-                                //LaunchHelpActivity();
                                 Log.d(TAG, "Help was clicked");
                                 break;
                             case 3:
-                                //LaunchAboutCarActivity();
-                                Log.d(TAG, "About was clicked");
+                                Log.d(TAG, "Home was clicked");
+                                finish();
                                 break;
                             default:
                                 Log.d(TAG, "There has been an error involving the subbuttons.");

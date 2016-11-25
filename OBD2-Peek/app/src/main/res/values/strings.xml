@@ -23,5 +23,8 @@
     <string name="lbl_trip_destination">Destination:</string>
     <string name="lbl_trip_maxSpeed">Max Speed:</string>
     <string name="lbl_trip_maxRPM">Max RPM:</string>
+    <string name="title_pastTrips">Past Trips</string>
+    <string name="title_past_trips">Past Trips</string>
+    <string name="title_about_your_car">About your Car</string>
 
 </resources>

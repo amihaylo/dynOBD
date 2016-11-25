@@ -91,15 +91,12 @@ public class AboutCarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int buttonIndex) {
 
-                        Log.d(TAG, "Button " + buttonIndex + " was clicked.");
-
                         switch (buttonIndex) {
                             case 0:
-                                finish();
                                 Log.d(TAG, "Home was clicked");
+                                finish();
                                 break;
                             case 1:
-                                //LaunchLocatorActivity();
                                 Log.d(TAG, "Locator was clicked");
                                 break;
                             case 2:
