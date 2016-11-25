@@ -41,6 +41,13 @@ public class MainActivity
     //-----------Member-------------
     //BLUETOOTH MEMBERS
     public static final int REQUEST_ENABLE_BT = 8100;
+
+    //Code for all the activities
+    public static final int ABOUT_REQ = 0001;
+    public static final int LOCATION_REQ = 0002;
+    public static final int HELP_REQ = 0003;
+    public static final int TRIPS_REQ = 0004;
+
     public ConnectBTAsync connBTAsync = null;
     public BluetoothSocket commSocket;
 
@@ -264,6 +271,14 @@ public class MainActivity
             //Connect to a paired bluetooth device
             connectToPairedDevice();
         }
+        switch(responseCode){
+            case ABOUT_REQ: {LaunchAboutCarActivity();} break;
+            case LOCATION_REQ: {LaunchLocatorActivity();} break;
+            case HELP_REQ: {LaunchHelpActivity();} break;
+            case TRIPS_REQ: {LaunchPastTripsActivity();} break;
+            default: Log.d(TAG, "No response Code Given");
+        }
+
     }
 
     //-----------------------BUTTON CLICKS-----------------------
@@ -402,24 +417,6 @@ public class MainActivity
     }
 
     //-----------------------ACTIVITY LAUNCHERS-----------------------
-    //-----------Help Activity-------------
-    private void LaunchHelpActivity() {
-        Intent intent = new Intent(MainActivity.this, HelpActivity.class);
-        startActivity(intent);
-    }
-
-    //-----------Locator Activity-------------
-    private void LaunchLocatorActivity() {
-        Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
-        startActivity(intent);
-    }
-
-    //-----------Past Trip Activity-------------
-    private void LaunchPastTripsActivity() {
-        Intent intent = new Intent(MainActivity.this, PastTripsActivity.class);
-        startActivity(intent);
-    }
-
     //-----------About Car Activity-------------
     public void LaunchAboutCarActivity() {
         String METHOD = "testBtnClick";
@@ -445,6 +442,24 @@ public class MainActivity
         //After the Vin is obtain a handleVin() function is called
     }
 
+    //-----------Locator Activity-------------
+    private void LaunchLocatorActivity() {
+        Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
+        startActivityForResult(intent, LOCATION_REQ);
+    }
+
+    //-----------Help Activity-------------
+    private void LaunchHelpActivity() {
+        Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+        startActivityForResult(intent, HELP_REQ);
+    }
+
+    //-----------Past Trip Activity-------------
+    private void LaunchPastTripsActivity() {
+        Intent intent = new Intent(MainActivity.this, PastTripsActivity.class);
+        startActivityForResult(intent, TRIPS_REQ);
+    }
+
     @Override
     public void showCarDataList(ArrayList<String> data){
         String METHOD = "showCarDataList";
@@ -455,11 +470,10 @@ public class MainActivity
             return;
         }
 
-        //TODO Launch the intent to display the car data
+        //Launch the intent to display the car data
         Intent intent = new Intent(this, AboutCarActivity.class);
         intent.putStringArrayListExtra("carData", data);
-        startActivity(intent);
-
+        startActivityForResult(intent, ABOUT_REQ);
 
         //TEMP - log the data
         /*

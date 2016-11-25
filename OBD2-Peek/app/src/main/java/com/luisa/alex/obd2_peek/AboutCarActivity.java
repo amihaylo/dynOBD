@@ -91,24 +91,30 @@ public class AboutCarActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int buttonIndex) {
 
+                        //Prepare the intent to be returned to main
+                        Intent resultIntent = new Intent();
+
                         switch (buttonIndex) {
                             case 0:
                                 Log.d(TAG, "Home was clicked");
-                                finish();
                                 break;
                             case 1:
                                 Log.d(TAG, "Locator was clicked");
+                                setResult(MainActivity.LOCATION_REQ,resultIntent);
                                 break;
                             case 2:
                                 Log.d(TAG, "Help was clicked");
+                                setResult(MainActivity.HELP_REQ,resultIntent);
                                 break;
                             case 3:
                                 Log.d(TAG, "Trips was clicked");
+                                setResult(MainActivity.TRIPS_REQ,resultIntent);
                                 break;
                             default:
                                 Log.d(TAG, "There has been an error involving the subbuttons.");
                                 break;
                         }
+                        finish();
                     }
                 })
                 .init(boomMenuButton);
