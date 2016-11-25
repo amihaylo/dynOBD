@@ -68,7 +68,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
                 String vinNumber = secretVinNumber;
 
                 //Save the vin
-                this.vinNumber = vinNumber;
+                this.vinNumber = vinNumber.trim();
 
                 //exit
                 return;
@@ -98,7 +98,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     //Runs the OBD commands from doInBackground
     private void establishOBDComm() {
-        Log.d("establishOBDComm", "called()");
+        String METHOD = "establishOBDComm";
+        Log.d(METHOD, "called");
         try {
             Log.d(TAG, "[OBDCommunicator.doInBackground] Initializing OBD...");
             //init the OBD Device with the following configuration commands
@@ -106,7 +107,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
             new LineFeedOffCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] LineFeedOffCommand Initialized!");
             new TimeoutCommand(125).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] TimeoutCommand Initialized!");
             new SelectProtocolCommand(ObdProtocols.AUTO).run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] SelectProtocolCommand Initialized!");
-            new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] AmbientAirTemperatureCommand Initialized!");
+            //new AmbientAirTemperatureCommand().run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream()); Log.d(TAG, "[ConnectBTAsync.doInBackground] AmbientAirTemperatureCommand Initialized!");
 
             Log.d(TAG, "[ConnectBTAsync.doInBackground] Initialized OBD Device with configuration commands.");
 
@@ -121,7 +122,11 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
                 String vinNumber = vinCommand.getFormattedResult();
 
                 //Save the vin
-                this.vinNumber = vinNumber;
+                //Truncate to the first 17 since there is a weird 18th character
+                this.vinNumber = vinNumber.substring(0, 17);
+                Log.d(METHOD, "Obtained vin = |" + vinNumber + "| of size " + this.vinNumber.length());
+                //Log.d(METHOD, vinNumber);
+                //Log.d(METHOD, vinCommand.getCalculatedResult());
 
                 //exit
                 return;

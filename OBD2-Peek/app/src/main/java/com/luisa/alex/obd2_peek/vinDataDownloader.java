@@ -38,6 +38,7 @@ public class vinDataDownloader extends AsyncTask<String, Integer, String> {
 
         try {
             String fullUrlStr = VIN_BASE_URL + vin[0];
+            //fullUrlStr = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/KMHHxxxDx3Uxxxxxx"; //TEMP
 
             URL url = new URL(fullUrlStr);
             Log.d(METHOD, "Vin = "  + url.toString());

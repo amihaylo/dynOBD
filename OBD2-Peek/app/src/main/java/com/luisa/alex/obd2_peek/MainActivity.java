@@ -387,12 +387,14 @@ public class MainActivity
         //Check if Vin was not found
         if(vinNumber.isEmpty()){
             showToast("Unable to Obtain Vin!");
+
             return;
         }
 
         //Vin was found
         //Log.d(METHOD, "Vin = " + vinNumber);
-        showToast("Got Vin! Getting Data...");
+        //showToast("Got Vin! Getting Data...");
+        Log.d(METHOD, "Got Vin! Getting Data...");
 
         //Start downloading the car data from the internet
         vinDataDownloader vinDataDownloader = new vinDataDownloader(this);
@@ -434,7 +436,8 @@ public class MainActivity
             return;
         }
 
-        showToast("Obtaining Vin...");
+        Log.d(METHOD, "Obtaining Vin...");
+        showToast("Loading...");
         //Query for vin - 2nd arg is set to true
         //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
         OBDCommunicator obdConnection = new OBDCommunicator(this, true);
