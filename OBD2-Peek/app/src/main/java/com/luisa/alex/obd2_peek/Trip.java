@@ -22,6 +22,15 @@ public class Trip {
     private Integer maxRPM;
 
 
+    public Trip(String date, Long duration, String origin, String destination, Integer maxSpeed, Integer maxRPM) {
+        this.id = new Long(-1); //this is just a placeholder until the real id from the database can be obtained
+        this.date = date;
+        this.duration = duration;
+        this.origin = origin;
+        this.destination = destination;
+        this.maxSpeed = maxSpeed;
+        this.maxRPM = maxRPM;
+    }
 
     public Trip(Long id, String date, Long duration, String origin, String destination, Integer maxSpeed, Integer maxRPM) {
         this.id = id;

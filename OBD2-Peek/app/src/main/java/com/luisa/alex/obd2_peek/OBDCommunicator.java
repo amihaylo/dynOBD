@@ -15,6 +15,7 @@ import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 
+import java.util.Date;
 import java.util.Random;
 
 import static com.luisa.alex.obd2_peek.MainActivity.TAG;
@@ -76,6 +77,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         //Query the OBD for the Vin Data ONLY
         while(this.mmSocket.isConnected()) {
 
+            //-----------VIN QUERY----------
             //We only query for specific data and then exit
             if(this.queryForVin){
                 //Obtain the vin
@@ -89,27 +91,26 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
             }
 
             //Not querying for vin - Run actual data communication
-            for (int i = 0; i <= 100; i++) {
 
-                //Disconnect immediately after user hits disconnect
-                if(!this.mmSocket.isConnected()){
-                    break;
-                }
-
-                try {
-                    //Log.d("testCommunication", "i = " + i);
-                    Thread.sleep(50);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                simulateData(simDataStream);
-
-                //Update the UI with the speed and rpm values
-                //publishProgress(i * 2, i * 60);
-                publishProgress(simDataStream[0], simDataStream[1]);
+            //-----------ACTUAL COMMUNICATION----------
+            //Disconnect immediately after user hits disconnect
+            if(!this.mmSocket.isConnected()){
+                break;
             }
-        }
 
+            try {
+                //Log.d("testCommunication", "i = " + i);
+                Thread.sleep(50);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            simulateData(simDataStream);
+
+            //Update the UI with the speed and rpm values
+            //publishProgress(i * 2, i * 60);
+            publishProgress(simDataStream[0], simDataStream[1]);
+        }
+        Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
     }
 
     //---------------SIMULATE DATA--------------
@@ -327,7 +328,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     //---------------ON POST EXECUTE--------------
     @Override
-    protected void onPostExecute(Boolean bool) {
+    protected void onPostExecute(Boolean temp) {
         String METHOD = "onPostExecute";
         if(this.queryForVin){
             //Send the vin back to the user
@@ -335,6 +336,16 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
         }else{
             //set speed and rpm fields back to 0
             connHandler.resetGauges();
+
+
+
+            //Trip has ended - prompt the user to save the trip data
+            Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
+            connHandler.saveTripAlert(currentTrip);
+
+
+            //TEMP
+            //tripDatabase.addTrip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
         }
     }
 }

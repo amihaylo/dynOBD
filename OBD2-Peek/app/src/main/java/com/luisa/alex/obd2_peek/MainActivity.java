@@ -17,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 //Gauge import
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 //Floating menu
@@ -512,6 +514,7 @@ public class MainActivity
         endTripButton.setVisibility(View.VISIBLE);
     }
 
+    //-----------After End Trip has been Clicked-------------
     private void afterEndTripDisplay() {
         //Hide the End Trip
         //Show the Connect Button
@@ -525,6 +528,66 @@ public class MainActivity
         connButton.setVisibility(View.VISIBLE);
     }
 
+    //-----------Save Trip Alert-------------
+    public void saveTripAlert(Trip trip){
+        final String METHOD = "saveTripAlert";
+        //Log.d("saveTripAlert", "called");
+
+        //Display an alert asking if the user wants to save the trip
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Save the Trip?")
+                .setContentText("Can't recover data if NO clicked")
+                .setConfirmText("YES Save trip")
+                .setCancelText("NO Discard it")
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        //Log.d(METHOD, "Saving Trip!!");
+                        sDialog.dismissWithAnimation();
+                        saveTripSuccessAlert();
+
+                        //TODO: Save the trip details in the database
+
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        //Log.d(METHOD, "cancelled!");
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    public void saveTripSuccessAlert(){
+        final String METHOD = "saveTripSuccessAlert";
+
+        //Display an alert asking if the user wants to save the trip
+        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Your trip has been saved!")
+                .setContentText("You can view details later under Trips")
+                .setConfirmText("Show Details!")
+                .setCancelText("Go Home")
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        //Log.d(METHOD, "Showing details...!");
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        //Log.d(METHOD, "Home screen!!");
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+
 
     //-----------Show a Toast-------------
     public static void showToast(String message) {
@@ -536,27 +599,7 @@ public class MainActivity
     //-----------------------DEBUGGING/TESTING-----------------------
     //-----------Test Button-------------
     public void testBtnClick(View view) {
-        /*
-        String METHOD = "testBtnClick";
-        Log.d(METHOD, "called");
-
-        if(this.commSocket == null){
-            showToast("Please Connect First!");
-            return;
-        }
-
-        //If not null, check if there is a connection
-        if(!this.commSocket.isConnected()){
-            showToast("OBD Not Connected!");
-            return;
-        }
-
-        showToast("Obtaining Vin...");
-        //Query for vin - 2nd arg is set to true
-        //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
-        OBDCommunicator obdConnection = new OBDCommunicator(this, true);
-        obdConnection.execute(this.commSocket);
-        //After the Vin is obtain a handleVin() function is called
-        */
+        Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
+        saveTripAlert(currentTrip);
     }
 }

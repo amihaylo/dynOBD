@@ -15,4 +15,5 @@ public interface ConnectionHandler {
     void resetGauges();
     void handleVin(String vinNumber);
     void showCarDataList(ArrayList<String> data);
+    void saveTripAlert(Trip trip);
 }
