@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
@@ -11,6 +12,7 @@ import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,7 +30,17 @@ public class PastTripsActivity extends AppCompatActivity {
 
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
 
-        testDatabase();
+        //testDatabase();
+
+        //Get the Trips from the dataset
+        ArrayList<Trip> trips = loadTripsDB();
+        showTrips(trips);
+    }
+
+    private ArrayList<Trip> loadTripsDB(){
+        TripDatabase tripDatabase = new TripDatabase(this);
+
+        return tripDatabase.getAllTrips();
     }
 
     private void testDatabase() {
@@ -52,6 +64,13 @@ public class PastTripsActivity extends AppCompatActivity {
         for(Trip trip : trips){
             System.out.println(trip);
         }
+
+        showTrips(trips);
+    }
+
+    public void showTrips(ArrayList<Trip> trips){
+        ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
+        listView.setAdapter(new tripArrayAdapter(this, trips));
     }
 
     @Override

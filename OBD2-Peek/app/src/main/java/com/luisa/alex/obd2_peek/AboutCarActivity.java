@@ -43,7 +43,7 @@ public class AboutCarActivity extends AppCompatActivity {
 
         //Display the information to the user
         ListView listView = (ListView)findViewById(R.id.list_view_vin_data);
-        listView.setAdapter(new DisplayArrayAdapter(this, data));
+        listView.setAdapter(new vinArrayAdapter(this, data));
 
     }
 

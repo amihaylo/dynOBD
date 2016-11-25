@@ -27,6 +27,7 @@
 * [OBD Sim](http://icculus.org/obdgpslogger/obdsim.html)
 * [OBD + GPS application](http://icculus.org/obdgpslogger/)
 * [RxJava Github](https://github.com/ReactiveX/RxJava)
+* [Awesome Android UI](https://github.com/wasabeef/awesome-android-ui)
 
 
 ##Problems/Fixes

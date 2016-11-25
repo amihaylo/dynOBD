@@ -9,11 +9,23 @@
     tools:context="com.luisa.alex.obd2_peek.PastTripsActivity">
 
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Past Trips"
-        android:textSize="24sp" />
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Past Trips"
+            android:textSize="24sp" />
+
+        <ListView
+            android:id="@+id/listView_pastTrips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <com.nightonke.boommenu.BoomMenuButton
         android:id="@+id/boom"

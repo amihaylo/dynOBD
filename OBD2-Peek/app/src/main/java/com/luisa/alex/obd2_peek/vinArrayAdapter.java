@@ -15,12 +15,12 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class DisplayArrayAdapter extends BaseAdapter {
+public class vinArrayAdapter extends BaseAdapter {
 
     private Context context = null;
     private List<String> data = null;
 
-    public DisplayArrayAdapter(Context context, List<String> data) {
+    public vinArrayAdapter(Context context, List<String> data) {
         this.context = context;
         this.data = data;
     }

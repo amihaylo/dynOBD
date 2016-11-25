@@ -16,5 +16,12 @@
 
     <!-- TEST BUTTONS -->
     <string name="btn_TEST_test">Tst</string>
+    <string name="lbl_trip_id">Trip #</string>
+    <string name="lbl_trip_date">Date:</string>
+    <string name="lbl_trip_duration">Duration:</string>
+    <string name="lbl_trip_origin">Origin:</string>
+    <string name="lbl_trip_destination">Destination:</string>
+    <string name="lbl_trip_maxSpeed">Max Speed:</string>
+    <string name="lbl_trip_maxRPM">Max RPM:</string>
 
 </resources>
