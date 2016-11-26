@@ -46,6 +46,7 @@ public class DetailedStatsActivity extends AppCompatActivity {
 
     public void getIntentExtras() {
         Intent intent = getIntent();
+
         String date = intent.getStringExtra("date");
         long duration = intent.getLongExtra("duration", -1);
         String origin = intent.getStringExtra("origin");

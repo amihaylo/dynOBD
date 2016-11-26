@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.nightonke.boommenu.BoomMenuButton;
@@ -17,33 +19,37 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class PastTripsActivity extends AppCompatActivity {
+public class PastTripsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private final static String TAG = "PastTripsActivity";
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
+    private TripDatabase tripDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_trips);
-
+        tripDatabase = new TripDatabase(this);
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
 
         //testDatabase();
 
         //Get the Trips from the dataset
-        ArrayList<Trip> trips = loadTripsDB();
+        ArrayList<Trip> trips = tripDatabase.getAllTrips();
         showTrips(trips);
     }
 
+    /*
     private ArrayList<Trip> loadTripsDB(){
         TripDatabase tripDatabase = new TripDatabase(this);
 
         return tripDatabase.getAllTrips();
     }
+    */
 
+    /*
     private void testDatabase() {
         String METHOD = "testDatabase";
         Log.d(METHOD, "called");
@@ -68,10 +74,12 @@ public class PastTripsActivity extends AppCompatActivity {
 
         showTrips(trips);
     }
+    */
 
     public void showTrips(ArrayList<Trip> trips){
         ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
         listView.setAdapter(new tripArrayAdapter(this, trips));
+        listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -144,5 +152,26 @@ public class PastTripsActivity extends AppCompatActivity {
                     }
                 })
                 .init(boomMenuButton);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Log.i(TAG, "Clicked element  " + id + " at position " + position);
+
+        ArrayList<Trip> allTrips = tripDatabase.getAllTrips();
+        Trip tripClicked = allTrips.get(position);
+
+        Intent intent = new Intent();
+        intent.setClass(PastTripsActivity.this, DetailedStatsActivity.class);
+
+        intent.putExtra("date", tripClicked.getDate());
+        intent.putExtra("duration", tripClicked.getDuration());
+        intent.putExtra("origin", tripClicked.getOrigin());
+        intent.putExtra("destination", tripClicked.getDestination());
+        intent.putExtra("maxSpeed", tripClicked.getMaxSpeed());
+        intent.putExtra("maxRPM", tripClicked.getMaxRPM());
+
+        startActivity(intent);
     }
 }
