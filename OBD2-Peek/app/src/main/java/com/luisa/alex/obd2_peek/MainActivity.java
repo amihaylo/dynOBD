@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,7 @@ public class MainActivity
     public static final int LOCATION_REQ = 2;
     public static final int HELP_REQ = 3;
     public static final int TRIPS_REQ = 4;
+    private static final int PERMISSIONS_REQ_CODE = 1001;
 
     public ConnectBTAsync connBTAsync = null;
     public BluetoothSocket commSocket;
@@ -64,6 +66,7 @@ public class MainActivity
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
+    private Boolean isLocationEnabled = false;
 
     //****************************METHODS******************************
 
@@ -74,8 +77,8 @@ public class MainActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Load UI elements into member variables
-        initUIElements();
+        //Initialize Location Permissions and other things
+        initApp();
 
         //TEMP - Delete database at start of app, TODO: Get rid of this after
         TripDatabase tripDatabase = new TripDatabase(this);
@@ -92,6 +95,14 @@ public class MainActivity
             connBTAsync.closeSocket();
         }
         super.onDestroy();
+    }
+
+    protected void initApp() {
+        //Check if user has allowed the app to use location Permissions
+        requestLocationPermissions();
+
+        //Load UI elements into member variables
+        initUIElements();
     }
 
     //-----------------------UI ELEMENT HELPERS-----------------------
@@ -422,6 +433,39 @@ public class MainActivity
         vinDataDownloader.execute(vinNumber);
     }
 
+    //-----------------------LOCATION PERMISSIONS-----------------------
+
+    private void requestLocationPermissions() {
+        String TAG = "reqLocationPermissions";
+        //Get permission from the user to use the location services
+        if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            //The permissions has not been granted, must ask the user for it
+            if(shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)){
+                //Explain to user why this is needed
+                //showToast("Need to enable location please!");
+            }
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQ_CODE);
+            return;
+        }else{
+            Log.d(TAG, "Permissions OK");
+            isLocationEnabled = true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQ_CODE: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    isLocationEnabled = true;
+                } else {
+                    // tell the user that the feature will not work
+                }
+                return;
+            }
+        }
+    }
+
     //-----------------------ACTIVITY LAUNCHERS-----------------------
     //-----------About Car Activity-------------
     public void LaunchAboutCarActivity() {
@@ -450,8 +494,33 @@ public class MainActivity
 
     //-----------Locator Activity-------------
     private void LaunchLocatorActivity() {
-        Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
-        startActivityForResult(intent, LOCATION_REQ);
+        if(this.isLocationEnabled){
+            Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
+            startActivityForResult(intent, LOCATION_REQ);
+        }else{
+            //Display an alert asking if the user wants to save the trip
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Oops! We can't do that")
+                    .setContentText("Location Permissions have not been granted yet")
+                    .setConfirmText("Allow")
+                    .setCancelText("Ok")
+                    .showCancelButton(true)
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            requestLocationPermissions();
+                        }
+                    })
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            //Log.d(METHOD, "cancelled!");
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
+        }
     }
 
     //-----------Help Activity-------------

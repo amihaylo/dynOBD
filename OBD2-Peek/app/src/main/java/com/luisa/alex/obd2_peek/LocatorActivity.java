@@ -67,7 +67,9 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
 
         //Get permission from the user
-        requestLocationPermissions();
+        //requestLocationPermissions();
+
+        initApp();
     }
 
     private void initApp() {
@@ -138,36 +140,7 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
 
 
 
-    private void requestLocationPermissions() {
-        String TAG = "reqLocationPermissions";
-        //Get permission from the user to use the location services
-        if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            //The permissions has not been granted, must ask the user for it
-            if(shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)){
-                //Explain to use why this is needed
-                //showToast("Need to enable location please!");
-            }
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQ_CODE);
-            return;
-        }else{
-            Log.d(TAG, "Permissions OK");
-            initApp();
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQ_CODE: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initApp();
-                } else {
-                    // tell the user that the feature will not work
-                }
-                return;
-            }
-        }
-    }
 
     private void showToast(String message) {
         (Toast.makeText(this, message, Toast.LENGTH_LONG)).show();
