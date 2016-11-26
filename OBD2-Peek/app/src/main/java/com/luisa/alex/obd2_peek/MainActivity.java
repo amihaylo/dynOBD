@@ -77,7 +77,9 @@ public class MainActivity
         //Load UI elements into member variables
         initUIElements();
 
-        boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
+        //TEMP - Delete database at start of app, TODO: Get rid of this after
+        TripDatabase tripDatabase = new TripDatabase(this);
+        tripDatabase.deleteAllTrips();
     }
 
     //-----------on Destroy-------------
@@ -106,6 +108,8 @@ public class MainActivity
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
 
+        //Init the menu
+        boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
     }
 
     //-----------Update Gauges via Handler-------------

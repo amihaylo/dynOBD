@@ -24,7 +24,7 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
  * Created by alex on 2016-10-22.
  */
 
-public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolean> {
+public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> {
     private BluetoothSocket mmSocket;
     private ConnectionHandler connHandler;
     private Boolean queryForVin;
@@ -52,52 +52,54 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     //---------------DO IN BACKGROUND--------------
     @Override
-    protected Boolean doInBackground(BluetoothSocket... sockets) {
+    protected Trip doInBackground(BluetoothSocket... sockets) {
         Log.d(TAG, "OBDCommunicator.doInBackground called()");
         //Obtain the socket
         this.mmSocket = sockets[0];
 
         //The communication
         //establishOBDComm();
-        testCommunication();
+        Trip tripMissingId = testCommunication();
 
-        return true;
+        return tripMissingId;
     }
 
     //---------------TEST COMMUNICATION--------------
-    private void testCommunication() {
+    private Trip testCommunication() {
         String METHOD = "testCommunication";
         //Log.d(METHOD, "called()");
-        if(this.mmSocket == null){Log.d(METHOD, "mmsocket = null"); return;}
+        if(this.mmSocket == null){Log.d(METHOD, "mmsocket = null"); return null;}
 
         //SIMULATION DUMMY DATA
         String secretVinNumber = "KMHHxxxDx3Uxxxxxx";
         Integer simDataStream[] = {0,0};
 
         //Query the OBD for the Vin Data ONLY
-        while(this.mmSocket.isConnected()) {
+        //-----------VIN QUERY----------
+        //We only query for specific data and then exit
+        if(this.mmSocket.isConnected() && this.queryForVin){
+            //Obtain the vin
+            String vinNumber = secretVinNumber;
 
-            //-----------VIN QUERY----------
-            //We only query for specific data and then exit
-            if(this.queryForVin){
-                //Obtain the vin
-                String vinNumber = secretVinNumber;
+            //Save the vin
+            this.vinNumber = vinNumber.trim();
 
-                //Save the vin
-                this.vinNumber = vinNumber.trim();
-
-                //exit
-                return;
-            }
+            //exit
+            return null;
+        }
 
             //Not querying for vin - Run actual data communication
 
-            //-----------ACTUAL COMMUNICATION----------
-            //Disconnect immediately after user hits disconnect
-            if(!this.mmSocket.isConnected()){
-                break;
-            }
+        //-----------ACTUAL COMMUNICATION----------
+        //Data to be collected for the Trip:
+        String date = new Date().toString();
+        Long duration = new Long(0);
+        String origin = "";
+        String destination = "";
+        Integer maxSpeed = 0;
+        Integer maxRPM = 0;
 
+        while(this.mmSocket.isConnected()) {
             try {
                 //Log.d("testCommunication", "i = " + i);
                 Thread.sleep(50);
@@ -110,7 +112,18 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
             //publishProgress(i * 2, i * 60);
             publishProgress(simDataStream[0], simDataStream[1]);
         }
-        Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
+
+        //Dummy Data
+        date = new Date().toString();
+        duration = new Long(1400);
+        origin = "Toronto, Canada";
+        destination = "Tokyo, Japan";
+        maxSpeed = 150;
+        maxRPM = 4000;
+
+
+        Trip tripMissingId = new Trip(date, duration, origin, destination, maxSpeed, maxRPM);
+        return tripMissingId;
     }
 
     //---------------SIMULATE DATA--------------
@@ -328,7 +341,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
 
     //---------------ON POST EXECUTE--------------
     @Override
-    protected void onPostExecute(Boolean temp) {
+    protected void onPostExecute(Trip tripMissingId) {
         String METHOD = "onPostExecute";
         if(this.queryForVin){
             //Send the vin back to the user
@@ -337,10 +350,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Boolea
             //set speed and rpm fields back to 0
             connHandler.resetGauges();
 
-
-
             //Trip has ended - prompt the user to save the trip data
-            Trip tripMissingId = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
             connHandler.saveTripAlert(tripMissingId);
         }
     }
