@@ -45,10 +45,10 @@ public class MainActivity
     public static final int REQUEST_ENABLE_BT = 8100;
 
     //Code for all the activities
-    public static final int ABOUT_REQ = 0001;
-    public static final int LOCATION_REQ = 0002;
-    public static final int HELP_REQ = 0003;
-    public static final int TRIPS_REQ = 0004;
+    public static final int ABOUT_REQ = 1;
+    public static final int LOCATION_REQ = 2;
+    public static final int HELP_REQ = 3;
+    public static final int TRIPS_REQ = 4;
 
     public ConnectBTAsync connBTAsync = null;
     public BluetoothSocket commSocket;
@@ -466,6 +466,18 @@ public class MainActivity
         startActivityForResult(intent, TRIPS_REQ);
     }
 
+    private void LaunchDetailedStatsActivity(Trip trip) {
+        Intent intent = new Intent(MainActivity.this, DetailedStatsActivity.class);
+        intent.putExtra("date", trip.getDate());
+        intent.putExtra("duration", trip.getDuration());
+        intent.putExtra("origin", trip.getOrigin());
+        intent.putExtra("destination", trip.getDestination());
+        intent.putExtra("maxSpeed", trip.getMaxSpeed());
+        intent.putExtra("maxRPM", trip.getMaxRPM());
+
+        startActivity(intent);
+    }
+
     @Override
     public void showCarDataList(ArrayList<String> data){
         String METHOD = "showCarDataList";
@@ -556,8 +568,8 @@ public class MainActivity
                         sDialog.dismissWithAnimation();
 
                         //Save the trip details in the database
-                        tripDatabase.addTrip(tripMissingID);
-                        saveTripSuccessAlert();
+                        Trip trip = tripDatabase.addTrip(tripMissingID);
+                        saveTripSuccessAlert(trip);
                     }
                 })
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -570,8 +582,9 @@ public class MainActivity
                 .show();
     }
 
-    public void saveTripSuccessAlert(){
+    public void saveTripSuccessAlert(Trip trip){
         final String METHOD = "saveTripSuccessAlert";
+        final Trip currentTrip = trip;
 
         //Display an alert asking if the user wants to save the trip
         new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
@@ -585,6 +598,7 @@ public class MainActivity
                     public void onClick(SweetAlertDialog sDialog) {
                         //Log.d(METHOD, "Showing details...!");
                         sDialog.dismissWithAnimation();
+                        LaunchDetailedStatsActivity(currentTrip);
                     }
                 })
                 .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {

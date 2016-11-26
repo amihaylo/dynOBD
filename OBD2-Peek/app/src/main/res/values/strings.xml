@@ -27,5 +27,15 @@
     <string name="title_past_trips">Past Trips</string>
     <string name="title_about_your_car">About your Car</string>
     <string name="title_help_activity">HELP ACTIVITY</string>
+    <string name="activity_title">DETAILED STATS</string>
+    <string name="date">Date</string>
+    <string name="duration">Duration</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+    <string name="max_speed">Maximum Speed</string>
+    <string name="avg_speed">Average Speed</string>
+    <string name="max_rpm">Maximum RPM</string>
+    <string name="avg_rpm">Average RPM</string>
+    <string name="back">Back</string>
 
 </resources>
