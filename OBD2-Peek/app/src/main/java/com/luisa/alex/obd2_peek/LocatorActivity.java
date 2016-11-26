@@ -74,9 +74,9 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         //Check if Location(GPS) is enabled
         initLocationServices();
         //Get last known location
-        Location lastKnownLocation = getLastLocation();
+        Location currentLocation = LocationHelper.getLastLocation(this, this);
         //Get address from location
-        Address address = locToAddress(lastKnownLocation);
+        Address address = LocationHelper.locToAddress(this, currentLocation);
         //Display the address to the user
         logAddress(address);
         //Show Address on the map
@@ -136,73 +136,7 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         if(url != null){Log.d(TAG, url);}
     }
 
-    private Address locToAddress(Location location) {
-        String TAG = "locToAddress";
-        Log.d(TAG, "called()");
-        if(location == null){return null;}
-        Address address = null;
 
-        //Obtain the Geocoder
-        if(Geocoder.isPresent()){
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-            try{
-                List<Address> resultsAdr = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                if(resultsAdr.size() > 0){
-                    address = resultsAdr.get(0);
-                    Log.d(TAG, "Found address:" + address.toString());
-
-                }else{
-                    Log.d(TAG, "No result addresses found");
-                }
-            }catch(Exception e){
-
-                e.printStackTrace();
-            }
-        }else{
-            Log.d(TAG , "Geocoder not found");
-        }
-
-        return address;
-    }
-
-    private Location getLastLocation() {
-        String TAG = "getLastLocation";
-        Log.d(TAG, "called()");
-        Location lastKnownLocation = null;
-        //Get the address of the last known location of the phone
-        if(checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            Log.d(TAG, "Permissions OK!");
-
-            //Get the location Manager
-            LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-
-            //Set the criteria for FINE LOCATION
-            Criteria criteria = new Criteria();
-            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
-            criteria.setAltitudeRequired(false);
-            criteria.setBearingRequired(false);
-            criteria.setSpeedRequired(false);
-            criteria.setCostAllowed(false);
-
-            //Get the best gps provider
-            String recommendedProvider = locationManager.getBestProvider(criteria, true);
-            //Bind the location manager to the listener
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100, this);
-
-            //Finally obtain the last known location
-            lastKnownLocation = locationManager.getLastKnownLocation(recommendedProvider);
-            if(lastKnownLocation != null){
-                Log.d("getLastLocation", "last known location: " + lastKnownLocation);
-            }else{
-                Log.d("getLastLocation", "location is null");
-            }
-        }else{
-            Log.d(TAG, "Permissions Failed!");
-        }
-        return lastKnownLocation;
-    }
 
     private void requestLocationPermissions() {
         String TAG = "reqLocationPermissions";
@@ -257,7 +191,7 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
     public void onLocationChanged(Location location) {
         Log.d("onLocationChanged", "LOCATION CHANGED");
         //Get address from location
-        Address address = locToAddress(location);
+        Address address = LocationHelper.locToAddress(this, location);
         //Display the address to the user
         logAddress(address);
         //Show Address on the map
