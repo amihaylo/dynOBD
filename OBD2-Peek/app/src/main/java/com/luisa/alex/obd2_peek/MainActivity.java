@@ -7,6 +7,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.provider.Settings;
@@ -39,7 +41,9 @@ import com.nightonke.boommenu.Util;
 
 public class MainActivity
         extends AppCompatActivity
-        implements ConnectionHandler, BoomMenuButton.OnSubButtonClickListener {
+        implements ConnectionHandler,
+        BoomMenuButton.OnSubButtonClickListener,
+        LocationListener{
 
     //************************VARIABLES************************
     //-----------Static-------------
@@ -390,7 +394,7 @@ public class MainActivity
                     player.start();
 
                     //Start the OBD Communcation Stream - false (2nd arg) indicating we are no quering for vin
-                    OBDCommunicator obdConnection = new OBDCommunicator(this, false, this.simulateTrip);
+                    OBDCommunicator obdConnection = new OBDCommunicator(this, this, this, false, this.simulateTrip);
                     obdConnection.execute(this.commSocket);
 
                     //Hide/Show Buttons
@@ -592,7 +596,7 @@ public class MainActivity
         //showToast("Loading...");
         //Query for vin - 2nd arg is set to true
         //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
-        OBDCommunicator obdConnection = new OBDCommunicator(this, true, this.simulateTrip);
+        OBDCommunicator obdConnection = new OBDCommunicator(this, this, this, true, this.simulateTrip);
         obdConnection.execute(this.commSocket);
         //After the Vin is obtain a handleVin() function is called
     }
@@ -841,5 +845,26 @@ public class MainActivity
                 Log.d(TAG, "There has been an error with the subbuttons.");
                 break;
         }
+    }
+
+    //----------------------LOCATION LISTENER METHODS----------------------------
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

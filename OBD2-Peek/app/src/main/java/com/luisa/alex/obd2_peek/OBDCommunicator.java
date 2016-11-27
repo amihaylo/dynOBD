@@ -1,7 +1,11 @@
 package com.luisa.alex.obd2_peek;
 
 import android.bluetooth.BluetoothSocket;
+import android.location.Address;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.github.pires.obd.commands.control.VinCommand;
@@ -27,6 +31,8 @@ import static com.luisa.alex.obd2_peek.MainActivity.TAG;
 public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> {
     private BluetoothSocket mmSocket;
     private ConnectionHandler connHandler;
+    private FragmentActivity activity;
+    private LocationListener locationListener;
     private Boolean queryForVin;
     private String vinNumber;
 
@@ -41,9 +47,15 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
 
 
     //---------------CONSTRUCTOR--------------
-    public OBDCommunicator(ConnectionHandler connHandler, Boolean queryForVin, Boolean simulateTrip) {
-        //Set the Handler
+    public OBDCommunicator(ConnectionHandler connHandler,
+                           FragmentActivity activity,
+                           LocationListener locationListener,
+                           Boolean queryForVin,
+                           Boolean simulateTrip) {
+        //Set the Handler, activity and location Listener
         this.connHandler = connHandler;
+        this.activity = activity;
+        this.locationListener = locationListener;
 
         //If simulateTrip is true then dummy data is used instead of real one
         this.simulateTrip = simulateTrip;
@@ -98,10 +110,13 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             //Not querying for vin - Run actual data communication
 
         //-----------ACTUAL COMMUNICATION----------
+        Location currLocation = LocationHelper.getLastLocation(this.activity, this.locationListener);
+        Address address = LocationHelper.locToAddress(this.activity, currLocation);
+
         //Data to be collected for the Trip:
         String date = new Date().toString();
         Long duration = new Long(0);
-        String origin = "";
+        String origin =  address.getAddressLine(0);
         String destination = "";
         Integer maxSpeed = 0;
         Integer maxRPM = 0;
@@ -121,9 +136,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         }
 
         //Dummy Data
-        date = new Date().toString();
         duration = new Long(1400);
-        origin = "Toronto, Canada";
         destination = "Tokyo, Japan";
         maxSpeed = 150;
         maxRPM = 4000;
