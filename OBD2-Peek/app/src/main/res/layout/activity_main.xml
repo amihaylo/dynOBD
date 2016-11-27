@@ -150,6 +150,16 @@
                 android:visibility="gone"
                 />
 
+            <Switch
+                android:id="@+id/switch_Main_simulate_trip"
+                android:text="@string/switch_Main_simulate_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:checked="true"
+                android:onClick="simulateTripSwitch"
+                />
+
         </LinearLayout>
     </LinearLayout>
 

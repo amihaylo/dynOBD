@@ -31,16 +31,22 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
     private String vinNumber;
 
     //Used in Simulation
-    final Integer MAX_SPEED = 200; //km/h
-    final Integer MAX_RPM = 6000;
-    final Integer SPEED_THRESHOLD = Math.round(new Float(MAX_SPEED * 0.1));
-    final Integer RPM_THRESHOLD = Math.round(new Float(MAX_RPM * 0.1));
-    Boolean accelerating = true;
+    private final Integer MAX_SPEED = 200; //km/h
+    private final Integer MAX_RPM = 6000;
+    private final Integer SPEED_THRESHOLD = Math.round(new Float(MAX_SPEED * 0.1));
+    private final Integer RPM_THRESHOLD = Math.round(new Float(MAX_RPM * 0.1));
+    private Boolean accelerating = true;
+    private Boolean simulateTrip = true;
+
 
 
     //---------------CONSTRUCTOR--------------
-    public OBDCommunicator(ConnectionHandler connHandler, Boolean queryForVin) {
+    public OBDCommunicator(ConnectionHandler connHandler, Boolean queryForVin, Boolean simulateTrip) {
+        //Set the Handler
         this.connHandler = connHandler;
+
+        //If simulateTrip is true then dummy data is used instead of real one
+        this.simulateTrip = simulateTrip;
 
         //If queryForVin is TRUE then doInBackground will simply query the obd device
         //For some data and then exit without entering a whileloop stream
@@ -58,10 +64,11 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         this.mmSocket = sockets[0];
 
         //The communication
-        //establishOBDComm();
-        Trip tripMissingId = testCommunication();
-
-        return tripMissingId;
+        if(this.simulateTrip){
+            return testCommunication();
+        }else{
+            return establishOBDComm();
+        }
     }
 
     //---------------TEST COMMUNICATION--------------
@@ -185,9 +192,10 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
 
     //---------------OBD CAR COMMUNICATION--------------
     //Runs the OBD commands from doInBackground
-    private void establishOBDComm() {
+    private Trip establishOBDComm() {
         String METHOD = "establishOBDComm";
         Log.d(METHOD, "called");
+        Trip tripMissingId = new Trip("N/A", new Long(0), "N/A", "N/A", 0, 0);
         try {
             Log.d(TAG, "[OBDCommunicator.doInBackground] Initializing OBD...");
             //init the OBD Device with the following configuration commands
@@ -217,12 +225,19 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
                 //Log.d(METHOD, vinCommand.getCalculatedResult());
 
                 //exit
-                return;
+                return null;
             }
 
+            //----------------ACTUAL COMMUNICATION-------------
+            //Data to be collected for the Trip:
+            String date = new Date().toString();
+            Long duration = new Long(0);
+            String origin = "";
+            String destination = "";
+            Integer maxSpeed = 0;
+            Integer maxRPM = 0;
+
             //Proceed with regular communication
-
-
             //Declare the commands
             SpeedCommand speedCommand = new SpeedCommand();
             RPMCommand rpmCommand = new RPMCommand();
@@ -256,56 +271,9 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
                 //Obtain all the commands
                 speedCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
                 rpmCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                /*
-                loadCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                distanceCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                vinCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                absLoadCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                massAirFlowCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                oilTempCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                runtimeCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                throttlePositionCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                airFuelRatioCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                consumptionRateCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                findFuelTypeCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                fuelLevelCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                barometricPressureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                fuelPressureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                fuelRailPressureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                intakeManifoldPressureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                airIntakeTemperatureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                ambientAirTemperatureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                engineCoolantTemperatureCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
-                */
 
-                //Create OBDData objects for each command
-                //OBDData speedOBD = new OBDData("Speed",speedCommand.getFormattedResult()); //Speed
-                //OBDData rpmOBD = new OBDData("RPM",rpmCommand.getFormattedResult()); //RPM
-
-                /*
-                OBDData loadvalCalcOBD = new OBDData("Engine Load Value (Calculated)",loadCommand.getFormattedResult()); //LOAD
-                OBDData distOBD = new OBDData("Distance traveled since codes cleared",distanceCommand.getFormattedResult()); //DistanceSinceCCCommad
-                OBDData vinOBD = new OBDData("VIN",vinCommand.getFormattedResult()); //VinCommad
-                OBDData loadValAbsOBD = new OBDData("Engine Load Value (Absolute)",absLoadCommand.getFormattedResult()); //AbsoluteLoadCommad
-                OBDData mafOBD = new OBDData("MAF air flow rate",massAirFlowCommand.getFormattedResult()); //MassAirFlowCommad
-                OBDData oilTempOBD = new OBDData("Engine oil temperature",oilTempCommand.getFormattedResult()); //OilTempCommad
-                OBDData runtimeOBD = new OBDData("Run time since engine start",runtimeCommand.getFormattedResult()); //RuntimeCommad
-                OBDData throttlePosOBD = new OBDData("Throttle position",throttlePositionCommand.getFormattedResult()); //ThrottlePositionCommad
-                OBDData fuelAirRatioOBD = new OBDData("Fuel–Air commanded equivalence ratio",airFuelRatioCommand.getFormattedResult()); //AirFuelRatioCommad
-                OBDData fuelRateOBD = new OBDData("Engine fuel rate",consumptionRateCommand.getFormattedResult()); //ConsumptionRateCommad
-                OBDData fuelTypeOBD = new OBDData("Fuel type",findFuelTypeCommand.getFormattedResult()); //FindFuelTypeCommad
-                OBDData fuelLevelOBD = new OBDData("Fuel tank level output",fuelLevelCommand.getFormattedResult()); //FuelLevelCommad
-                OBDData absBPOBD = new OBDData("Absolute barometric pressure",barometricPressureCommand.getFormattedResult()); //BarometricPressureCommad
-                OBDData fuelPresOBD = new OBDData("Fuel pressure (gauge pressure)",fuelPressureCommand.getFormattedResult()); //FuelPressureCommad
-                OBDData fuelRailOBD = new OBDData("Fuel rail pressure (diesel, or gasoline direct injection)",fuelRailPressureCommand.getFormattedResult()); //FuelRailPressureCommad
-                OBDData intakeManOBD = new OBDData("Intake manifold absolute pressure",intakeManifoldPressureCommand.getFormattedResult()); //IntakeManifoldPressureCommad
-                OBDData intakeAirOBD = new OBDData("Intake air temperature", airIntakeTemperatureCommand.getFormattedResult()); //AirIntakeTemperatureCommad
-                OBDData ambOBD = new OBDData("Ambient air temperature",ambientAirTemperatureCommand.getFormattedResult()); //AmbientAirTemperatureCommad
-                OBDData engCoolOBD = new OBDData("Engine coolant temperature",engineCoolantTemperatureCommand.getFormattedResult()); //EngineCoolantTemperatureCommad
-                */
 
                 //Display the result to the UI. Calls onProgressUpdate(String... carData)
-                //Convert the speed and rpm into Integers
                 publishProgress(speedCommand.getMetricSpeed(), rpmCommand.getRPM());
 
 
@@ -327,9 +295,21 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             CloseCommand closeCommand = new CloseCommand();
             closeCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
 
+            //Dummy Data TODO: Remove this once the real data is collected
+            date = new Date().toString();
+            duration = new Long(1400);
+            origin = "Toronto, Canada";
+            destination = "Tokyo, Japan";
+            maxSpeed = 150;
+            maxRPM = 4000;
+
+            //Finally return all the trip information
+            tripMissingId = new Trip(date, duration, origin, destination, maxSpeed, maxRPM);
+
         }catch(Exception e){
             e.printStackTrace();
         }
+        return tripMissingId;
     }
 
     //---------------ON PROGRESS UPDATE--------------

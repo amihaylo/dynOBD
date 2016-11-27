@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +76,7 @@ public class MainActivity
     private boolean isLocationPermissionEnabled = false;
     private boolean isLocationEnabled = false;
 
-    private ProgressDialog dialog;
+    private Boolean simulateTrip;
 
     //****************************METHODS******************************
 
@@ -122,6 +123,10 @@ public class MainActivity
     private void initUIElements() {
         //Load the UI elements from the resources into the private members of this class
 
+        //Check if the data should be simulated
+        Switch simulateTripSwitch = (Switch) findViewById(R.id.switch_Main_simulate_trip);
+        this.simulateTrip = simulateTripSwitch.isChecked();
+
         //Initialize the toast
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
@@ -131,6 +136,7 @@ public class MainActivity
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
 
+        //Obtain the start button
         this.startTrip = (Button) findViewById(R.id.btn_Main_startTrip);
 
         //Init the menu
@@ -313,7 +319,14 @@ public class MainActivity
 
     }
 
-    //-----------------------BUTTON CLICKS-----------------------
+    //-----------------------BUTTON/SWITCH CLICKS-----------------------
+
+    //-----------Simulate Trip Switch-------------
+    public void simulateTripSwitch(View view){
+        Switch simulateTripSwitch = (Switch) findViewById(R.id.switch_Main_simulate_trip);
+        this.simulateTrip = simulateTripSwitch.isChecked();
+    }
+
     //-----------Connect Bluetooth to the OBD Device-------------
     public void connectOBDClick(View view) {
         String METHOD = "connectOBDClick";
@@ -377,7 +390,7 @@ public class MainActivity
                     player.start();
 
                     //Start the OBD Communcation Stream - false (2nd arg) indicating we are no quering for vin
-                    OBDCommunicator obdConnection = new OBDCommunicator(this, false);
+                    OBDCommunicator obdConnection = new OBDCommunicator(this, false, this.simulateTrip);
                     obdConnection.execute(this.commSocket);
 
                     //Hide/Show Buttons
@@ -579,7 +592,7 @@ public class MainActivity
         //showToast("Loading...");
         //Query for vin - 2nd arg is set to true
         //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
-        OBDCommunicator obdConnection = new OBDCommunicator(this, true);
+        OBDCommunicator obdConnection = new OBDCommunicator(this, true, this.simulateTrip);
         obdConnection.execute(this.commSocket);
         //After the Vin is obtain a handleVin() function is called
     }

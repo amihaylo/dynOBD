@@ -37,5 +37,6 @@
     <string name="max_rpm">Maximum RPM</string>
     <string name="avg_rpm">Average RPM</string>
     <string name="back">Back</string>
+    <string name="switch_Main_simulate_trip">Simulate Data</string>
 
 </resources>
