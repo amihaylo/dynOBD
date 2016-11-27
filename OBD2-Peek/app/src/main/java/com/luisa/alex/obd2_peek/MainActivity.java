@@ -37,7 +37,7 @@ import com.nightonke.boommenu.Util;
 
 public class MainActivity
         extends AppCompatActivity
-        implements ConnectionHandler {
+        implements ConnectionHandler, BoomMenuButton.OnSubButtonClickListener {
 
     //************************VARIABLES************************
     //-----------Static-------------
@@ -52,7 +52,8 @@ public class MainActivity
     public static final int LOCATION_REQ = 2;
     public static final int HELP_REQ = 3;
     public static final int TRIPS_REQ = 4;
-    private static final int PERMISSIONS_REQ_CODE = 1001;
+    private static final int START_TRIP_PERMISSIONS_REQ_CODE = 1001;
+    private static final int LOCATOR_PERMISSIONS_REQ_CODE = 1002;
 
     public ConnectBTAsync connBTAsync = null;
     public BluetoothSocket commSocket;
@@ -329,7 +330,7 @@ public class MainActivity
         // Check if Location Permissions are OK
         if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Not granted. Prompt user to enable.
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQ_CODE);
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, START_TRIP_PERMISSIONS_REQ_CODE);
         } else {
             isLocationPermissionEnabled = true;
         }
@@ -438,6 +439,8 @@ public class MainActivity
                 .place(PlaceType.CIRCLE_4_2)
                 //.subButtonTextColor(Color.BLACK)
                 .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+                .onSubButtonClick(this)
+                /*
                 .onSubButtonClick(new BoomMenuButton.OnSubButtonClickListener() {
                     @Override
                     public void onClick(int buttonIndex) {
@@ -462,7 +465,7 @@ public class MainActivity
                                 break;
                         }
                     }
-                })
+                })*/
                 .init(boomMenuButton);
     }
 
@@ -511,7 +514,7 @@ public class MainActivity
         String TAG = "reqLocationPermissions";
         //Get permission from the user to use the location services
         if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQ_CODE);
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, START_TRIP_PERMISSIONS_REQ_CODE);
             return;
         }else{
             Log.d(TAG, "Permissions OK");
@@ -523,11 +526,24 @@ public class MainActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case PERMISSIONS_REQ_CODE: {
+            case START_TRIP_PERMISSIONS_REQ_CODE: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     isLocationPermissionEnabled = true;
                     Log.d("TAG", "isLocationPermissionEnabled is now true.");
                     startTrip.performClick();
+                    //checkLocationEnabled();
+                } else {
+                    // tell the user that the feature will not work
+                }
+                return;
+            }
+            case LOCATOR_PERMISSIONS_REQ_CODE: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    isLocationPermissionEnabled = true;
+                    Log.d("TAG", "isLocationPermissionEnabled is now true.");
+
+                    //TODO: GET MENU BUTTON AND CLICK IT AGAIN!
+                    onClick(1);
                     //checkLocationEnabled();
                 } else {
                     // tell the user that the feature will not work
@@ -565,6 +581,57 @@ public class MainActivity
 
     //-----------Locator Activity-------------
     private void LaunchLocatorActivity() {
+
+        // Check if Location Permissions are OK
+        if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Not granted. Prompt user to enable.
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATOR_PERMISSIONS_REQ_CODE);
+        } else {
+            isLocationPermissionEnabled = true;
+        }
+
+        if (isLocationPermissionEnabled) {
+            // Granted! Check if GPS is ON
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                //GPS is OFF
+                //Dialog before prompting the user to turn location services on
+                new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText("Location Services are OFF")
+                        .setContentText("Taking you to settings now.")
+                        .setConfirmText("OK Take me")
+                        .setCancelText("CANCEL")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+
+                                String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+                                Intent enableGPSIntent = new Intent(locConfig);
+                                startActivity(enableGPSIntent);
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // GPS is ON
+                Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
+                startActivityForResult(intent, LOCATION_REQ);
+            }
+        }
+
+
+    // -------------------------------------------------------------------------------------------
+
+        /*
         if(this.isLocationPermissionEnabled) {
             if(this.isLocationEnabled) {
                 Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
@@ -596,7 +663,6 @@ public class MainActivity
                         .show();
             }
         } else {
-            //Display an alert asking if the user wants to save the trip
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Oops! We can't do that")
                     .setContentText("Location Permissions have not been granted yet")
@@ -618,7 +684,7 @@ public class MainActivity
                         }
                     })
                     .show();
-        }
+        }*/
     }
 
     //-----------Help Activity-------------
@@ -791,5 +857,28 @@ public class MainActivity
     public void testBtnClick(View view) {
         Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
         saveTripAlert(currentTrip);
+    }
+
+    @Override
+    public void onClick(int buttonIndex) {
+        Log.d(TAG, "Button " + buttonIndex + " was clicked.");
+
+        switch (buttonIndex) {
+            case 0:
+                LaunchAboutCarActivity();
+                break;
+            case 1:
+                LaunchLocatorActivity();
+                break;
+            case 2:
+                LaunchHelpActivity();
+                break;
+            case 3:
+                LaunchPastTripsActivity();
+                break;
+            default:
+                Log.d(TAG, "There has been an error with the subbuttons.");
+                break;
+        }
     }
 }
