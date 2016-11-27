@@ -73,8 +73,6 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     private void initApp() {
-        //Check if Location(GPS) is enabled
-        initLocationServices();
         //Get last known location
         Location currentLocation = LocationHelper.getLastLocation(this, this);
         //Get address from location
@@ -138,26 +136,8 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         if(url != null){Log.d(TAG, url);}
     }
 
-
-
-
-
     private void showToast(String message) {
         (Toast.makeText(this, message, Toast.LENGTH_LONG)).show();
-    }
-
-    private void initLocationServices() {
-        //Determine if GPS is enabled, if not enable it
-        LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Log.d("initLocationServices", "gps not enabled");
-            //Not enabled, request user to enable it
-            String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
-            Intent enableGPSIntent = new Intent(locConfig);
-            startActivity(enableGPSIntent);
-        }else{
-            Log.d("initLocationServices", "gps is enabled!");
-        }
     }
 
     @Override

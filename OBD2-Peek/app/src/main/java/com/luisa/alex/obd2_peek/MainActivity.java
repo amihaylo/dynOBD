@@ -1,11 +1,14 @@
 package com.luisa.alex.obd2_peek;
 
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +22,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 //Gauge import
@@ -64,9 +66,14 @@ public class MainActivity
     private CustomGauge gaugeRPM;
     private TextView gaugeViewRPM;
 
+    private Button startTrip;
+
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
-    private Boolean isLocationEnabled = false;
+    private boolean isLocationPermissionEnabled = false;
+    private boolean isLocationEnabled = false;
+
+    private ProgressDialog dialog;
 
     //****************************METHODS******************************
 
@@ -74,6 +81,9 @@ public class MainActivity
     //-----------on Create-------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d("onCreate", "OnCreate() called.");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -99,7 +109,7 @@ public class MainActivity
 
     protected void initApp() {
         //Check if user has allowed the app to use location Permissions
-        requestLocationPermissions();
+        //requestLocationPermissions();
 
         //Load UI elements into member variables
         initUIElements();
@@ -118,6 +128,8 @@ public class MainActivity
         this.gaugeViewSpeed = (TextView) findViewById(R.id.gaugeView_speed);
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
+
+        this.startTrip = (Button) findViewById(R.id.btn_Main_startTrip);
 
         //Init the menu
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
@@ -219,7 +231,7 @@ public class MainActivity
 
                 //Finally Attempt to Initialize the connection
                 //Check if the async or thread method should be used to connect
-                MainActivity.showToast("Connecting...");
+                //MainActivity.showToast("Connecting...");
                 //ASYNC METHOD
                 connBTAsync = new ConnectBTAsync(commSocket, connHandler);
                 connBTAsync.execute(device);
@@ -252,11 +264,12 @@ public class MainActivity
             afterConnectDisplay();
         } else {
             toastMessage = "Unsuccessful Connection!";
+            MainActivity.showToast(toastMessage);
         }
 
         //Show Log + Toast
         Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
-        MainActivity.showToast(toastMessage);
+        //MainActivity.showToast(toastMessage);
     }
 
     //-----------Disconnect Bluetooth-------------
@@ -265,7 +278,7 @@ public class MainActivity
             //connBTThread.cancel();
             if (connBTAsync.closeSocket()) {
                 //Show Success Toast
-                MainActivity.showToast("Disconnect Successful!");
+                //MainActivity.showToast("Disconnect Successful!");
             } else {
                 //Show UnSuccess Toast
                 MainActivity.showToast("Disconnect Unsuccessful!");
@@ -313,20 +326,63 @@ public class MainActivity
         String METHOD = "startTripClick";
         Log.d(METHOD, "called");
 
-        //Check if socket is connected
-        if(this.commSocket.isConnected()){
-            showToast("Starting communication stream...");
-
-            //Start the OBD Communcation Stream - false (2nd arg) indicating we are no quering for vin
-            OBDCommunicator obdConnection = new OBDCommunicator(this, false);
-            obdConnection.execute(this.commSocket);
-
-            //Hide/Show Buttons
-            afterStartTripDisplay();
-        }else{
-            showToast("Not connected to OBD");
+        // Check if Location Permissions are OK
+        if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Not granted. Prompt user to enable.
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQ_CODE);
+        } else {
+            isLocationPermissionEnabled = true;
         }
 
+        if (isLocationPermissionEnabled) {
+            // Granted! Check if GPS is ON
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                //GPS is OFF
+                //Dialog before prompting the user to turn location services on
+                new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText("Location Services are OFF")
+                        .setContentText("Taking you to settings now.")
+                        .setConfirmText("OK Take me")
+                        .setCancelText("CANCEL")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+
+                                String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+                                Intent enableGPSIntent = new Intent(locConfig);
+                                startActivity(enableGPSIntent);
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // GPS is ON. Check if socket is connected
+                if (this.commSocket.isConnected()) {
+                    //showToast("Starting communication stream...");
+
+                    //Start the OBD Communcation Stream - false (2nd arg) indicating we are no quering for vin
+                    OBDCommunicator obdConnection = new OBDCommunicator(this, false);
+                    obdConnection.execute(this.commSocket);
+
+                    //Hide/Show Buttons
+                    afterStartTripDisplay();
+                } else {
+                    showToast("Not connected to OBD");
+                }
+            } else {
+                //showToast("Either permissions or GPS are disabled.");
+            }
+        }
     }
 
     //-----------end trip-------------
@@ -435,20 +491,32 @@ public class MainActivity
 
     //-----------------------LOCATION PERMISSIONS-----------------------
 
+    private void checkLocationEnabled() {
+        //Determine if GPS is enabled, if not enable it
+        LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.d("checkLocationEnabled", "gps not enabled");
+            //Not enabled, request user to enable it
+            String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+            Intent enableGPSIntent = new Intent(locConfig);
+            startActivity(enableGPSIntent);
+
+        }else{
+            //isLocationEnabled = true;
+            Log.d("checkLocationEnabled", "gps is enabled!");
+        }
+    }
+
     private void requestLocationPermissions() {
         String TAG = "reqLocationPermissions";
         //Get permission from the user to use the location services
         if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            //The permissions has not been granted, must ask the user for it
-            if(shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)){
-                //Explain to user why this is needed
-                //showToast("Need to enable location please!");
-            }
             requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQ_CODE);
             return;
         }else{
             Log.d(TAG, "Permissions OK");
-            isLocationEnabled = true;
+            //isLocationPermissionEnabled = true;
+            checkLocationEnabled();
         }
     }
 
@@ -457,7 +525,10 @@ public class MainActivity
         switch (requestCode) {
             case PERMISSIONS_REQ_CODE: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    isLocationEnabled = true;
+                    isLocationPermissionEnabled = true;
+                    Log.d("TAG", "isLocationPermissionEnabled is now true.");
+                    startTrip.performClick();
+                    //checkLocationEnabled();
                 } else {
                     // tell the user that the feature will not work
                 }
@@ -484,7 +555,7 @@ public class MainActivity
         }
 
         Log.d(METHOD, "Obtaining Vin...");
-        showToast("Loading...");
+        //showToast("Loading...");
         //Query for vin - 2nd arg is set to true
         //Start the OBD Communication Stream - false (2nd arg) indicating we are no quering for vin
         OBDCommunicator obdConnection = new OBDCommunicator(this, true);
@@ -494,10 +565,37 @@ public class MainActivity
 
     //-----------Locator Activity-------------
     private void LaunchLocatorActivity() {
-        if(this.isLocationEnabled){
-            Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
-            startActivityForResult(intent, LOCATION_REQ);
-        }else{
+        if(this.isLocationPermissionEnabled) {
+            if(this.isLocationEnabled) {
+                Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
+                startActivityForResult(intent, LOCATION_REQ);
+            } else {
+                //Dialog before prompting the user to turn location services on
+                new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                        .setTitleText("Location Services are OFF")
+                        .setContentText("Taking you to settings now.")
+                        .setConfirmText("OK Take me")
+                        .setCancelText("CANCEL")
+                        .showCancelButton(true)
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+
+                                String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+                                Intent enableGPSIntent = new Intent(locConfig);
+                                startActivity(enableGPSIntent);
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .show();
+            }
+        } else {
             //Display an alert asking if the user wants to save the trip
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Oops! We can't do that")
