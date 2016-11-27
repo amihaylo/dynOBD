@@ -19,6 +19,7 @@ import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -35,6 +36,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
     private LocationListener locationListener;
     private Boolean queryForVin;
     private String vinNumber;
+    private Trip trip;
 
     //Used in Simulation
     private final Integer MAX_SPEED = 200; //km/h
@@ -66,6 +68,28 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
 
         //Initialize Vin to empty;
         this.vinNumber = "";
+
+        //If not a vin query, initialize the trip
+        if(!queryForVin){
+            initTrip();
+        }
+    }
+
+    private void initTrip(){
+        //Get the date
+        SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d yyyy");
+        String date = df.format(new Date());
+        
+
+        //Get the origin
+        String origin = "N/A";
+        Location currLocation = LocationHelper.getLastLocation(this.activity, this.locationListener);
+        Address address = LocationHelper.locToAddress(this.activity, currLocation);
+        if(address != null) {
+            origin = address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2);
+        }
+
+        this.trip = new Trip(date, new Long(0), origin, "N/A", 0 ,0);
     }
 
     //---------------DO IN BACKGROUND--------------
@@ -110,17 +134,6 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             //Not querying for vin - Run actual data communication
 
         //-----------ACTUAL COMMUNICATION----------
-        Location currLocation = LocationHelper.getLastLocation(this.activity, this.locationListener);
-        Address address = LocationHelper.locToAddress(this.activity, currLocation);
-
-        //Data to be collected for the Trip:
-        String date = new Date().toString();
-        Long duration = new Long(0);
-        String origin =  address.getAddressLine(0);
-        String destination = "";
-        Integer maxSpeed = 0;
-        Integer maxRPM = 0;
-
         while(this.mmSocket.isConnected()) {
             try {
                 //Log.d("testCommunication", "i = " + i);
@@ -136,14 +149,11 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         }
 
         //Dummy Data
-        duration = new Long(1400);
-        destination = "Tokyo, Japan";
-        maxSpeed = 150;
-        maxRPM = 4000;
+        this.trip.setDuration(new Long(1400));
+        this.trip.setMaxSpeed(150);
+        this.trip.setMaxRPM(4000);
 
-
-        Trip tripMissingId = new Trip(date, duration, origin, destination, maxSpeed, maxRPM);
-        return tripMissingId;
+        return this.trip;
     }
 
     //---------------SIMULATE DATA--------------
@@ -242,14 +252,6 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             }
 
             //----------------ACTUAL COMMUNICATION-------------
-            //Data to be collected for the Trip:
-            String date = new Date().toString();
-            Long duration = new Long(0);
-            String origin = "";
-            String destination = "";
-            Integer maxSpeed = 0;
-            Integer maxRPM = 0;
-
             //Proceed with regular communication
             //Declare the commands
             SpeedCommand speedCommand = new SpeedCommand();
@@ -308,21 +310,15 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             CloseCommand closeCommand = new CloseCommand();
             closeCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
 
-            //Dummy Data TODO: Remove this once the real data is collected
-            date = new Date().toString();
-            duration = new Long(1400);
-            origin = "Toronto, Canada";
-            destination = "Tokyo, Japan";
-            maxSpeed = 150;
-            maxRPM = 4000;
-
-            //Finally return all the trip information
-            tripMissingId = new Trip(date, duration, origin, destination, maxSpeed, maxRPM);
+            //Dummy Data
+            this.trip.setDuration(new Long(1400));
+            this.trip.setMaxSpeed(150);
+            this.trip.setMaxRPM(4000);
 
         }catch(Exception e){
             e.printStackTrace();
         }
-        return tripMissingId;
+        return this.trip;
     }
 
     //---------------ON PROGRESS UPDATE--------------
@@ -342,6 +338,15 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         }else{
             //set speed and rpm fields back to 0
             connHandler.resetGauges();
+
+            //Set the destination
+            String destination = "N/A";
+            Location currLocation = LocationHelper.getLastLocation(this.activity, this.locationListener);
+            Address address = LocationHelper.locToAddress(this.activity, currLocation);
+            if(address != null) {
+                destination = address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2);
+            }
+            tripMissingId.setDestination(destination);
 
             //Trip has ended - prompt the user to save the trip data
             connHandler.saveTripAlert(tripMissingId);
