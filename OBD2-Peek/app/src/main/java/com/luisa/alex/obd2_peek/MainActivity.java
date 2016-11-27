@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -74,11 +75,12 @@ public class MainActivity
     private TextView gaugeViewRPM;
 
     private Button startTrip;
+    private TextView btStatus;
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
     private boolean isLocationPermissionEnabled = false;
-    private boolean isLocationEnabled = false;
+    //private boolean isLocationEnabled = false;
 
     private Boolean simulateTrip;
 
@@ -145,6 +147,9 @@ public class MainActivity
 
         //Init the menu
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
+
+        //Init Bluetooth element
+        btStatus = (TextView) findViewById(R.id.bt_status);
     }
 
     //-----------Update Gauges via Handler-------------
@@ -272,6 +277,10 @@ public class MainActivity
             //set the socket
             this.commSocket = mmSocket;
 
+            // Set Bluetooth status to ON
+            btStatus.setText("CONNECTED");
+            btStatus.setTextColor(getResources().getColor(R.color.md_green_600));
+
             //Hide the connect button and show the Disconnect one
             afterConnectDisplay();
         } else {
@@ -280,7 +289,7 @@ public class MainActivity
         }
 
         //Show Log + Toast
-        Log.d(TAG, "[MainActivity.handleBTConnection]" + toastMessage);
+        Log.d(TAG, "[MainActivity.handleBTConnection] " + toastMessage);
         //MainActivity.showToast(toastMessage);
     }
 
@@ -291,6 +300,10 @@ public class MainActivity
             if (connBTAsync.closeSocket()) {
                 //Show Success Toast
                 //MainActivity.showToast("Disconnect Successful!");
+
+                // Set Bluetooth status to OFF
+                btStatus.setText("OFF");
+                btStatus.setTextColor(getResources().getColor(R.color.md_red_900));
             } else {
                 //Show UnSuccess Toast
                 MainActivity.showToast("Disconnect Unsuccessful!");
@@ -516,6 +529,7 @@ public class MainActivity
 
     //-----------------------LOCATION PERMISSIONS-----------------------
 
+    /*
     private void checkLocationEnabled() {
         //Determine if GPS is enabled, if not enable it
         LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
@@ -544,6 +558,7 @@ public class MainActivity
             checkLocationEnabled();
         }
     }
+    */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

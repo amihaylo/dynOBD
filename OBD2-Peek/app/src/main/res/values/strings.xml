@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Main Activity -->
-    <string name="app_name">OBD2-Peek</string>
+    <string name="app_name">dynOBD</string>
 
     <!-- MAIN ACTIVITY -->
     <string name="btn_Main_start_trip">Start Trip</string>
@@ -38,5 +38,7 @@
     <string name="avg_rpm">Average RPM</string>
     <string name="back">Back</string>
     <string name="switch_Main_simulate_trip">Simulate Data</string>
+    <string name="bluetooth_status">Bluetooth status:&#160;</string>
+    <string name="disconnected_status">DISCONNECTED</string>
 
 </resources>
