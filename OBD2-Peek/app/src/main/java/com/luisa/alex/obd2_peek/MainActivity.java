@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -327,6 +328,8 @@ public class MainActivity
         String METHOD = "startTripClick";
         Log.d(METHOD, "called");
 
+        MediaPlayer player = MediaPlayer.create(this, R.raw.engine);
+
         // Check if Location Permissions are OK
         if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Not granted. Prompt user to enable.
@@ -370,6 +373,8 @@ public class MainActivity
                 // GPS is ON. Check if socket is connected
                 if (this.commSocket.isConnected()) {
                     //showToast("Starting communication stream...");
+
+                    player.start();
 
                     //Start the OBD Communcation Stream - false (2nd arg) indicating we are no quering for vin
                     OBDCommunicator obdConnection = new OBDCommunicator(this, false);
@@ -628,63 +633,6 @@ public class MainActivity
             }
         }
 
-
-    // -------------------------------------------------------------------------------------------
-
-        /*
-        if(this.isLocationPermissionEnabled) {
-            if(this.isLocationEnabled) {
-                Intent intent = new Intent(MainActivity.this, LocatorActivity.class);
-                startActivityForResult(intent, LOCATION_REQ);
-            } else {
-                //Dialog before prompting the user to turn location services on
-                new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText("Location Services are OFF")
-                        .setContentText("Taking you to settings now.")
-                        .setConfirmText("OK Take me")
-                        .setCancelText("CANCEL")
-                        .showCancelButton(true)
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-
-                                String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
-                                Intent enableGPSIntent = new Intent(locConfig);
-                                startActivity(enableGPSIntent);
-                            }
-                        })
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.cancel();
-                            }
-                        })
-                        .show();
-            }
-        } else {
-            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Oops! We can't do that")
-                    .setContentText("Location Permissions have not been granted yet")
-                    .setConfirmText("Allow")
-                    .setCancelText("Ok")
-                    .showCancelButton(true)
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sDialog.dismissWithAnimation();
-                            requestLocationPermissions();
-                        }
-                    })
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            //Log.d(METHOD, "cancelled!");
-                            sDialog.cancel();
-                        }
-                    })
-                    .show();
-        }*/
     }
 
     //-----------Help Activity-------------
