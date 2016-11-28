@@ -1,13 +1,14 @@
 package com.luisa.alex.obd2_peek;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
@@ -15,9 +16,7 @@ import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PastTripsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -77,9 +76,18 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
     */
 
     public void showTrips(ArrayList<Trip> trips){
-        ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
-        listView.setAdapter(new tripArrayAdapter(this, trips));
-        listView.setOnItemClickListener(this);
+
+        TextView noPastTrips = (TextView) findViewById(R.id.empty_list);
+
+        if (trips.size() > 0) {
+            ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
+            listView.setAdapter(new tripArrayAdapter(this, trips));
+            listView.setOnItemClickListener(this);
+            noPastTrips.setVisibility(View.GONE);
+        } else {
+            noPastTrips.setText("There are no past trips to show.");
+            noPastTrips.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

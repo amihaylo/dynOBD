@@ -24,6 +24,17 @@
             android:layout_gravity="center_horizontal"
             android:typeface="normal"/>
 
+        <TextView
+            android:id="@+id/empty_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:textSize="16sp"
+            android:textColor="@color/md_grey_400"
+            android:layout_gravity="center_horizontal"
+            android:typeface="normal"
+            android:visibility="gone"/>
+
         <ListView
             android:id="@+id/listView_pastTrips"
             android:layout_width="match_parent"

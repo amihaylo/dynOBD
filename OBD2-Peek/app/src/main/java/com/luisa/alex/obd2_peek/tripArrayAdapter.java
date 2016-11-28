@@ -55,34 +55,31 @@ public class tripArrayAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_past_trips, parent, false);
         }
 
-        //Obtain all the data from the current Trip
-        Trip currData = data.get(position);
-        Long id = currData.getId();
-        String date = currData.getDate();
-        Long duration = currData.getDuration();
-        String origin = currData.getOrigin();
-        String destination = currData.getDestination();
-        Integer maxSpeed = currData.getMaxSpeed();
-        Integer maxRPM = currData.getMaxRPM();
+        if (data.size() > 0) {
 
-        //populate the UI item with the data
-        //TextView lbl_id = (TextView) convertView.findViewById(R.id.edit_trip_id);
-        TextView lbl_date = (TextView) convertView.findViewById(R.id.edit_trip_date);
-        //TextView lbl_duration = (TextView) convertView.findViewById(R.id.edit_trip_duration);
-        TextView lbl_origin = (TextView) convertView.findViewById(R.id.edit_trip_origin);
-        TextView lbl_destination = (TextView) convertView.findViewById(R.id.edit_trip_destination);
-        //TextView lbl_maxSpeed = (TextView) convertView.findViewById(R.id.edit_trip_maxSpeed);
-        //TextView lbl_maxRPM = (TextView) convertView.findViewById(R.id.edit_trip_maxRPM);
+            //Obtain all the data from the current Trip
+            Trip currData = data.get(position);
 
-        //Set all the individual elements to be displayed
-        //lbl_id.setText(id+"");
-        lbl_date.setText(date);
-        //lbl_duration.setText(duration+"");
-        lbl_origin.setText(origin);
-        lbl_destination.setText(destination);
-        //lbl_maxSpeed.setText(maxSpeed + "");
-        //lbl_maxRPM.setText(maxRPM + "");
+            String date = currData.getDate();
+            String origin = currData.getOrigin();
+            String destination = currData.getDestination();
 
-        return convertView;
+            //populate the UI item with the data
+            TextView lbl_date = (TextView) convertView.findViewById(R.id.edit_trip_date);
+            TextView lbl_origin = (TextView) convertView.findViewById(R.id.edit_trip_origin);
+            TextView lbl_destination = (TextView) convertView.findViewById(R.id.edit_trip_destination);
+
+            //Set all the individual elements to be displayed
+            lbl_date.setText(date);
+            lbl_origin.setText(origin);
+            lbl_destination.setText(destination);
+
+            return convertView;
+        } else {
+
+            //TODO post message saying there is nothing to show
+
+            return null;
+        }
     }
 }

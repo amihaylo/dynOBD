@@ -55,7 +55,7 @@ public class vinDataDownloader extends AsyncTask<String, Integer, String> {
                 Element ele = (Element)nodeList.item(i);
                 NodeList variableNL = ele.getElementsByTagName("Variable");
                 NodeList valueNL = ele.getElementsByTagName("Value");
-                if(variableNL.getLength() > 0 && valueNL.getLength() > 0 ){
+                if(variableNL.getLength() > 0 && valueNL.getLength() > 0 ) {
                     String variable = variableNL.item(0).getTextContent().toString();
                     String value = valueNL.item(0).getTextContent().toString();
                     if((!variable.toLowerCase().equals("error code")) &&
