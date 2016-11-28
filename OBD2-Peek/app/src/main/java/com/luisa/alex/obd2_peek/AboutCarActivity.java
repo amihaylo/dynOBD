@@ -33,7 +33,7 @@ public class AboutCarActivity extends AppCompatActivity {
 
         //Obtain the car data from the intent
         Intent callingIntent = getIntent();
-        List<String> data = callingIntent.getStringArrayListExtra("carData");
+        List<Tuple> data = callingIntent.getParcelableArrayListExtra("carData");
 
         /*  DEBUG
         for(String ele : data){

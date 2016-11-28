@@ -17,16 +17,6 @@
 
         <!--============START/STOP BUTTONS===========-->
         <!-- Connect to OBD -->
-        <!--
-        <Button
-            android:id="@+id/btn_Main_connect_obd"
-            android:text="@string/btn_Main_connect_obd"
-            android:onClick="connectOBDClick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-        -->
-
         <info.hoang8f.widget.FButton
             android:id="@+id/btn_Main_connect_obd"
             app:buttonColor="@color/md_amber_500"
@@ -43,16 +33,6 @@
             android:layout_marginTop="10dp"/>
 
         <!-- Start Trip -->
-        <!--
-        <Button
-            android:id="@+id/btn_Main_startTrip"
-            android:text="@string/btn_Main_start_trip"
-            android:onClick="startTripClick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
-        -->
         <info.hoang8f.widget.FButton
             android:id="@+id/btn_Main_startTrip"
             app:buttonColor="@color/md_green_400"
@@ -70,17 +50,6 @@
             android:visibility="gone" />
 
         <!-- END Trip -->
-        <!--
-        <Button
-            android:id="@+id/btn_Main_endTrip"
-            android:text="@string/btn_Main_end_trip"
-            android:onClick="endTripClick"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />
-         -->
-
         <info.hoang8f.widget.FButton
             android:id="@+id/btn_Main_endTrip"
             app:buttonColor="@color/md_red_400"
@@ -162,16 +131,6 @@
                 android:typeface="monospace"
                 android:layout_marginTop="118dp"/>
 
-            <!--
-            <TextView
-                android:id="@+id/gaugeView_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="0 KM/H"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-            -->
         </FrameLayout>
 
 
@@ -260,48 +219,52 @@
                     android:visibility="gone"
                     />
 
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                >
+
                 <Switch
                     android:id="@+id/switch_Main_simulate_trip"
                     android:text="@string/switch_Main_simulate_trip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:checked="true"
                     android:onClick="simulateTripSwitch"
-                    android:visibility="gone"
+                    android:visibility="visible"
+                    android:textSize="16sp"
                     />
-        </FrameLayout>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context="net.uoit.luisarojas.lab5.MainActivity">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/md_black_1000"
-                    android:text="@string/bluetooth_status"/>
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/md_black_1000"
+                        android:text="@string/bluetooth_status"/>
 
-                <TextView
-                    android:id="@+id/bt_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/md_red_900"
-                    android:text="@string/disconnected_status"/>
+                    <TextView
+                        android:id="@+id/bt_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="@color/md_red_900"
+                        android:text="@string/disconnected_status"/>
+                </LinearLayout>
 
             </LinearLayout>
 

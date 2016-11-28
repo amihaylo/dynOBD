@@ -6,12 +6,10 @@ import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,7 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class vinDataDownloader extends AsyncTask<String, Integer, String> {
     private static final String VIN_BASE_URL = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/";
 
-    ArrayList<String> data;
+    ArrayList<Tuple> data;
     ConnectionHandler listener;
 
     public vinDataDownloader(ConnectionHandler listener) {
@@ -63,10 +61,10 @@ public class vinDataDownloader extends AsyncTask<String, Integer, String> {
                     if((!variable.toLowerCase().equals("error code")) &&
                             (!variable.toLowerCase().equals("additional error text")) &&
                             (!variable.toLowerCase().equals("possible values")) &&
-                            //(!variable.toLowerCase().equals("suggested vin")) &&
+                            (!variable.toLowerCase().equals("suggested vin")) &&
                             (!variable.toLowerCase().equals("note"))
                             ){
-                        this.data.add(variable + ": " + value);
+                        this.data.add(new Tuple(variable, value));
                         //Log.d(METHOD, "variable=" + variable + ", value=" + value);
                     }
                 }

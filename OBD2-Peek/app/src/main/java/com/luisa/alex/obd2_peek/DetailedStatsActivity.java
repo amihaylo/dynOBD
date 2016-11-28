@@ -1,19 +1,12 @@
 package com.luisa.alex.obd2_peek;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 //Floating menu
-import com.nightonke.boommenu.BoomMenuButton;
-import com.nightonke.boommenu.Types.BoomType;
-import com.nightonke.boommenu.Types.ButtonType;
-import com.nightonke.boommenu.Types.PlaceType;
-import com.nightonke.boommenu.Util;
 
 public class DetailedStatsActivity extends AppCompatActivity {
 
@@ -91,8 +84,8 @@ public class DetailedStatsActivity extends AppCompatActivity {
         timeDepartureText.setText(trip.getTimeDeparture());
         destinationText.setText(trip.getDestination());
         timeArrivalText.setText(trip.getTimeArrival());
-        maxSpeedText.setText(""+trip.getMaxSpeed());
-        maxRPMText.setText(""+trip.getMaxRPM());
+        maxSpeedText.setText(trip.getMaxSpeed()+" km/h");
+        maxRPMText.setText(trip.getMaxRPM()+" rpm");
     }
 
     public void getIntentExtras() {

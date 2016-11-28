@@ -18,14 +18,14 @@ import java.util.List;
 public class vinArrayAdapter extends BaseAdapter {
 
     private Context context = null;
-    private List<String> data = null;
+    private List<Tuple> data = null;
 
-    public vinArrayAdapter(Context context, List<String> data) {
+    public vinArrayAdapter(Context context, List<Tuple> data) {
         this.context = context;
         this.data = data;
     }
 
-    public void updateDataArray(List<String> data){
+    public void updateDataArray(List<Tuple> data){
         this.data.clear();
         this.data.addAll(data);
         this.notifyDataSetChanged();
@@ -49,7 +49,7 @@ public class vinArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        String currData = data.get(position);
+        Tuple currData = data.get(position);
 
         if (convertView == null) {
             //if there are no previous views, then create a new view based on the custom list item layout
@@ -58,8 +58,11 @@ public class vinArrayAdapter extends BaseAdapter {
         }
 
         //populate the UI item with the data
-        TextView lblTitle = (TextView) convertView.findViewById(R.id.lbl_vin_data);
-        lblTitle.setText(currData);
+        TextView lblTitle = (TextView) convertView.findViewById(R.id.lbl_vin_title);
+        lblTitle.setText(currData.getKey());
+
+        TextView lblData = (TextView) convertView.findViewById(R.id.lbl_vin_data);
+        lblData.setText(currData.getValue());
 
         return convertView;
     }

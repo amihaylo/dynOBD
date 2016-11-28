@@ -85,6 +85,7 @@ public class MainActivity
     //private boolean isLocationEnabled = false;
 
     private Boolean simulateTrip;
+    Switch simulateTripSwitch;
 
     //****************************METHODS******************************
 
@@ -132,7 +133,7 @@ public class MainActivity
         //Load the UI elements from the resources into the private members of this class
 
         //Check if the data should be simulated
-        Switch simulateTripSwitch = (Switch) findViewById(R.id.switch_Main_simulate_trip);
+        simulateTripSwitch = (Switch) findViewById(R.id.switch_Main_simulate_trip);
         this.simulateTrip = simulateTripSwitch.isChecked();
 
         //Initialize the toast
@@ -294,6 +295,8 @@ public class MainActivity
             btStatus.setText("CONNECTED");
             btStatus.setTextColor(getResources().getColor(R.color.md_green_600));
 
+            simulateTripSwitch.setEnabled(false);
+
             //Hide the connect button and show the Disconnect one
             afterConnectDisplay();
             connectingDialog.dismiss();
@@ -301,7 +304,6 @@ public class MainActivity
             toastMessage = "Unsuccessful Connection!";
             //MainActivity.showToast(toastMessage);
             connectingDialog.dismiss();
-            //TODO tell the user connection was unsuccessful
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Something went wrong")
                     .setContentText("We were unable to connect to this device. Please try again or use a different one.")
@@ -331,6 +333,8 @@ public class MainActivity
                 // Set Bluetooth status to OFF
                 btStatus.setText("DISCONNECTED");
                 btStatus.setTextColor(getResources().getColor(R.color.md_red_900));
+
+                simulateTripSwitch.setEnabled(true);
             } else {
                 //Show UnSuccess Toast
                 MainActivity.showToast("Disconnect Unsuccessful!");
@@ -607,7 +611,6 @@ public class MainActivity
                     isLocationPermissionEnabled = true;
                     Log.d("TAG", "isLocationPermissionEnabled is now true.");
 
-                    //TODO: GET MENU BUTTON AND CLICK IT AGAIN!
                     onClick(1);
                     //checkLocationEnabled();
                 } else {
@@ -625,13 +628,35 @@ public class MainActivity
         Log.d(METHOD, "called");
 
         if(this.commSocket == null){
-            showToast("Please Connect First!");
+            //showToast("Please Connect First!");
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("There's no connection!")
+                    .setContentText("We need to connect to your vehicle in order to get you the information you need. Make sure you do that first!")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
             return;
         }
 
         //If not null, check if there is a connection
         if(!this.commSocket.isConnected()){
-            showToast("OBD Not Connected!");
+            //showToast("OBD Not Connected!");
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("There's no connection!")
+                    .setContentText("We need to connect to your vehicle in order to get you the information you need. Make sure you do that first!")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
             return;
         }
 
@@ -722,7 +747,7 @@ public class MainActivity
     }
 
     @Override
-    public void showCarDataList(ArrayList<String> data){
+    public void showCarDataList(ArrayList<Tuple> data){
         String METHOD = "showCarDataList";
 
         //Check if there was an error in downloading the data from the site
@@ -733,7 +758,7 @@ public class MainActivity
 
         //Launch the intent to display the car data
         Intent intent = new Intent(this, AboutCarActivity.class);
-        intent.putStringArrayListExtra("carData", data);
+        intent.putExtra("carData", data);
         startActivityForResult(intent, ABOUT_REQ);
 
         //TEMP - log the data

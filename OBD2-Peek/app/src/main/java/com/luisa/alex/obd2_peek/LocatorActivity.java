@@ -1,22 +1,22 @@
 package com.luisa.alex.obd2_peek;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
-import android.provider.Settings;
-import android.support.annotation.MainThread;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,15 +24,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
 import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
-
-import java.util.List;
-import java.util.Locale;
 
 public class LocatorActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -93,8 +91,42 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         //Marker stuff
         MarkerOptions marker = new MarkerOptions();
         marker.position(position);
-        marker.title("You are at " + address.getAddressLine(0));
+        marker.title("You are here");
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.car_marker));
+        marker.snippet(address.getAddressLine(0) + ", \n" + address.getAddressLine(1) + ", \n" + address.getAddressLine(2));
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker marker) {
+              return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+              Context context = LocatorActivity.this;
+
+              LinearLayout info = new LinearLayout(context);
+              info.setOrientation(LinearLayout.VERTICAL);
+
+              TextView title = new TextView(context);
+              title.setTextColor(Color.BLACK);
+              title.setGravity(Gravity.CENTER);
+              title.setTypeface(null, Typeface.BOLD);
+              title.setText(marker.getTitle());
+
+              TextView snippet = new TextView(context);
+              snippet.setTextColor(Color.GRAY);
+              snippet.setText(marker.getSnippet());
+
+              info.addView(title);
+              info.addView(snippet);
+
+              return info;
+            }
+        });
+
+
         mMap.addMarker(marker).showInfoWindow();
 
         //UI Controls
@@ -104,6 +136,7 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
         //mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         mMap.setPadding(0, 0, 0, 200);
 
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
         //Camera position
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(position)      // Sets the center of the mMap to location user

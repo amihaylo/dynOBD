@@ -8,16 +8,15 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.github.pires.obd.commands.control.VinCommand;
-import com.github.pires.obd.commands.protocol.CloseCommand;
-import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.commands.SpeedCommand;
+import com.github.pires.obd.commands.control.VinCommand;
 import com.github.pires.obd.commands.engine.RPMCommand;
+import com.github.pires.obd.commands.protocol.CloseCommand;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
 import com.github.pires.obd.commands.protocol.TimeoutCommand;
-import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
+import com.github.pires.obd.enums.ObdProtocols;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -84,8 +83,6 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
         String date = dfDate.format(this.startDate);
         String departureTime = dfTime.format(this.startDate);
-
-        
 
         //Get the origin
         String origin = "N/A";
@@ -164,7 +161,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
 
         //Dummy Data
         this.trip.setMaxSpeed(currMaxSpeed);
-        this.trip.setMaxRPM(currMaxSpeed);
+        this.trip.setMaxRPM(currMaxRPM);
 
         return this.trip;
     }

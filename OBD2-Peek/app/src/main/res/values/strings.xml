@@ -29,18 +29,18 @@
     <string name="title_help_activity">Help</string>
     <string name="details_title">Trip Details</string>
     <string name="date">Date</string>
-    <string name="duration">Duration</string>
+    <string name="duration">Duration:&#160;</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>
-    <string name="max_speed">Maximum Speed</string>
+    <string name="max_speed">Maximum Speed:&#160;</string>
     <string name="avg_speed">Average Speed</string>
-    <string name="max_rpm">Maximum RPM</string>
+    <string name="max_rpm">Maximum RPM:&#160;</string>
     <string name="avg_rpm">Average RPM</string>
     <string name="back">Back</string>
-    <string name="switch_Main_simulate_trip">Simulate Data</string>
+    <string name="switch_Main_simulate_trip">Simulated Data</string>
     <string name="bluetooth_status">Bluetooth status:&#160;</string>
     <string name="disconnected_status">DISCONNECTED</string>
-    <string name="time_departure">Departure Time:</string>
-    <string name="time_arrival">Arrival Time:</string>
+    <string name="time_departure">Departure Time:&#160;</string>
+    <string name="time_arrival">Arrival Time:&#160;</string>
 
 </resources>

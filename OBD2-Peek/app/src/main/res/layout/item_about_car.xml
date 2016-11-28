@@ -3,10 +3,29 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="Loading..."
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lbl_vin_data"
-        android:textSize="14sp" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_vin_title"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/md_red_400"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:text="Loading..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_vin_data"
+            android:textColor="@color/md_black_1000"/>
+        </LinearLayout>
+
 </LinearLayout>
