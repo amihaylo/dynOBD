@@ -807,7 +807,7 @@ public class MainActivity
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        Log.d(METHOD, "Saving Trip!!");
+                        //Log.d(METHOD, "Saving Trip:" + tripMissingID.toString());
                         sDialog.dismissWithAnimation();
 
                         //Save the trip details in the database

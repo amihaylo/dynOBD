@@ -9,6 +9,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Address;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class TripDatabase extends SQLiteOpenHelper{
      */
     private static final String TABLE_NAME = "trips";
     private static final String DB_FILENAME = "trips.db";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private static final String CREATE_STATEMENT = "" +
             "create table " +
