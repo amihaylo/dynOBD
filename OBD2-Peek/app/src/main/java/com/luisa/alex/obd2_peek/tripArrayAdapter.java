@@ -66,22 +66,22 @@ public class tripArrayAdapter extends BaseAdapter {
         Integer maxRPM = currData.getMaxRPM();
 
         //populate the UI item with the data
-        TextView lbl_id = (TextView) convertView.findViewById(R.id.edit_trip_id);
+        //TextView lbl_id = (TextView) convertView.findViewById(R.id.edit_trip_id);
         TextView lbl_date = (TextView) convertView.findViewById(R.id.edit_trip_date);
-        TextView lbl_duration = (TextView) convertView.findViewById(R.id.edit_trip_duration);
+        //TextView lbl_duration = (TextView) convertView.findViewById(R.id.edit_trip_duration);
         TextView lbl_origin = (TextView) convertView.findViewById(R.id.edit_trip_origin);
         TextView lbl_destination = (TextView) convertView.findViewById(R.id.edit_trip_destination);
-        TextView lbl_maxSpeed = (TextView) convertView.findViewById(R.id.edit_trip_maxSpeed);
-        TextView lbl_maxRPM = (TextView) convertView.findViewById(R.id.edit_trip_maxRPM);
+        //TextView lbl_maxSpeed = (TextView) convertView.findViewById(R.id.edit_trip_maxSpeed);
+        //TextView lbl_maxRPM = (TextView) convertView.findViewById(R.id.edit_trip_maxRPM);
 
         //Set all the individual elements to be displayed
-        lbl_id.setText(id+"");
+        //lbl_id.setText(id+"");
         lbl_date.setText(date);
-        lbl_duration.setText(duration+"");
+        //lbl_duration.setText(duration+"");
         lbl_origin.setText(origin);
         lbl_destination.setText(destination);
-        lbl_maxSpeed.setText(maxSpeed + "");
-        lbl_maxRPM.setText(maxRPM + "");
+        //lbl_maxSpeed.setText(maxSpeed + "");
+        //lbl_maxRPM.setText(maxRPM + "");
 
         return convertView;
     }
