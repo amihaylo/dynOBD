@@ -27,6 +27,53 @@ public class DetailedStatsActivity extends AppCompatActivity {
         getIntentExtras();
     }
 
+    public static String getTimeDiff(long duration){
+        //Takes the duration (ms) and returns a string
+        //that shows the days, hours, minutes, and seconds
+        String returnStr = "";
+
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = duration / daysInMilli;
+        if(elapsedDays != 0){
+            returnStr += elapsedDays + " Day";
+            if(elapsedDays > 1){
+                returnStr += "s";
+            }
+            returnStr += ", ";
+        }
+        duration = duration % daysInMilli;
+
+        long elapsedHours = duration / hoursInMilli;
+        if(elapsedHours != 0){
+            returnStr += elapsedHours + " Hour";
+            if(elapsedHours > 1){
+                returnStr += "s";
+            }
+            returnStr += ", ";
+        }
+        duration = duration % hoursInMilli;
+
+        long elapsedMinutes = duration / minutesInMilli;
+        if(elapsedMinutes != 0){
+            returnStr += elapsedMinutes + " Minute";
+            if(elapsedMinutes > 1){
+                returnStr += "s";
+            }
+            returnStr += ", ";
+        }
+        duration = duration % minutesInMilli;
+
+        long elapsedSeconds = duration / secondsInMilli;
+        returnStr += elapsedSeconds + " seconds";
+
+        return returnStr;
+    }
+
     public void displayTripInfo(Trip trip) {
 
         TextView dateText = (TextView) findViewById(R.id.date);
@@ -39,7 +86,7 @@ public class DetailedStatsActivity extends AppCompatActivity {
         TextView maxRPMText = (TextView) findViewById(R.id.maxRPM);
 
         dateText.setText(trip.getDate());
-        durationText.setText(""+trip.getDuration());
+        durationText.setText(getTimeDiff(trip.getDuration()));
         originText.setText(trip.getOrigin());
         timeDepartureText.setText(trip.getTimeDeparture());
         destinationText.setText(trip.getDestination());

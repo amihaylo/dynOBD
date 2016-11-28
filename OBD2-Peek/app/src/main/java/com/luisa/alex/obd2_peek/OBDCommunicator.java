@@ -155,7 +155,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         }
 
         //Dummy Data
-        this.trip.setDuration(new Long(1400));
+        this.trip.setDuration(new Long(0));
         this.trip.setMaxSpeed(150);
         this.trip.setMaxRPM(4000);
 
@@ -345,8 +345,12 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             connHandler.resetGauges();
 
             //set the Arrival Time
+            Date endDate = new Date();
             SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
             tripMissingId.setTimeArrival(dfTime.format(new Date()));
+
+            //Set the duration
+            tripMissingId.setDuration(endDate.getTime() - this.startDate.getTime());
 
             //Set the destination
             String destination = "N/A";
