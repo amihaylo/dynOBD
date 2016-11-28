@@ -51,7 +51,7 @@ public class LocationHelper {
             //Finally obtain the last known location
             lastKnownLocation = locationManager.getLastKnownLocation(recommendedProvider);
             if(lastKnownLocation != null){
-                Log.d("getLastLocation", "last known location: " + lastKnownLocation);
+                //Log.d("getLastLocation", "last known location: " + lastKnownLocation);
             }else{
                 Log.d("getLastLocation", "location is null");
             }
@@ -75,7 +75,7 @@ public class LocationHelper {
                 List<Address> resultsAdr = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 if(resultsAdr.size() > 0){
                     address = resultsAdr.get(0);
-                    Log.d(TAG, "Found address:" + address.toString());
+                    //Log.d(TAG, "Found address:" + address.toString());
 
                 }else{
                     Log.d(TAG, "No result addresses found");

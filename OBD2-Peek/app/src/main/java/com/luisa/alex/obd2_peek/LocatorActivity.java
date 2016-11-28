@@ -21,6 +21,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -85,23 +87,32 @@ public class LocatorActivity extends FragmentActivity implements OnMapReadyCallb
 
     private void showOnMap(Address address) {
         if(address == null){return;}
+        mMap.clear();
         LatLng position = new LatLng(address.getLatitude(), address.getLongitude());
 
-        //Setup and set the marker
+        //Marker stuff
         MarkerOptions marker = new MarkerOptions();
         marker.position(position);
-        marker.title("Marker!");
-        mMap.addMarker(marker);
+        marker.title("You are at " + address.getAddressLine(0));
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.car_marker));
+        mMap.addMarker(marker).showInfoWindow();
 
-        //Zoom in with the camera
-        CameraUpdate zoom=CameraUpdateFactory.zoomTo(7);
-        mMap.animateCamera(zoom);
+        //UI Controls
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+        //mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        mMap.setPadding(0, 0, 0, 200);
 
-        //TODO ADD ALL THE ADDRESS INFO TO THE MARKER
+        //Camera position
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(position)      // Sets the center of the mMap to location user
+                .zoom(19)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east
+                .tilt(60)                   // Sets the tilt of the camera to 30 degrees
+                .build();                   // Creates a CameraPosition from the builder
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        mMap.setMinZoomPreference(4.0f);
-        mMap.setMaxZoomPreference(10.0f);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
     }
 
     private void logAddress(Address address) {
