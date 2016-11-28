@@ -161,7 +161,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            android:paddingRight="50dp"
+            android:onClick="step3Click">
 
             <LinearLayout
                 android:orientation="horizontal"

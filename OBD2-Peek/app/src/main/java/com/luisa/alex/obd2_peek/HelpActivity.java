@@ -141,4 +141,9 @@ public class HelpActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Step2Activity.class);
         startActivity(intent);
     }
+
+    public void step3Click(View view) {
+        Intent intent = new Intent(this, Step3Activity.class);
+        startActivity(intent);
+    }
 }
