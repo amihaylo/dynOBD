@@ -102,7 +102,7 @@
              -->
 
             <com.shinelw.library.ColorArcProgressBar
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
@@ -129,7 +129,7 @@
                 android:textColor="@color/md_black_1000"
                 android:textSize="60sp"
                 android:typeface="monospace"
-                android:layout_marginTop="118dp"/>
+                android:layout_marginTop="114dp"/>
 
         </FrameLayout>
 
@@ -153,7 +153,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp"
+                android:paddingTop="15dp"
                 android:layout_gravity="center_horizontal"
                 app:gaugeEndValue="@string/param_gauge_max_rpm"
                 app:gaugePointEndColor="@color/md_red_300"
@@ -262,7 +262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:textColor="@color/md_red_900"
+                        android:textColor="@color/md_red_800"
                         android:text="@string/disconnected_status"/>
                 </LinearLayout>
 

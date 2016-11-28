@@ -332,7 +332,7 @@ public class MainActivity
 
                 // Set Bluetooth status to OFF
                 btStatus.setText("DISCONNECTED");
-                btStatus.setTextColor(getResources().getColor(R.color.md_red_900));
+                btStatus.setTextColor(getResources().getColor(R.color.md_red_800));
 
                 simulateTripSwitch.setEnabled(true);
             } else {
