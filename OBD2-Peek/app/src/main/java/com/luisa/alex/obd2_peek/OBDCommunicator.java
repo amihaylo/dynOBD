@@ -140,6 +140,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             //Not querying for vin - Run actual data communication
 
         //-----------ACTUAL COMMUNICATION----------
+        Integer currMaxSpeed = 0;
+        Integer currMaxRPM = 0;
         while(this.mmSocket.isConnected()) {
             try {
                 //Log.d("testCommunication", "i = " + i);
@@ -147,17 +149,22 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            //Update with the new simulated data, index 0 = speed, index 1 = RPM
             simulateData(simDataStream);
+            int speed = simDataStream[0];
+            int RPM = simDataStream[1];
+
+            //Check if Max values should be updated
+            if(speed > currMaxSpeed){currMaxSpeed = speed;}
+            if(RPM > currMaxRPM){currMaxRPM = RPM;}
 
             //Update the UI with the speed and rpm values
-            //publishProgress(i * 2, i * 60);
             publishProgress(simDataStream[0], simDataStream[1]);
         }
 
         //Dummy Data
-        this.trip.setDuration(new Long(0));
-        this.trip.setMaxSpeed(150);
-        this.trip.setMaxRPM(4000);
+        this.trip.setMaxSpeed(currMaxSpeed);
+        this.trip.setMaxRPM(currMaxSpeed);
 
         return this.trip;
     }
@@ -224,6 +231,10 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
     private Trip establishOBDComm() {
         String METHOD = "establishOBDComm";
         Log.d(METHOD, "called");
+
+        //Init the max Speed and RPM
+        Integer currMaxSpeed = 0;
+        Integer currMaxRPM = 0;
         try {
             Log.d(TAG, "[OBDCommunicator.doInBackground] Initializing OBD...");
             //init the OBD Device with the following configuration commands
@@ -257,10 +268,6 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             }
 
             //----------------ACTUAL COMMUNICATION-------------
-            //Proceed with regular communication
-            //Declare the commands
-            SpeedCommand speedCommand = new SpeedCommand();
-            RPMCommand rpmCommand = new RPMCommand();
             /*
             LoadCommand loadCommand = new LoadCommand();
             DistanceSinceCCCommand distanceCommand = new DistanceSinceCCCommand();
@@ -283,6 +290,11 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             EngineCoolantTemperatureCommand engineCoolantTemperatureCommand = new EngineCoolantTemperatureCommand();
             */
 
+            //Proceed with regular communication
+            //Declare the commands
+            SpeedCommand speedCommand = new SpeedCommand();
+            RPMCommand rpmCommand = new RPMCommand();
+
             //Start communicating
             Log.d(TAG, "[OBDCommunicator.doInBackground] Starting the communication stream:");
             //while (!Thread.currentThread().isInterrupted()) {
@@ -292,9 +304,17 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
                 speedCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
                 rpmCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
 
+                //Obtain the speed and RPM
+                Integer speed = speedCommand.getMetricSpeed();
+                Integer RPM = rpmCommand.getRPM();
+
+                //Check if Max values should be updated
+                if(speed > currMaxSpeed){currMaxSpeed = speed;}
+                if(RPM > currMaxRPM){currMaxRPM = RPM;}
 
                 //Display the result to the UI. Calls onProgressUpdate(String... carData)
-                publishProgress(speedCommand.getMetricSpeed(), rpmCommand.getRPM());
+                //publishProgress(speedCommand.getMetricSpeed(), rpmCommand.getRPM());
+                publishProgress(speed, RPM);
 
 
                 //-------DEBUG--------- TODO: Uncomment for debugging purposes
@@ -316,9 +336,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             closeCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
 
             //Dummy Data
-            this.trip.setDuration((new Date()).getTime() - this.startDate.getTime());
-            this.trip.setMaxSpeed(150);
-            this.trip.setMaxRPM(4000);
+            this.trip.setMaxSpeed(currMaxSpeed);
+            this.trip.setMaxRPM(currMaxRPM);
 
         }catch(Exception e){
             e.printStackTrace();
