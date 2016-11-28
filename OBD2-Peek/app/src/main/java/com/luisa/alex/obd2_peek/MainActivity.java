@@ -211,7 +211,7 @@ public class MainActivity
                         @Override
                         public void onTargetClick(TapTargetView view) {
                             super.onTargetClick(view);      // This call is optional
-                            Log.d("TAG", "something");
+                            MainActivity.firstRun = false;
                         }
                     });
         }
