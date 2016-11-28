@@ -90,7 +90,7 @@ public class MainActivity
     private Boolean simulateTrip;
     Switch simulateTripSwitch;
 
-    private static boolean firstRun;
+    public static boolean firstRun;
 
     //****************************METHODS******************************
 

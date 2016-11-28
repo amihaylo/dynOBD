@@ -20,115 +20,198 @@
         />
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <!--
-        <TextView
-            android:text="@string/title_help_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="35sp"
-            android:textAllCaps="true"
-            android:textColor="@color/md_amber_600"
-            android:layout_gravity="center_horizontal"
-            android:typeface="normal"
-            android:textStyle="normal|" />
-            -->
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:text="Step 1"
-            android:textAllCaps="true"
-            android:textColor="@color/md_amber_600"
-            android:textSize="25sp"
-            android:textStyle="normal"
-            android:textAlignment="center"
-            android:onClick="step1Click"
-            android:id="@+id/lbl_step1"
-            />
+            android:layout_height="match_parent"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
-        <TextView
-            android:text="Connect OBD device to vehicle"
-            android:textColor="@color/md_black_1000"
-            android:textSize="16sp"
-            android:layout_marginTop="-5dp"
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:text="Step 1"
+                        android:textAllCaps="true"
+                        android:textColor="@color/md_amber_600"
+                        android:textSize="25sp"
+                        android:onClick="step1Click"
+                        android:id="@+id/lbl_step1"
+                        />
+
+                    <TextView
+                        android:text="Plug in OBD device\nto vehicle"
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="16sp"
+                        android:layout_marginTop="-5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView"
+                        android:onClick="step1Click"
+                        />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:layout_height="130dp"
+                    android:layout_width="130dp"
+                    android:src="@drawable/step1"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="step1Click">
+                </ImageView>
+
+            </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:id="@+id/textView"
-            android:onClick="step1Click"
-            />
+            android:layout_height="1dp"
+            android:background="@color/md_grey_300"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"/>
 
-        <ImageView
-            android:layout_marginTop="10dp"
-            android:layout_height="130dp"
-            android:layout_width="130dp"
-            android:src="@drawable/step1"
-            android:layout_gravity="center_horizontal"
-            android:onClick="step1Click"
-            >
-        </ImageView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="50dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="35dp"
-            android:textColor="@color/md_amber_600"
-            android:text="Step 2"
-            android:textAllCaps="true"
-            android:textSize="25sp"
-            android:textStyle="normal"
-            android:textAlignment="center" />
-        <TextView
-            android:text="Connect phone to OBD"
-            android:layout_marginTop="-5dp"
-            android:layout_width="match_parent"
-            android:textColor="@color/md_black_1000"
-            android:textSize="16sp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center" />
-        <ImageView
-            android:layout_marginTop="10dp"
-            android:layout_height="130dp"
-            android:layout_width="130dp"
-            android:src="@drawable/step2"
-            android:layout_gravity="center_horizontal">
-        </ImageView>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="35dp"
-            android:textColor="@color/md_amber_600"
-            android:text="Step 3"
-            android:textAllCaps="true"
-            android:textSize="25sp"
-            android:textStyle="normal"
-            android:textAlignment="center" />
-        <TextView
-            android:text="Enjoy your Trip"
-            android:textColor="@color/md_black_1000"
-            android:textSize="16sp"
-            android:layout_marginTop="-5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginBottom="-15dp"
-            />
-        <ImageView
-            android:layout_marginTop="10dp"
-            android:layout_height="130dp"
-            android:layout_width="130dp"
-            android:src="@drawable/step3"
-            android:layout_gravity="center_horizontal">
-        </ImageView>
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:layout_height="130dp"
+                        android:layout_width="130dp"
+                        android:src="@drawable/step2"
+                        android:layout_gravity="center_horizontal">
+                    </ImageView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="right">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:textColor="@color/md_amber_600"
+                        android:text="Step 2"
+                        android:textAllCaps="true"
+                        android:textSize="25sp"
+                        android:textStyle="normal"
+                        android:gravity="right"/>
+
+                    <TextView
+                        android:text="Connect phone to OBD"
+                        android:layout_marginTop="-5dp"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/md_grey_300"
+            android:layout_marginTop="40dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:textColor="@color/md_amber_600"
+                        android:text="Step 3"
+                        android:textAllCaps="true"
+                        android:textSize="25sp"
+                        android:textStyle="normal"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:text="Enjoy your Trip"
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="16sp"
+                        android:layout_marginTop="-5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:layout_height="130dp"
+                        android:layout_width="130dp"
+                        android:src="@drawable/step3"
+                        android:layout_gravity="center_horizontal">
+                    </ImageView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
