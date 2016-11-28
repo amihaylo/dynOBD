@@ -1,15 +1,56 @@
-#CSCI 4100 Final Project
----
+#dynOBD <img src="img/dynobd_logo2.png" width="100">
+------------
 
-##Due: Monday, November 28, 2016
-###Members:
-* Luisa Rojas
-* Alexandar Mihaylov
+####Version:`1.0` Min SDK:`23` Target SDK:`24`
 
-##Idea 1: OBD2 Car App
-* Using [OBD2](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) we aim to read a statistics from a car and incorporate them into an android application.
+------
 
-##Specifics
+<a href="https://github.com/lrojas12">
+<img border="0" alt="W3Schools" src="https://avatars2.githubusercontent.com/u/14943496?v=3&s=460" width="100" height="100" style="border-radius:25px;" >
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/amihaylo">
+<img border="0" alt="W3Schools" src="https://avatars2.githubusercontent.com/u/8698595?v=3&s=460" width="100" height="100" style="border-radius:25px;">
+</a>
+####*Luisa Rojas* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *Alexandar Mihaylov*
+
+---------
+#About
+<img src="img/trip_example.gif" width="152">
+<img src="img/about_car.gif" width="152">
+<img src="img/locator.gif" width="152">
+
+> **dynOBD** is an android application that keep track of statistics about any given car trip. It uses bluetooth to connect to an [OBDII](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) dongle that is connected seperately to the car's [DLC](https://en.wikipedia.org/wiki/Data_link_connector_(automotive)). Instructions on connecting the dongle to the car can be found [here](http://www.ehow.com/how_2214654_connect-obd2-car.html). Alternatively if there is no access to an OBDII dongle then the user can generate simulated data which is explained in further detail down below. 
+
+----------
+
+#Running dynOBD
+###Method 1 - Simulated Data (RANDY README)
+* Ensure that the switch at the bottom of the app.<img src="img/simulated_data.png" width="100"> is **ON** as shown. 
+* Only the datastream is simulated, so you still need to connect to **any** bluetooth device before proceeding
+* Turn on the Bluetooth to your computer <img src="img/bluetooth_on.png"" width="50"/>
+* Pair your phone with you computer
+* Launch dynOBD <img src="img/logo.png" width="30"/>
+* Click the <img src="img/connect_button.png" width="100"/> Button
+* Select your computer from the *list of paired devices*
+* Click the <img src="img/start_button.png" width="100"/> Button
+* The data will simulate acceleration to about *~100 km/h* and *~2200 RPM* and begin to fluctuate around those ranges. 
+* You can proceed to use the app as normal from this point on
+
+
+-----------
+
+
+###Method 2 - Real Data
+* Connect the Dongle to the Car DLC, for more detailed instructions visit [this page](http://www.ehow.com/how_2214654_connect-obd2-car.html)
+* Ensure that the bluetooth is on, there should be a power button and lights indicating that the device is on
+* Start your car
+* Before launching the app, pair your phone with the OBDII dongle 
+* Launch dynOBD <img src="img/logo.png" width="30"/>
+
+
+
+##Specifics used to test Application
 * **Car Make**: 2003 Hyundai Elantra
 * **OBDII Protocol**: ISO 14230-4 
 * **ISO 14230-4 Supported by**: ELM323, ELM327, ELM327/L
