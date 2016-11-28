@@ -67,6 +67,7 @@ public class MainActivity
 
     public ConnectBTAsync connBTAsync = null;
     public BluetoothSocket commSocket;
+    private Boolean isTripOngoing = false;
 
     //TOAST
     private static Toast toast;
@@ -354,6 +355,7 @@ public class MainActivity
             //Hide the connect button and show the Disconnect one
             afterConnectDisplay();
             connectingDialog.dismiss();
+
         } else {
             toastMessage = "Unsuccessful Connection!";
             //MainActivity.showToast(toastMessage);
@@ -389,6 +391,9 @@ public class MainActivity
                 btStatus.setTextColor(getResources().getColor(R.color.md_red_800));
 
                 simulateTripSwitch.setEnabled(true);
+
+                isTripOngoing = false;
+
             } else {
                 //Show UnSuccess Toast
                 MainActivity.showToast("Disconnect Unsuccessful!");
@@ -498,6 +503,9 @@ public class MainActivity
 
                     //Hide/Show Buttons
                     afterStartTripDisplay();
+
+                    isTripOngoing = true;
+
                 } else {
                     showToast("Not connected to OBD");
                 }
@@ -680,6 +688,21 @@ public class MainActivity
     public void LaunchAboutCarActivity() {
         String METHOD = "testBtnClick";
         Log.d(METHOD, "called");
+
+        if (isTripOngoing) {
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Oh, no!")
+                    .setContentText("Sorry, we can only do one connection at a time. Try again when you've completed your trip!")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
+            return;
+        }
 
         if(this.commSocket == null){
             //showToast("Please Connect First!");
