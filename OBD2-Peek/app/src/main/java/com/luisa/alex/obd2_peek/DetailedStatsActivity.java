@@ -18,7 +18,6 @@ public class DetailedStatsActivity extends AppCompatActivity {
 
     private final static String TAG = "DetailedStatsActivity";
     private int position;
-    private boolean deleting = false;
 
     private TripDatabase tripDatabase;
 
@@ -131,8 +130,6 @@ public class DetailedStatsActivity extends AppCompatActivity {
     public void deletePastTripClicked(View view) {
         Log.d("TAG", "Item to delete: " + position);
 
-        deleting = false;
-
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Are you sure?")
                 .setContentText("Won't be able to recover this trip!")
@@ -141,12 +138,14 @@ public class DetailedStatsActivity extends AppCompatActivity {
                 .showCancelButton(true)
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
-                    public void onClick(SweetAlertDialog sDialog) {
+                    public void onClick(final SweetAlertDialog sDialog) {
                         sDialog.dismissWithAnimation();
                         ArrayList<Trip> trips = tripDatabase.getAllTrips();
                         Trip tripToDelete = trips.get(position);
                         // delete from database
                         tripDatabase.deleteTrip(tripToDelete.getId());
+
+                        MainActivity.showToast("Trip deleted");
 
                         finish();
                     }
@@ -158,6 +157,5 @@ public class DetailedStatsActivity extends AppCompatActivity {
                     }
                 })
                 .show();
-
     }
 }

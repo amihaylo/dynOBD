@@ -35,11 +35,10 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
 
         //testDatabase();
 
-        /*
         //Get the Trips from the dataset
         ArrayList<Trip> trips = tripDatabase.getAllTrips();
         showTrips(trips);
-        */
+
     }
 
     @Override
@@ -87,9 +86,10 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
     public void showTrips(ArrayList<Trip> trips){
 
         TextView noPastTrips = (TextView) findViewById(R.id.empty_list);
+        ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
 
         if (trips.size() > 0) {
-            ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
+            listView.setVisibility(View.VISIBLE);
             listView.setAdapter(new tripArrayAdapter(this, trips));
             listView.setOnItemClickListener(this);
 
@@ -97,6 +97,7 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
         } else {
             noPastTrips.setText("There are no past trips to show.");
             noPastTrips.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
         }
     }
 
