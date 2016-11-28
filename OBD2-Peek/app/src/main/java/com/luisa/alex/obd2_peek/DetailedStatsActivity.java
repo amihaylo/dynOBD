@@ -3,19 +3,30 @@ package com.luisa.alex.obd2_peek;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import info.hoang8f.widget.FButton;
 
 //Floating menu
 
 public class DetailedStatsActivity extends AppCompatActivity {
 
     private final static String TAG = "DetailedStatsActivity";
+    private int position;
+    private boolean deleting = false;
+
+    private TripDatabase tripDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_stats);
+        tripDatabase = new TripDatabase(this);
 
         getIntentExtras();
     }
@@ -89,6 +100,7 @@ public class DetailedStatsActivity extends AppCompatActivity {
     }
 
     public void getIntentExtras() {
+
         Intent intent = getIntent();
 
         String date = intent.getStringExtra("date");
@@ -99,11 +111,53 @@ public class DetailedStatsActivity extends AppCompatActivity {
         String timeArrival = intent.getStringExtra("timeArrival");
         int maxSpeed = intent.getIntExtra("maxSpeed", -1);
         int maxRPM = intent.getIntExtra("maxRPM", -1);
+        position = intent.getIntExtra("position", -1);
+
+        FButton deleteButton = (FButton) findViewById(R.id.btn_delete_trip);
+        if (position == -1) {
+            //deleteButton.setEnabled(false);
+            deleteButton.setVisibility(View.GONE);
+        } else {
+            deleteButton.setVisibility(View.VISIBLE);
+        }
 
         displayTripInfo(new Trip(date, duration, origin, timeDeparture, destination, timeArrival, maxSpeed, maxRPM));
     }
 
     public void returnToMainClicked(View view) {
         finish();
+    }
+
+    public void deletePastTripClicked(View view) {
+        Log.d("TAG", "Item to delete: " + position);
+
+        deleting = false;
+
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Are you sure?")
+                .setContentText("Won't be able to recover this trip!")
+                .setConfirmText("YES I\'m sure")
+                .setCancelText("NO Nevermind")
+                .showCancelButton(true)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        ArrayList<Trip> trips = tripDatabase.getAllTrips();
+                        Trip tripToDelete = trips.get(position);
+                        // delete from database
+                        tripDatabase.deleteTrip(tripToDelete.getId());
+
+                        finish();
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+
     }
 }

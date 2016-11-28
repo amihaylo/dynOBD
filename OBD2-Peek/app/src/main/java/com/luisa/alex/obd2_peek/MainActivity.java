@@ -89,10 +89,12 @@ public class MainActivity
     //private boolean isLocationEnabled = false;
 
     private Boolean simulateTrip;
-    Switch simulateTripSwitch;
+    private Switch simulateTripSwitch;
 
     public static boolean firstRunMainActivity;
     public static boolean firstRunHelpActivity;
+
+    private TripDatabase tripDatabase;
 
     //****************************METHODS******************************
 
@@ -110,7 +112,7 @@ public class MainActivity
         initApp();
 
         //TEMP - Delete database at start of app, TODO: Get rid of this after
-        TripDatabase tripDatabase = new TripDatabase(this);
+        tripDatabase = new TripDatabase(this);
         tripDatabase.deleteAllTrips();
     }
 
@@ -822,7 +824,6 @@ public class MainActivity
         intent.putExtra("timeArrival", trip.getTimeArrival());
         intent.putExtra("maxSpeed", trip.getMaxSpeed());
         intent.putExtra("maxRPM", trip.getMaxRPM());
-
         startActivity(intent);
     }
 
@@ -900,7 +901,7 @@ public class MainActivity
         //Log.d("saveTripAlert", "called");
 
         //Obtain the database incase in the event that user wishes to save the trip
-        final TripDatabase tripDatabase = new TripDatabase(this);
+        //tripDatabase = new TripDatabase(this);
 
         //Display an alert asking if the user wants to save the trip
         new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
@@ -1017,4 +1018,5 @@ public class MainActivity
     public void onProviderDisabled(String provider) {
 
     }
+
 }

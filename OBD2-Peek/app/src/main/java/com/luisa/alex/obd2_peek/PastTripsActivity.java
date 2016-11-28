@@ -35,9 +35,18 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
 
         //testDatabase();
 
+        /*
         //Get the Trips from the dataset
         ArrayList<Trip> trips = tripDatabase.getAllTrips();
         showTrips(trips);
+        */
+    }
+
+    @Override
+    public void onRestart() {
+        ArrayList<Trip> trips = tripDatabase.getAllTrips();
+        showTrips(trips);
+        super.onResume();
     }
 
     /*
@@ -83,6 +92,7 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
             ListView listView = (ListView)findViewById(R.id.listView_pastTrips);
             listView.setAdapter(new tripArrayAdapter(this, trips));
             listView.setOnItemClickListener(this);
+
             noPastTrips.setVisibility(View.GONE);
         } else {
             noPastTrips.setText("There are no past trips to show.");
@@ -181,7 +191,7 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
         intent.putExtra("timeArrival", tripClicked.getTimeArrival());
         intent.putExtra("maxSpeed", tripClicked.getMaxSpeed());
         intent.putExtra("maxRPM", tripClicked.getMaxRPM());
-
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 }

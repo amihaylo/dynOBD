@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,18 +29,18 @@
 
 
         <TextView
-            android:text="Click the 'Start Trip' button"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/md_black_1000"
+            android:text="Enjoy your trip"
+            android:layout_marginTop="-5dp"
+            android:textColor="@color/md_amber_600"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textAlignment="center"
             android:onClick="step1Click"
             />
 
         <ImageView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_height="120dp"
             android:layout_width="120dp"
             android:src="@drawable/gauge"
@@ -50,15 +51,15 @@
         <TextView
             android:textColor="@color/md_black_1000"
             android:textSize="16sp"
-            android:layout_marginTop="5dp"
-            android:text="Keep an eye on the live data feed coming in from the car"
+            android:layout_marginTop="10dp"
+            android:text="Click the 'Start Trip' button. Keep an eye on the live data feed coming in from the car."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             />
 
         <ImageView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:layout_height="120dp"
             android:layout_width="120dp"
             android:src="@drawable/steering_wheel"
@@ -67,16 +68,15 @@
         </ImageView>
 
         <TextView
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:textColor="@color/md_black_1000"
-            android:text="Don't forget to keep your eyes on the road"
+            android:text="Don't forget to keep your eyes on the road!"
             android:textAlignment="center" />
 
     </LinearLayout>
-
 
     <info.hoang8f.widget.FButton
         android:id="@+id/btn_Main_connect_obd"

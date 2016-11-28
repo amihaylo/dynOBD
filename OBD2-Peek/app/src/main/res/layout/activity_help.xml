@@ -8,17 +8,6 @@
     android:layout_height="fill_parent"
     tools:context="com.luisa.alex.obd2_peek.HelpActivity">
 
-    <com.nightonke.boommenu.BoomMenuButton
-        android:id="@+id/boom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        app:boom_inActionBar="false"
-        app:boom_button_color="@color/colorPrimary"
-        app:boom_button_pressed_color="@color/colorPrimary"
-        android:layout_gravity="bottom|end"
-        />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -38,7 +27,7 @@
                 android:layout_marginTop="10dp">
 
                 <LinearLayout
-                    android:layout_width="180dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -138,7 +127,7 @@
                         android:gravity="right"/>
 
                     <TextView
-                        android:text="Connect phone to OBD"
+                        android:text="Connect phone to OBD device"
                         android:layout_marginTop="-5dp"
                         android:layout_width="wrap_content"
                         android:textColor="@color/md_black_1000"
@@ -171,7 +160,7 @@
                 android:layout_marginTop="10dp">
 
                 <LinearLayout
-                    android:layout_width="180dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -216,5 +205,16 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/boom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:boom_inActionBar="false"
+        app:boom_button_color="@color/colorPrimary"
+        app:boom_button_pressed_color="@color/colorPrimary"
+        android:layout_gravity="bottom|end"
+        />
 
 </FrameLayout>

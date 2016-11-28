@@ -8,341 +8,370 @@
     android:layout_height="match_parent"
     tools:context="com.luisa.alex.obd2_peek.DetailedStatsActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="25sp"
+            android:textAllCaps="true"
+            android:textColor="@color/md_deep_purple_300"
+            android:layout_gravity="center_horizontal"
+            android:typeface="normal"
+            android:text="@string/details_title"/>
+
+        <!-- GENERAL -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- TITLE -->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="25sp"
-                android:textAllCaps="true"
-                android:textColor="@color/md_deep_purple_300"
-                android:layout_gravity="center_horizontal"
-                android:typeface="normal"
-                android:text="@string/details_title"/>
-
-            <!-- GENERAL -->
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/md_white_1000"
-                    android:textAllCaps="true"
-                    android:background="@color/md_deep_purple_200"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:text="General"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textColor="@color/md_deep_purple_300"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:layout_marginTop="5dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/date"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="30dp">
-
-                    <LinearLayout
-                        android:id="@+id/date_block1"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Start Date: "
-                            android:textColor="@color/md_deep_purple_400"/>
-
-                        <TextView
-                            android:id="@+id/date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_black_1000"/>
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="30dp">
-
-                    <LinearLayout
-                        android:id="@+id/date_block2"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_deep_purple_400"
-                            android:text="@string/duration"/>
-
-                        <TextView
-                            android:id="@+id/duration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_black_1000"/>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textColor="@color/md_deep_purple_300"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/origin"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="30dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_deep_purple_400"
-                            android:text="@string/time_departure"/>
-
-                        <TextView
-                            android:id="@+id/time_departure"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_black_1000"/>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Origin Location: "
-                    android:textColor="@color/md_deep_purple_400"
-                    android:paddingLeft="30dp"
-                    />
-
-                <TextView
-                    android:id="@+id/origin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/md_black_1000"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textColor="@color/md_deep_purple_300"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/destination"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="30dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/time_arrival"
-                            android:textColor="@color/md_deep_purple_400"
-                            />
-
-                        <TextView
-                            android:id="@+id/time_arrival"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_black_1000"/>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Destination Location: "
-                    android:textColor="@color/md_deep_purple_400"
-                    android:paddingLeft="30dp"/>
-
-                <TextView
-                    android:id="@+id/destination"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/md_black_1000"/>
-
-
-            </LinearLayout>
-
-            <!-- TECH -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/md_white_1000"
-                    android:textAllCaps="true"
-                    android:background="@color/md_deep_purple_200"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Tech"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textColor="@color/md_deep_purple_300"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="15dp"
-                    android:text="Speed"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="30dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/max_speed"
-                            android:textColor="@color/md_deep_purple_400"/>
-
-                        <TextView
-                            android:id="@+id/maxSpeed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_black_1000"/>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:textColor="@color/md_deep_purple_300"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:layout_gravity="left"
-                    android:typeface="normal"
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="15dp"
-                    android:text="Throttle"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="30dp">
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/max_rpm"
-                            android:textColor="@color/md_deep_purple_400"/>
-
-                        <TextView
-                            android:id="@+id/maxRPM"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/md_black_1000"/>
-
-
-                    </LinearLayout>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <info.hoang8f.widget.FButton
-                android:id="@+id/btn_Main_connect_obd"
-                app:buttonColor="@color/md_deep_purple_400"
-                app:shadowColor="@color/md_deep_purple_700"
-                app:shadowEnabled="true"
-                app:shadowHeight="2dp"
-                app:cornerRadius="0dp"
-                android:text="Back"
+                android:textSize="15sp"
                 android:textColor="@color/md_white_1000"
-                android:onClick="returnToMainClicked"
+                android:textAllCaps="true"
+                android:background="@color/md_deep_purple_200"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="General"/>
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="100dp"
-                android:layout_gravity="start"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_alignParentBottom="true"/>
+                android:textSize="13sp"
+                android:textColor="@color/md_deep_purple_300"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="15dp"
+                android:text="@string/date"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp">
+
+                <LinearLayout
+                    android:id="@+id/date_block1"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start Date: "
+                        android:textColor="@color/md_deep_purple_400"/>
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black_1000"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp">
+
+                <LinearLayout
+                    android:id="@+id/date_block2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_deep_purple_400"
+                        android:text="@string/duration"/>
+
+                    <TextView
+                        android:id="@+id/duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black_1000"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/md_deep_purple_300"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:text="@string/origin"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_deep_purple_400"
+                        android:text="@string/time_departure"/>
+
+                    <TextView
+                        android:id="@+id/time_departure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black_1000"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Origin Location: "
+                android:textColor="@color/md_deep_purple_400"
+                android:paddingLeft="30dp"
+                />
+
+            <TextView
+                android:id="@+id/origin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/md_black_1000"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/md_deep_purple_300"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:text="@string/destination"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_arrival"
+                        android:textColor="@color/md_deep_purple_400"
+                        />
+
+                    <TextView
+                        android:id="@+id/time_arrival"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black_1000"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Destination Location: "
+                android:textColor="@color/md_deep_purple_400"
+                android:paddingLeft="30dp"/>
+
+            <TextView
+                android:id="@+id/destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/md_black_1000"/>
 
 
         </LinearLayout>
-    </ScrollView>
+
+        <!-- TECH -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/md_white_1000"
+                android:textAllCaps="true"
+                android:background="@color/md_deep_purple_200"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Tech"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/md_deep_purple_300"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:text="Speed"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/max_speed"
+                        android:textColor="@color/md_deep_purple_400"/>
+
+                    <TextView
+                        android:id="@+id/maxSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black_1000"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/md_deep_purple_300"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:typeface="normal"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:text="Throttle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="30dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/max_rpm"
+                        android:textColor="@color/md_deep_purple_400"/>
+
+                    <TextView
+                        android:id="@+id/maxRPM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black_1000"/>
+
+
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:gravity="center|bottom"
+            android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <info.hoang8f.widget.FButton
+                        app:buttonColor="@color/md_deep_purple_400"
+                        app:shadowColor="@color/md_deep_purple_700"
+                        app:shadowEnabled="true"
+                        app:shadowHeight="2dp"
+                        app:cornerRadius="0dp"
+                        android:text="Back"
+                        android:textColor="@color/md_white_1000"
+                        android:onClick="returnToMainClicked"
+                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <info.hoang8f.widget.FButton
+                        android:id="@+id/btn_delete_trip"
+                        app:buttonColor="@color/md_red_800"
+                        app:shadowColor="@color/md_red_900"
+                        app:shadowEnabled="true"
+                        app:shadowHeight="2dp"
+                        app:cornerRadius="0dp"
+                        android:text="Delete"
+                        android:textColor="@color/md_white_1000"
+                        android:onClick="deletePastTripClicked"
+                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
