@@ -37,6 +37,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
     private Boolean queryForVin;
     private String vinNumber;
     private Trip trip;
+    private Date startDate;
+    private Date endDate;
 
     //Used in Simulation
     private final Integer MAX_SPEED = 200; //km/h
@@ -77,8 +79,12 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
 
     private void initTrip(){
         //Get the date
-        SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d yyyy");
-        String date = df.format(new Date());
+        this.startDate = new Date();
+        SimpleDateFormat dfDate = new SimpleDateFormat("EEE, MMM d yyyy");
+        SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
+        String date = dfDate.format(this.startDate);
+        String departureTime = dfTime.format(this.startDate);
+
         
 
         //Get the origin
@@ -89,7 +95,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             origin = address.getAddressLine(0) + ", " + address.getAddressLine(1) + ", " + address.getAddressLine(2);
         }
 
-        this.trip = new Trip(date, new Long(0), origin, "N/A", 0 ,0);
+        this.trip = new Trip(date, new Long(0), origin, departureTime, "N/A","N/A" , 0 ,0);
     }
 
     //---------------DO IN BACKGROUND--------------
@@ -311,7 +317,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             closeCommand.run(this.mmSocket.getInputStream(), this.mmSocket.getOutputStream());
 
             //Dummy Data
-            this.trip.setDuration(new Long(1400));
+            this.trip.setDuration((new Date()).getTime() - this.startDate.getTime());
             this.trip.setMaxSpeed(150);
             this.trip.setMaxRPM(4000);
 
@@ -339,6 +345,10 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             //set speed and rpm fields back to 0
             connHandler.resetGauges();
 
+            //set the Arrival Time
+            SimpleDateFormat dfTime = new SimpleDateFormat("h:mm a");
+            tripMissingId.setTimeArrival(dfTime.format(new Date()));
+
             //Set the destination
             String destination = "N/A";
             Location currLocation = LocationHelper.getLastLocation(this.activity, this.locationListener);
@@ -348,6 +358,8 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
             }
             tripMissingId.setDestination(destination);
 
+
+            Log.d(METHOD, tripMissingId.toString());
             //Trip has ended - prompt the user to save the trip data
             connHandler.saveTripAlert(tripMissingId);
         }

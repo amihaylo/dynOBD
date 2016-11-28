@@ -16,18 +16,35 @@ public class Trip {
     private Long duration;
     private String origin;
     private String destination;
+    private String timeDeparture;
+    private String timeArrival;
 
     //OBD Specific stats about the trip
     private Integer maxSpeed;
     private Integer maxRPM;
 
+    //TEMP
+    public Trip(String date, Long duration, String origin, String timeDeparture,
+            String destination, String timeArrival, Integer maxSpeed, Integer maxRPM) {
+        this.id = new Long(-1); //this is just a placeholder until the real id from the database can be obtained
+        this.date = date;
+        this.duration = duration;
+        this.origin = origin;
+        this.timeDeparture = timeDeparture;
+        this.destination = destination;
+        this.timeArrival = timeArrival;
+        this.maxSpeed = maxSpeed;
+        this.maxRPM = maxRPM;
+    }
 
     public Trip(String date, Long duration, String origin, String destination, Integer maxSpeed, Integer maxRPM) {
         this.id = new Long(-1); //this is just a placeholder until the real id from the database can be obtained
         this.date = date;
         this.duration = duration;
         this.origin = origin;
+        this.timeDeparture = "N/A";
         this.destination = destination;
+        this.timeArrival = "N/A";
         this.maxSpeed = maxSpeed;
         this.maxRPM = maxRPM;
     }
@@ -37,7 +54,9 @@ public class Trip {
         this.date = date;
         this.duration = duration;
         this.origin = origin;
+        this.timeDeparture = "N/A";
         this.destination = destination;
+        this.timeArrival = "N/A";
         this.maxSpeed = maxSpeed;
         this.maxRPM = maxRPM;
     }
@@ -98,6 +117,22 @@ public class Trip {
         this.id = id;
     }
 
+    public String getTimeDeparture() {
+        return timeDeparture;
+    }
+
+    public void setTimeDeparture(String timeDeparture) {
+        this.timeDeparture = timeDeparture;
+    }
+
+    public String getTimeArrival() {
+        return timeArrival;
+    }
+
+    public void setTimeArrival(String timeArrival) {
+        this.timeArrival = timeArrival;
+    }
+
     @Override
     public String toString() {
         return "Trip{" +
@@ -106,8 +141,11 @@ public class Trip {
                 ", duration=" + duration +
                 ", origin='" + origin + '\'' +
                 ", destination='" + destination + '\'' +
+                ", timeDeparture='" + timeDeparture + '\'' +
+                ", timeArrival='" + timeArrival + '\'' +
                 ", maxSpeed=" + maxSpeed +
                 ", maxRPM=" + maxRPM +
                 '}';
     }
+
 }
