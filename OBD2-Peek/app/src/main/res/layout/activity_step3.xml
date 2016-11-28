@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.luisa.alex.obd2_peek.Step1Activity">
+    tools:context="com.luisa.alex.obd2_peek.Step3Activity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Step 1"
+            android:text="Step 3"
             android:textAllCaps="true"
             android:textColor="@color/md_amber_600"
             android:textSize="35sp"
@@ -28,29 +28,30 @@
 
 
         <TextView
-            android:text="Connect OBD device to vehicle"
+            android:text="Click the 'Start Trip' button"
             android:layout_marginTop="5dp"
             android:textColor="@color/md_black_1000"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textAlignment="center"
+            android:onClick="step1Click"
             />
 
         <ImageView
             android:layout_marginTop="20dp"
             android:layout_height="120dp"
             android:layout_width="120dp"
-            android:src="@drawable/obd_device"
+            android:src="@drawable/gauge"
             android:layout_gravity="center_horizontal"
             >
         </ImageView>
 
         <TextView
-            android:layout_marginTop="-15dp"
             android:textColor="@color/md_black_1000"
             android:textSize="16sp"
-            android:text="Ensure that the device supports your car's OBDII protocol. Look for an OBD2 ELM327 device, as it supports most protocols."
+            android:layout_marginTop="5dp"
+            android:text="Keep an eye on the live data feed coming in from the car"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -60,17 +61,18 @@
             android:layout_marginTop="20dp"
             android:layout_height="120dp"
             android:layout_width="120dp"
-            android:src="@drawable/obd_connector"
+            android:src="@drawable/steering_wheel"
             android:layout_gravity="center_horizontal"
             >
         </ImageView>
 
         <TextView
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:textColor="@color/md_black_1000"
-            android:text="Plug the device into the car's DLC(Data link connector) which is typically located below, or to the left of the steering wheel"
+            android:text="Don't forget to keep your eyes on the road"
             android:textAlignment="center" />
 
     </LinearLayout>
