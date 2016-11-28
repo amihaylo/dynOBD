@@ -78,29 +78,6 @@
             android:layout_marginTop="0dp"
             tools:context="com.luisa.alex.obd2_peek.MainActivity">
 
-            <!--
-
-            <pl.pawelkleczkowski.customgauge.CustomGauge
-                android:id="@+id/gauge_speed"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="15dp"
-                android:layout_gravity="center_horizontal"
-                app:gaugePointStartColor="@color/md_red_500"
-                app:gaugePointEndColor="@color/md_red_500"
-                app:gaugePointSize="6"
-                app:gaugeStartAngle="135"
-                app:gaugeStrokeCap="ROUND"
-                app:gaugeStrokeColor="@color/md_grey_400"
-                app:gaugeStrokeWidth="10dp"
-                app:gaugeStartValue="0"
-                app:gaugeEndValue="@string/param_gauge_max_speed"
-                app:gaugeSweepAngle="270"/>
-             -->
-
             <com.shinelw.library.ColorArcProgressBar
                 android:layout_marginTop="25dp"
                 android:layout_width="200dp"
@@ -120,16 +97,23 @@
                 app:is_need_dial="true"
                 />
 
-            <TextView
-                android:id="@+id/gaugeView_speed"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="0"
-                android:textColor="@color/md_black_1000"
-                android:textSize="60sp"
-                android:typeface="monospace"
-                android:layout_marginTop="114dp"/>
+                >
+                <TextView
+                    android:id="@+id/gaugeView_speed"
+                    android:text="0"
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="60sp"
+                    android:typeface="monospace"
+                    android:layout_marginTop="118dp"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal"/>
+
+            </LinearLayout>
 
         </FrameLayout>
 
