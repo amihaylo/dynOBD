@@ -168,7 +168,9 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
         intent.putExtra("date", tripClicked.getDate());
         intent.putExtra("duration", tripClicked.getDuration());
         intent.putExtra("origin", tripClicked.getOrigin());
+        intent.putExtra("timeDeparture", tripClicked.getTimeDeparture());
         intent.putExtra("destination", tripClicked.getDestination());
+        intent.putExtra("timeArrival", tripClicked.getTimeArrival());
         intent.putExtra("maxSpeed", tripClicked.getMaxSpeed());
         intent.putExtra("maxRPM", tripClicked.getMaxRPM());
 
