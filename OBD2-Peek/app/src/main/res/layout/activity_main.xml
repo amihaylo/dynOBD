@@ -17,6 +17,7 @@
 
         <!--============START/STOP BUTTONS===========-->
         <!-- Connect to OBD -->
+        <!--
         <Button
             android:id="@+id/btn_Main_connect_obd"
             android:text="@string/btn_Main_connect_obd"
@@ -24,8 +25,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+        -->
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_Main_connect_obd"
+            app:buttonColor="@color/md_amber_500"
+            app:shadowColor="@color/md_amber_700"
+            app:shadowEnabled="true"
+            app:shadowHeight="2dp"
+            app:cornerRadius="0dp"
+            android:text="@string/btn_Main_connect_obd"
+            android:textColor="@color/md_white_1000"
+            android:onClick="connectOBDClick"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"/>
 
         <!-- Start Trip -->
+        <!--
         <Button
             android:id="@+id/btn_Main_startTrip"
             android:text="@string/btn_Main_start_trip"
@@ -34,8 +52,25 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             />
+        -->
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_Main_startTrip"
+            app:buttonColor="@color/md_green_400"
+            app:shadowColor="@color/md_green_600"
+            app:shadowEnabled="true"
+            app:shadowHeight="2dp"
+            app:cornerRadius="0dp"
+            android:text="@string/btn_Main_start_trip"
+            android:textColor="@color/md_white_1000"
+            android:onClick="startTripClick"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
 
         <!-- END Trip -->
+        <!--
         <Button
             android:id="@+id/btn_Main_endTrip"
             android:text="@string/btn_Main_end_trip"
@@ -44,20 +79,37 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             />
+         -->
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/btn_Main_endTrip"
+            app:buttonColor="@color/md_red_400"
+            app:shadowColor="@color/md_red_600"
+            app:shadowEnabled="true"
+            app:shadowHeight="2dp"
+            app:cornerRadius="0dp"
+            android:text="@string/btn_Main_end_trip"
+            android:textColor="@color/md_white_1000"
+            android:onClick="endTripClick"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
 
         <!--===========GAUGES===========-->
         <!-- Speed Gauge -->
-        <LinearLayout
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/speed_layout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="0dp"
+            tools:context="com.luisa.alex.obd2_peek.MainActivity">
 
-            <TextView
-                android:id="@+id/lbl_speed"
-                android:text="Speed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <!--
 
             <pl.pawelkleczkowski.customgauge.CustomGauge
                 android:id="@+id/gauge_speed"
@@ -78,7 +130,39 @@
                 app:gaugeStartValue="0"
                 app:gaugeEndValue="@string/param_gauge_max_speed"
                 app:gaugeSweepAngle="270"/>
+             -->
 
+            <com.shinelw.library.ColorArcProgressBar
+                android:layout_marginTop="30dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/gauge_speed"
+                android:layout_marginBottom="-30dp"
+                app:front_color1="@color/md_light_blue_600"
+                app:max_value="200"
+                app:back_width="10dp"
+                app:front_width="10dp"
+                app:total_engle="270"
+                app:is_need_unit="true"
+                app:string_unit="KM/H"
+                app:is_need_title="true"
+                app:string_title="Speed"
+                app:is_need_dial="true"
+                />
+
+            <TextView
+                android:id="@+id/gaugeView_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="0"
+                android:textColor="@color/md_black_1000"
+                android:textSize="60sp"
+                android:typeface="monospace"
+                android:layout_marginTop="115dp"/>
+
+            <!--
             <TextView
                 android:id="@+id/gaugeView_speed"
                 android:layout_width="wrap_content"
@@ -87,26 +171,25 @@
                 android:text="0 KM/H"
                 android:textSize="25sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+            -->
+        </FrameLayout>
 
 
         <!-- Throttle Gauge-->
-        <LinearLayout
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/rpm_layout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/lbl_rpm"
-                android:text="RPM"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:layout_marginTop="0dp"
+            tools:context="com.luisa.alex.obd2_peek.MainActivity">
 
             <pl.pawelkleczkowski.customgauge.CustomGauge
                 android:id="@+id/gauge_rpm"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:layout_marginBottom="-80dp"
                 android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
@@ -114,53 +197,80 @@
                 android:paddingTop="15dp"
                 android:layout_gravity="center_horizontal"
                 app:gaugeEndValue="@string/param_gauge_max_rpm"
-                app:gaugePointEndColor="@color/md_red_500"
-                app:gaugePointStartColor="@color/md_green_500"
+                app:gaugePointEndColor="@color/md_red_300"
+                app:gaugePointStartColor="@color/md_green_300"
                 app:gaugeStartAngle="180"
                 app:gaugeStartValue="0"
                 app:gaugeStrokeCap="BUTT"
-                app:gaugeStrokeColor="@color/md_grey_400"
-                app:gaugeStrokeWidth="20dp"
+                app:gaugeStrokeColor="@color/md_black_1000"
+                app:gaugeStrokeWidth="10dp"
                 app:gaugeSweepAngle="180"
-                app:gaugeDividerSize="1"
+                app:gaugeDividerSize="2"
                 app:gaugeDividerColor="@color/md_yellow_500"
-                app:gaugeDividerStep="10"
-                app:gaugeDividerDrawFirst="false"
-                app:gaugeDividerDrawLast="true" />
-
-            <TextView
-                android:layout_marginTop="-10dp"
-                android:id="@+id/gaugeView_rpm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="0 RPM"
-                android:textSize="25sp"
-                android:textStyle="bold"/>
-
-            <!--===========TESTING BUTTONS===========-->
-
-            <!-- Test button -->
-            <Button
-                android:id="@+id/btn_TEST_test"
-                android:text="@string/btn_TEST_test"
-                android:onClick="testBtnClick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
+                app:gaugeDividerStep="5"
+                app:gaugeDividerDrawFirst="true"
+                app:gaugeDividerDrawLast="true"
                 />
-
-            <Switch
-                android:id="@+id/switch_Main_simulate_trip"
-                android:text="@string/switch_Main_simulate_trip"
-                android:layout_width="wrap_content"
+            
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:checked="true"
-                android:onClick="simulateTripSwitch"
-                android:visibility="gone"
-                />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginTop="65dp">
+
+                <TextView
+                    android:id="@+id/lbl_rpm"
+                    android:text="Throttle"
+                    android:textColor="@color/md_grey_700"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/gaugeView_rpm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="0"
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="60sp"
+                    android:typeface="monospace"
+                    android:layout_marginTop="-10dp"/>
+
+                <TextView
+                    android:layout_marginTop="-10dp"
+                    android:id="@+id/lbl_rpm2"
+                    android:text="RPM"
+                    android:textColor="@color/md_grey_700"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+                <!--===========TESTING BUTTONS===========-->
+
+                <!-- Test button -->
+                <Button
+                    android:id="@+id/btn_TEST_test"
+                    android:text="@string/btn_TEST_test"
+                    android:onClick="testBtnClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    />
+
+                <Switch
+                    android:id="@+id/switch_Main_simulate_trip"
+                    android:text="@string/switch_Main_simulate_trip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:checked="true"
+                    android:onClick="simulateTripSwitch"
+                    android:visibility="gone"
+                    />
+        </FrameLayout>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"

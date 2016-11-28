@@ -1,6 +1,5 @@
 package com.luisa.alex.obd2_peek;
 
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -12,11 +11,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -25,20 +24,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Set;
-
-//Gauge import
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import pl.pawelkleczkowski.customgauge.CustomGauge;
-
-//Floating menu
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
 import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
+import com.shinelw.library.ColorArcProgressBar;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Set;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import pl.pawelkleczkowski.customgauge.CustomGauge;
+
+//Floating menu
+//Gauge import
 
 public class MainActivity
         extends AppCompatActivity
@@ -69,13 +70,15 @@ public class MainActivity
     private static Toast toast;
 
     //GAUGES
-    private CustomGauge gaugeSpeed;
+    //private CustomGauge gaugeSpeed;
+    private ColorArcProgressBar gaugeSpeed;
     private TextView gaugeViewSpeed;
     private CustomGauge gaugeRPM;
     private TextView gaugeViewRPM;
 
     private Button startTrip;
     private TextView btStatus;
+    private SweetAlertDialog connectingDialog;
 
     private boolean init = false;
     private BoomMenuButton boomMenuButton;
@@ -137,7 +140,9 @@ public class MainActivity
         this.toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
 
         //Init gauge elements
-        this.gaugeSpeed = (CustomGauge) findViewById(R.id.gauge_speed);
+
+        //this.gaugeSpeed = (CustomGauge) findViewById(R.id.gauge_speed);
+        this.gaugeSpeed = (ColorArcProgressBar) findViewById(R.id.gauge_speed);
         this.gaugeViewSpeed = (TextView) findViewById(R.id.gaugeView_speed);
         this.gaugeRPM = (CustomGauge) findViewById(R.id.gauge_rpm);
         this.gaugeViewRPM = (TextView) findViewById(R.id.gaugeView_rpm);
@@ -148,18 +153,24 @@ public class MainActivity
         //Init the menu
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
 
-        //Init Bluetooth element
+        //Init Bluetooth connection elements
         btStatus = (TextView) findViewById(R.id.bt_status);
+
+        connectingDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        connectingDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        connectingDialog.setTitleText("Connecting...");
+        connectingDialog.setCancelable(false);
     }
 
     //-----------Update Gauges via Handler-------------
     @Override
     public void updateGauges(Integer speedInt, Integer rpmInt) {
-        gaugeSpeed.setValue(speedInt);
-        gaugeViewSpeed.setText(speedInt + "km/h");
+        //gaugeSpeed.setValue(speedInt);
+        gaugeSpeed.setCurrentValues(speedInt);
+        gaugeViewSpeed.setText(speedInt + "");
 
         gaugeRPM.setValue(rpmInt);
-        gaugeViewRPM.setText(rpmInt + "RPM");
+        gaugeViewRPM.setText(rpmInt+"");
     }
 
     //-----------Reset the Gauges via Handler-------------
@@ -172,6 +183,7 @@ public class MainActivity
     //-----------------------BLUETOOTH HELPERS-----------------------
     //-----------Is Bluetooth enabled-------------
     private void enableBluetooth() {
+
         //check if device supports bluetooth
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -185,6 +197,7 @@ public class MainActivity
             //Launch intent to ask to turn bluetooth on
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+
         } else {
             Log.d(TAG, "[MainActivity.enableBTBtnClick] Bluetooth already enabled");
             //MainActivity.showToast("Bluetooth is already enabled");
@@ -237,6 +250,7 @@ public class MainActivity
             public void onClick(DialogInterface dialog, int which) {
                 //Close the dialog
                 dialog.dismiss();
+                connectingDialog.show();
 
                 //Obtain the index of the device they clicked on
                 int deviceIndex = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -283,10 +297,26 @@ public class MainActivity
 
             //Hide the connect button and show the Disconnect one
             afterConnectDisplay();
+            connectingDialog.dismiss();
         } else {
             toastMessage = "Unsuccessful Connection!";
-            MainActivity.showToast(toastMessage);
+            //MainActivity.showToast(toastMessage);
+            connectingDialog.dismiss();
+            //TODO tell the user connection was unsuccessful
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Something went wrong")
+                    .setContentText("We were unable to connect to this device. Please try again or use a different one.")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
         }
+
+
 
         //Show Log + Toast
         Log.d(TAG, "[MainActivity.handleBTConnection] " + toastMessage);
@@ -346,6 +376,7 @@ public class MainActivity
 
     //-----------Connect Bluetooth to the OBD Device-------------
     public void connectOBDClick(View view) {
+
         String METHOD = "connectOBDClick";
         Log.d(METHOD, "called");
 

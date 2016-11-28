@@ -6,7 +6,7 @@
     <!-- MAIN ACTIVITY -->
     <string name="btn_Main_start_trip">Start Trip</string>
     <string name="btn_Main_end_trip">End Trip</string>
-    <string name="btn_Main_connect_obd">Connect to OBD</string>
+    <string name="btn_Main_connect_obd">Connect to vehicle</string>
     <string name="btn_Main_disconnect_obd">Disconnect OBD</string>
     <string name="param_gauge_max_speed">200</string>
     <string name="param_gauge_max_rpm">6000</string>
