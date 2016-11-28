@@ -9,10 +9,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Address;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class TripDatabase extends SQLiteOpenHelper{
 
@@ -21,7 +19,7 @@ public class TripDatabase extends SQLiteOpenHelper{
      */
     private static final String TABLE_NAME = "trips";
     private static final String DB_FILENAME = "trips.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private static final String CREATE_STATEMENT = "" +
             "create table " +
@@ -39,7 +37,6 @@ public class TripDatabase extends SQLiteOpenHelper{
 
     private static final String DROP_STATEMENT = "drop table " + TABLE_NAME;
 
-
     public TripDatabase(Context context) {
         super(context, DB_FILENAME, null, DB_VERSION);
     }
@@ -55,6 +52,10 @@ public class TripDatabase extends SQLiteOpenHelper{
         db.execSQL(CREATE_STATEMENT);
     }
 
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(DROP_STATEMENT);
+        db.execSQL(CREATE_STATEMENT);
+    }
 
     //---------------ADD TRIP ---------------
     public Trip addTrip(String date, Long duration, String origin, String timeDeparture,

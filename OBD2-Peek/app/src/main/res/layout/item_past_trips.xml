@@ -15,12 +15,12 @@
             android:textStyle="normal|bold"
             />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_id"
-        android:textStyle="normal|bold"
-        android:textSize="15sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_id"
+            android:textStyle="normal|bold"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -36,10 +36,11 @@
             android:textStyle="normal|bold"
             />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_date" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_date" />
+
     </LinearLayout>
 
 
@@ -54,10 +55,11 @@
             android:layout_height="wrap_content"
             android:textStyle="normal|bold"
             />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_duration" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_duration" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -71,11 +73,13 @@
             android:layout_height="wrap_content"
             android:textStyle="normal|bold"
             />
-    <TextView
-        android:text="Origin:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_origin" />
+
+        <TextView
+            android:text="Origin:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_origin" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -89,10 +93,11 @@
             android:layout_height="wrap_content"
             android:textStyle="normal|bold"
             />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_destination" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_destination" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -106,10 +111,12 @@
             android:layout_height="wrap_content"
             android:textStyle="normal|bold"
             />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_maxSpeed" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_maxSpeed" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -123,9 +130,10 @@
             android:layout_height="wrap_content"
             android:textStyle="normal|bold"
             />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_trip_maxRPM" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_trip_maxRPM" />
     </LinearLayout>
 </LinearLayout>

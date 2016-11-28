@@ -8,7 +8,6 @@
     android:layout_height="fill_parent"
     tools:context="com.luisa.alex.obd2_peek.PastTripsActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,15 +17,19 @@
             android:text="@string/title_past_trips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:textSize="30sp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="10dp"
+            android:textSize="35sp"
+            android:textAllCaps="true"
+            android:textColor="@color/md_deep_purple_400"
+            android:layout_gravity="center_horizontal"
+            android:typeface="normal"/>
 
         <ListView
             android:id="@+id/listView_pastTrips"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
 
     </LinearLayout>
 

@@ -160,7 +160,7 @@
                 android:textColor="@color/md_black_1000"
                 android:textSize="60sp"
                 android:typeface="monospace"
-                android:layout_marginTop="115dp"/>
+                android:layout_marginTop="118dp"/>
 
             <!--
             <TextView
@@ -191,10 +191,10 @@
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:layout_marginBottom="-80dp"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
                 android:layout_gravity="center_horizontal"
                 app:gaugeEndValue="@string/param_gauge_max_rpm"
                 app:gaugePointEndColor="@color/md_red_300"
@@ -211,7 +211,7 @@
                 app:gaugeDividerDrawFirst="true"
                 app:gaugeDividerDrawLast="true"
                 />
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

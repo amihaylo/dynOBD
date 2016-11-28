@@ -32,7 +32,6 @@ import com.nightonke.boommenu.Util;
 import com.shinelw.library.ColorArcProgressBar;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Set;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -316,8 +315,6 @@ public class MainActivity
                     .show();
         }
 
-
-
         //Show Log + Toast
         Log.d(TAG, "[MainActivity.handleBTConnection] " + toastMessage);
         //MainActivity.showToast(toastMessage);
@@ -332,7 +329,7 @@ public class MainActivity
                 //MainActivity.showToast("Disconnect Successful!");
 
                 // Set Bluetooth status to OFF
-                btStatus.setText("OFF");
+                btStatus.setText("DISCONNECTED");
                 btStatus.setTextColor(getResources().getColor(R.color.md_red_900));
             } else {
                 //Show UnSuccess Toast
