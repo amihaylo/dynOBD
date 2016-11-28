@@ -91,7 +91,8 @@ public class MainActivity
     private Boolean simulateTrip;
     Switch simulateTripSwitch;
 
-    public static boolean firstRun;
+    public static boolean firstRunMainActivity;
+    public static boolean firstRunHelpActivity;
 
     //****************************METHODS******************************
 
@@ -142,16 +143,18 @@ public class MainActivity
     private void checkFirstTimeUser(){
         SharedPreferences prefs = getSharedPreferences("com.luisa.alex.obd2_peek", MODE_PRIVATE);
 
-        if (prefs.getBoolean("firstRun", true)) {
-            //Log.d("onResume", "firstRun = true");
+        if (prefs.getBoolean("firstRunMainActivity", true)) {
+            //Log.d("onResume", "firstRunMainActivity = true");
             //Set the first run to true
-            MainActivity.firstRun = true;
+            MainActivity.firstRunMainActivity = true;
+            MainActivity.firstRunHelpActivity = true;
             //Set the first time the app is run to false
-            prefs.edit().putBoolean("firstRun", false).commit();
+            prefs.edit().putBoolean("firstRunMainActivity", false).commit();
         }else{
-            //Log.d("onResume", "firstRun = false");
-            //this.prefs.edit().putBoolean("firstRun", true).commit();
-            MainActivity.firstRun = false;
+            //Log.d("onResume", "firstRunMainActivity = false");
+            //this.prefs.edit().putBoolean("firstRunMainActivity", true).commit();
+            MainActivity.firstRunMainActivity = false;
+            MainActivity.firstRunHelpActivity = false;
         }
     }
 
@@ -189,8 +192,8 @@ public class MainActivity
         connectingDialog.setCancelable(false);
 
         //Init the TapTarget
-        Log.d("Tap Target", "firstRun = " + this.firstRun);
-        if(this.firstRun) {
+        Log.d("Tap Target", "firstRunMainActivity = " + this.firstRunMainActivity);
+        if(this.firstRunMainActivity) {
             TapTargetView.showFor(this,                 // `this` is an Activity
                     TapTarget.forView(findViewById(R.id.btn_Main_connect_obd), "Welcome to dynOBD", "Start by connecting to your OBD Device")
                             // All options below are optional
@@ -211,7 +214,7 @@ public class MainActivity
                         @Override
                         public void onTargetClick(TapTargetView view) {
                             super.onTargetClick(view);      // This call is optional
-                            MainActivity.firstRun = false;
+                            MainActivity.firstRunMainActivity = false;
                         }
                     });
         }

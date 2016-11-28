@@ -30,7 +30,7 @@ public class HelpActivity extends AppCompatActivity {
 
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
 
-        if (MainActivity.firstRun) {
+        if (MainActivity.firstRunHelpActivity) {
 
             TapTargetView.showFor(this,                 // `this` is an Activity
                     TapTarget.forView(findViewById(R.id.lbl_step1), "Click each step", "It will give a more detailed instructions")
@@ -52,7 +52,7 @@ public class HelpActivity extends AppCompatActivity {
                         @Override
                         public void onTargetClick(TapTargetView view) {
                             super.onTargetClick(view);      // This call is optional
-                            MainActivity.firstRun = false;
+                            MainActivity.firstRunHelpActivity = false;
                         }
                     });
         }
