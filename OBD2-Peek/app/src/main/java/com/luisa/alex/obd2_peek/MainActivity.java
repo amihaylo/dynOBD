@@ -715,7 +715,9 @@ public class MainActivity
         intent.putExtra("date", trip.getDate());
         intent.putExtra("duration", trip.getDuration());
         intent.putExtra("origin", trip.getOrigin());
+        intent.putExtra("timeDeparture", trip.getTimeDeparture());
         intent.putExtra("destination", trip.getDestination());
+        intent.putExtra("timeArrival", trip.getTimeArrival());
         intent.putExtra("maxSpeed", trip.getMaxSpeed());
         intent.putExtra("maxRPM", trip.getMaxRPM());
 
@@ -866,8 +868,8 @@ public class MainActivity
     //-----------------------DEBUGGING/TESTING-----------------------
     //-----------Test Button-------------
     public void testBtnClick(View view) {
-        Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
-        saveTripAlert(currentTrip);
+        //Trip currentTrip = new Trip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
+        //saveTripAlert(currentTrip);
     }
 
     @Override

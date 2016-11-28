@@ -32,14 +32,18 @@ public class DetailedStatsActivity extends AppCompatActivity {
         TextView dateText = (TextView) findViewById(R.id.date);
         TextView durationText = (TextView) findViewById(R.id.duration);
         TextView originText = (TextView) findViewById(R.id.origin);
+        TextView timeDepartureText = (TextView) findViewById(R.id.time_departure);
         TextView destinationText = (TextView) findViewById(R.id.destination);
+        TextView timeArrivalText = (TextView) findViewById(R.id.time_arrival);
         TextView maxSpeedText = (TextView) findViewById(R.id.maxSpeed);
         TextView maxRPMText = (TextView) findViewById(R.id.maxRPM);
 
         dateText.setText(trip.getDate());
         durationText.setText(""+trip.getDuration());
         originText.setText(trip.getOrigin());
+        timeDepartureText.setText(trip.getTimeDeparture());
         destinationText.setText(trip.getDestination());
+        timeArrivalText.setText(trip.getTimeArrival());
         maxSpeedText.setText(""+trip.getMaxSpeed());
         maxRPMText.setText(""+trip.getMaxRPM());
     }
@@ -50,11 +54,13 @@ public class DetailedStatsActivity extends AppCompatActivity {
         String date = intent.getStringExtra("date");
         long duration = intent.getLongExtra("duration", -1);
         String origin = intent.getStringExtra("origin");
+        String timeDeparture = intent.getStringExtra("timeDeparture");
         String destination = intent.getStringExtra("destination");
+        String timeArrival = intent.getStringExtra("timeArrival");
         int maxSpeed = intent.getIntExtra("maxSpeed", -1);
         int maxRPM = intent.getIntExtra("maxRPM", -1);
 
-        displayTripInfo(new Trip(date, duration, origin, destination, maxSpeed, maxRPM));
+        displayTripInfo(new Trip(date, duration, origin, timeDeparture, destination, timeArrival, maxSpeed, maxRPM));
     }
 
     public void returnToMainClicked(View view) {

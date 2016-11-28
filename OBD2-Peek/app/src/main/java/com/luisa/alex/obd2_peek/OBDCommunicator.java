@@ -224,7 +224,6 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
     private Trip establishOBDComm() {
         String METHOD = "establishOBDComm";
         Log.d(METHOD, "called");
-        Trip tripMissingId = new Trip("N/A", new Long(0), "N/A", "N/A", 0, 0);
         try {
             Log.d(TAG, "[OBDCommunicator.doInBackground] Initializing OBD...");
             //init the OBD Device with the following configuration commands

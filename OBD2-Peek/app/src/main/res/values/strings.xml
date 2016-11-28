@@ -40,5 +40,7 @@
     <string name="switch_Main_simulate_trip">Simulate Data</string>
     <string name="bluetooth_status">Bluetooth status:&#160;</string>
     <string name="disconnected_status">DISCONNECTED</string>
+    <string name="time_departure">Departure Time:</string>
+    <string name="time_arrival">Arrival Time:</string>
 
 </resources>

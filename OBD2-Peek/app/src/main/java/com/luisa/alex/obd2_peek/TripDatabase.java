@@ -30,7 +30,9 @@ public class TripDatabase extends SQLiteOpenHelper{
             "date text not null," +
             "duration integer not null," +
             "origin text not null," +
+            "timeDeparture text not null," +
             "destination text not null," +
+            "timeArrival text not null," +
             "maxSpeed integer not null," +
             "maxRPM integer not null" +
             ")";
@@ -55,20 +57,23 @@ public class TripDatabase extends SQLiteOpenHelper{
 
 
     //---------------ADD TRIP ---------------
-    public Trip addTrip(String date, Long duration, String origin, String destination, Integer maxSpeed, Integer maxRPM) {
+    public Trip addTrip(String date, Long duration, String origin, String timeDeparture,
+                        String destination, String timeArrival, Integer maxSpeed, Integer maxRPM) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put("date", date);
         values.put("duration", duration);
         values.put("origin", origin);
+        values.put("timeDeparture", timeDeparture);
         values.put("destination", destination);
+        values.put("timeArrival", timeArrival);
         values.put("maxSpeed", maxSpeed + "");
         values.put("maxRPM", maxRPM + "");
 
 
         long id = db.insert(TABLE_NAME, null, values);
-        return new Trip(id, date, duration, origin, destination, maxSpeed, maxRPM);
+        return new Trip(id, date, duration, origin, timeDeparture, destination, timeArrival, maxSpeed, maxRPM);
     }
 
     //---------------ADD TRIP ---------------
@@ -79,7 +84,9 @@ public class TripDatabase extends SQLiteOpenHelper{
         values.put("date", tripMissingId.getDate());
         values.put("duration", tripMissingId.getDuration());
         values.put("origin", tripMissingId.getOrigin());
+        values.put("timeDeparture", tripMissingId.getTimeDeparture());
         values.put("destination", tripMissingId.getDestination());
+        values.put("timeArrival", tripMissingId.getTimeArrival());
         values.put("maxSpeed", tripMissingId.getMaxSpeed() + "");
         values.put("maxRPM", tripMissingId.getMaxRPM() + "");
 
@@ -101,7 +108,7 @@ public class TripDatabase extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Trip> trips = new ArrayList<>();
 
-        String[] columns = {"_id", "date", "duration", "origin", "destination", "maxSpeed", "maxRPM"};
+        String[] columns = {"_id", "date", "duration", "origin", "timeDeparture", "destination", "timeArrival", "maxSpeed", "maxRPM"};
         String selection = null;
         String[] selectionArgs = null;
         String groupBy = null;
@@ -118,12 +125,14 @@ public class TripDatabase extends SQLiteOpenHelper{
             String date = cursor.getString(1);
             Long duration = cursor.getLong(2);
             String origin = cursor.getString(3);
-            String destination = cursor.getString(4);
-            Integer maxSpeed = cursor.getInt(5);
-            Integer maxRPM = cursor.getInt(6);
+            String timeDeparture = cursor.getString(4);
+            String destination = cursor.getString(5);
+            String timeArrival = cursor.getString(6);
+            Integer maxSpeed = cursor.getInt(7);
+            Integer maxRPM = cursor.getInt(8);
 
             //Add the trip to the overall trips array
-            trips.add(new Trip(id, date, duration, origin, destination, maxSpeed, maxRPM));
+            trips.add(new Trip(id, date, duration, origin, timeDeparture,destination, timeArrival, maxSpeed, maxRPM));
 
             cursor.moveToNext();
         }
