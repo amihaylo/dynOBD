@@ -26,8 +26,8 @@
     <string name="title_pastTrips">Past Trips</string>
     <string name="title_past_trips">Past Trips</string>
     <string name="title_about_your_car">About your Car</string>
-    <string name="title_help_activity">HELP ACTIVITY</string>
-    <string name="activity_title">DETAILED STATS</string>
+    <string name="title_help_activity">Help</string>
+    <string name="activity_title">Details</string>
     <string name="date">Date</string>
     <string name="duration">Duration</string>
     <string name="origin">Origin</string>

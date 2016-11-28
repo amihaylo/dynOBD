@@ -10,9 +10,14 @@
 
     <TextView
         android:text="@string/title_help_activity"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:layout_marginTop="10dp"
+        android:textSize="35sp"
+        android:textAllCaps="true"
+        android:textColor="@color/md_amber_600"
+        android:layout_gravity="center_horizontal"
+        android:typeface="normal"
         />
 
     <com.nightonke.boommenu.BoomMenuButton

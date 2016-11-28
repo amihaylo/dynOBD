@@ -798,7 +798,7 @@ public class MainActivity
         final TripDatabase tripDatabase = new TripDatabase(this);
 
         //Display an alert asking if the user wants to save the trip
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+        new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText("Save the Trip?")
                 .setContentText("Can't recover data if NO clicked")
                 .setConfirmText("YES Save trip")
@@ -834,7 +834,7 @@ public class MainActivity
                 .setTitleText("Your trip has been saved!")
                 .setContentText("You can view details later under Trips")
                 .setConfirmText("Show Details!")
-                .setCancelText("Go Home")
+                .setCancelText("OK")
                 .showCancelButton(true)
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
