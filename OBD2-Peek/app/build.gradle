@@ -53,4 +53,7 @@ dependencies {
 
     // https://github.com/Shinelw/ColorArcProgressBar
     compile 'com.github.shinelw:library:1.0.1'
+
+    //https://github.com/KeepSafe/TapTargetView
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.5.3'
 }

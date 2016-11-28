@@ -30,6 +30,8 @@ import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 import com.shinelw.library.ColorArcProgressBar;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -160,6 +162,31 @@ public class MainActivity
         connectingDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         connectingDialog.setTitleText("Connecting...");
         connectingDialog.setCancelable(false);
+
+        //Init the TapTarget
+        TapTargetView.showFor(this,                 // `this` is an Activity
+                TapTarget.forView(findViewById(R.id.btn_Main_connect_obd), "Welcome to dynOBD", "Start by connecting to your OBD Device")
+                        // All options below are optional
+                        .outerCircleColor(R.color.md_amber_600)      // Specify a color for the outer circle
+                        .targetCircleColor(R.color.white)   // Specify a color for the target circle
+                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
+                        .titleTextColor(R.color.white)      // Specify the color of the title text
+                        .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                        .descriptionTextColor(R.color.md_amber_900)  // Specify the color of the description text
+                        .textColor(R.color.md_white_1000)            // Specify a color for both the title and description text
+                        //.textTypeFace(Typeface.SANS_SERIF)  // Specify a typeface for the text
+                        .dimColor(R.color.md_black_1000)            // If set, will dim behind the view with 30% opacity of the given color
+                        .drawShadow(true)                   // Whether to draw a drop shadow or not
+                        .cancelable(true)                  // Whether tapping outside the outer circle dismisses the view
+                        .tintTarget(true)                   // Whether to tint the target view's color
+                        .transparentTarget(true),           // Specify whether the target is transparent (displays the content underneath)
+                new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
+                    @Override
+                    public void onTargetClick(TapTargetView view) {
+                        super.onTargetClick(view);      // This call is optional
+                        Log.d("TAG", "something");
+                    }
+                });
     }
 
     //-----------Update Gauges via Handler-------------
