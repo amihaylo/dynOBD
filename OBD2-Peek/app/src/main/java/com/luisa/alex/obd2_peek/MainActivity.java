@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -89,6 +90,8 @@ public class MainActivity
     private Boolean simulateTrip;
     Switch simulateTripSwitch;
 
+    private static boolean firstRun;
+
     //****************************METHODS******************************
 
     //-----------------------LIFECYCLE METHODS-----------------------
@@ -109,6 +112,11 @@ public class MainActivity
         tripDatabase.deleteAllTrips();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
+
     //-----------on Destroy-------------
     @Override
     protected void onDestroy() {
@@ -122,14 +130,30 @@ public class MainActivity
     }
 
     protected void initApp() {
-        //Check if user has allowed the app to use location Permissions
-        //requestLocationPermissions();
+        //Obtain the shared preferences to see if it is a first time user
+        checkFirstTimeUser();
 
         //Load UI elements into member variables
         initUIElements();
     }
 
     //-----------------------UI ELEMENT HELPERS-----------------------
+    private void checkFirstTimeUser(){
+        SharedPreferences prefs = getSharedPreferences("com.luisa.alex.obd2_peek", MODE_PRIVATE);
+
+        if (prefs.getBoolean("firstRun", true)) {
+            //Log.d("onResume", "firstRun = true");
+            //Set the first run to true
+            MainActivity.firstRun = true;
+            //Set the first time the app is run to false
+            prefs.edit().putBoolean("firstRun", false).commit();
+        }else{
+            //Log.d("onResume", "firstRun = false");
+            //this.prefs.edit().putBoolean("firstRun", true).commit();
+            MainActivity.firstRun = false;
+        }
+    }
+
     //-----------Init UI elements-------------
     private void initUIElements() {
         //Load the UI elements from the resources into the private members of this class
@@ -164,29 +188,32 @@ public class MainActivity
         connectingDialog.setCancelable(false);
 
         //Init the TapTarget
-        TapTargetView.showFor(this,                 // `this` is an Activity
-                TapTarget.forView(findViewById(R.id.btn_Main_connect_obd), "Welcome to dynOBD", "Start by connecting to your OBD Device")
-                        // All options below are optional
-                        .outerCircleColor(R.color.md_amber_600)      // Specify a color for the outer circle
-                        .targetCircleColor(R.color.white)   // Specify a color for the target circle
-                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
-                        .titleTextColor(R.color.white)      // Specify the color of the title text
-                        .descriptionTextSize(15)            // Specify the size (in sp) of the description text
-                        .descriptionTextColor(R.color.md_amber_900)  // Specify the color of the description text
-                        .textColor(R.color.md_white_1000)            // Specify a color for both the title and description text
-                        //.textTypeFace(Typeface.SANS_SERIF)  // Specify a typeface for the text
-                        .dimColor(R.color.md_black_1000)            // If set, will dim behind the view with 30% opacity of the given color
-                        .drawShadow(true)                   // Whether to draw a drop shadow or not
-                        .cancelable(true)                  // Whether tapping outside the outer circle dismisses the view
-                        .tintTarget(true)                   // Whether to tint the target view's color
-                        .transparentTarget(true),           // Specify whether the target is transparent (displays the content underneath)
-                new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
-                    @Override
-                    public void onTargetClick(TapTargetView view) {
-                        super.onTargetClick(view);      // This call is optional
-                        Log.d("TAG", "something");
-                    }
-                });
+        Log.d("Tap Target", "firstRun = " + this.firstRun);
+        if(this.firstRun) {
+            TapTargetView.showFor(this,                 // `this` is an Activity
+                    TapTarget.forView(findViewById(R.id.btn_Main_connect_obd), "Welcome to dynOBD", "Start by connecting to your OBD Device")
+                            // All options below are optional
+                            .outerCircleColor(R.color.md_amber_600)      // Specify a color for the outer circle
+                            .targetCircleColor(R.color.white)   // Specify a color for the target circle
+                            .titleTextSize(20)                  // Specify the size (in sp) of the title text
+                            .titleTextColor(R.color.white)      // Specify the color of the title text
+                            .descriptionTextSize(15)            // Specify the size (in sp) of the description text
+                            .descriptionTextColor(R.color.md_amber_900)  // Specify the color of the description text
+                            .textColor(R.color.md_white_1000)            // Specify a color for both the title and description text
+                            //.textTypeFace(Typeface.SANS_SERIF)  // Specify a typeface for the text
+                            .dimColor(R.color.md_black_1000)            // If set, will dim behind the view with 30% opacity of the given color
+                            .drawShadow(true)                   // Whether to draw a drop shadow or not
+                            .cancelable(true)                  // Whether tapping outside the outer circle dismisses the view
+                            .tintTarget(true)                   // Whether to tint the target view's color
+                            .transparentTarget(true),           // Specify whether the target is transparent (displays the content underneath)
+                    new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
+                        @Override
+                        public void onTargetClick(TapTargetView view) {
+                            super.onTargetClick(view);      // This call is optional
+                            Log.d("TAG", "something");
+                        }
+                    });
+        }
     }
 
     //-----------Update Gauges via Handler-------------
