@@ -1,4 +1,4 @@
-#dynOBD <img src="img/dynobd_logo2.png" width="100">
+#<img src="img/dynobd_logo2.png" width="100"> dynOBD 
 ------------
 
 ####Version:`1.0` Min SDK:`23` Target SDK:`24`
@@ -16,11 +16,9 @@
 
 ---------
 #About
-<img src="img/trip_example.gif" width="152">
-<img src="img/about_car.gif" width="152">
-<img src="img/locator.gif" width="152">
-
+<img src="img/app_running.gif" width="200"> 
 > **dynOBD** is an android application that keep track of statistics about any given car trip. It uses bluetooth to connect to an [OBDII](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) dongle that is connected seperately to the car's [DLC](https://en.wikipedia.org/wiki/Data_link_connector_(automotive)). Instructions on connecting the dongle to the car can be found [here](http://www.ehow.com/how_2214654_connect-obd2-car.html). Alternatively if there is no access to an OBDII dongle then the user can generate simulated data which is explained in further detail down below. 
+
 
 ----------
 
@@ -32,7 +30,7 @@
 * Pair your phone with you computer
 * Launch dynOBD <img src="img/logo.png" width="30"/>
 * Click the <img src="img/connect_button.png" width="100"/> Button
-* Select your computer from the *list of paired devices*
+* Select your computer from the *list of paired devices* <img src="img/alex_paired_device.png" width="100"/> 
 * Click the <img src="img/start_button.png" width="100"/> Button
 * The data will simulate acceleration to about *~100 km/h* and *~2200 RPM* and begin to fluctuate around those ranges. 
 * You can proceed to use the app as normal from this point on
@@ -45,12 +43,44 @@
 * Connect the Dongle to the Car DLC, for more detailed instructions visit [this page](http://www.ehow.com/how_2214654_connect-obd2-car.html)
 * Ensure that the bluetooth is on, there should be a power button and lights indicating that the device is on
 * Start your car
-* Before launching the app, pair your phone with the OBDII dongle 
+* Before launching the app, pair your phone with the OBDII dongle <img src="img/obd_paired_device.png" width="150"/>
 * Launch dynOBD <img src="img/logo.png" width="30"/>
+* Click the <img src="img/obd_paired_device2.png" width="100"/> Button
+* Select your computer from the *list of paired devices* <img src="img/alex_paired_device.png" width="100"/> 
+* Click the <img src="img/start_button.png" width="100"/> Button
+* Can proceed using the app as normal from this point on
 
 
+#App Features
 
-##Specifics used to test Application
+###Show live trip data and save it and review it any time
+
+<img src="img/trip_example.gif" width="152">
+
+###Get specific information about your car
+
+<img src="img/about_car.gif" width="152">
+
+###Get specifics about your current location
+
+<img src="img/locator.gif" width="152">
+
+###Help is just a fingertip away
+
+<img src="img/help_preview.gif" width="152">
+
+##APIs Being Used
+Name | Description 
+-----|----------
+[ODBII Java api](https://github.com/pires/obd-java-api) | Handle the data collected by the ODBII diagnostic's system
+[CustomGauge](https://github.com/pkleczko/CustomGauge) <br> [ColorArcProgressBar](https://github.com/Shinelw/ColorArcProgressBar) | Graphic UI for speed and throttle live data output.
+[Boom Menu](//https://github.com/Nightonke/BoomMenu) | Animated, customizable circular floating menu
+[Sweet Alert Dialog](https://github.com/pedant/sweet-alert-dialog) <br> | Customizable dialog animation
+[Android google maps API](https://developers.google.com/maps/documentation/android-api/) | API used to get locations, and forward/reverse geocode them
+[Android Flat Button](https://github.com/hoang8f/android-flat-button) | Small library for customizable and styled buttons 
+[Tap Target View](https://github.com/KeepSafe/TapTargetView) | Tap targets to help first time users of the app
+
+##Specifics used to test application
 * **Car Make**: 2003 Hyundai Elantra
 * **OBDII Protocol**: ISO 14230-4 
 * **ISO 14230-4 Supported by**: ELM323, ELM327, ELM327/L
@@ -75,15 +105,6 @@
 * [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
 * [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
 
-##APIs Being Used
-Name | Description 
------|----------
-[ODBII Java api](https://github.com/pires/obd-java-api) | Handle the data collected by the ODBII diagnostic's system
-[Otto - Android Event Bus](http://square.github.io/otto/) | Decouple different parts of yotheur application while still allowing them to communicate efficiently.
-[CustomGauge](https://github.com/pkleczko/CustomGauge) <br> [ColorArcProgressBar](https://github.com/Shinelw/ColorArcProgressBar) | Graphic UI for speed and throttle live data output.
-[CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu) | Animated, customizable circular floating menu
-[Sweet Alert Dialog](https://github.com/pedant/sweet-alert-dialog) <br> [DialogPlus](https://github.com/orhanobut/dialogplus) | Dialog animation
-[Roads API (Snap to roads)](https://developers.google.com/maps/documentation/roads/intro) | Best-fit road geometry for a given set of GPS coordinates.
 
 ##OBD-II PIDs and Java OBD Api
 ###Control:
