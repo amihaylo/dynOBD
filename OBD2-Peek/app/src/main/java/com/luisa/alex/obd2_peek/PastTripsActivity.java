@@ -48,41 +48,6 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
         super.onResume();
     }
 
-    /*
-    private ArrayList<Trip> loadTripsDB(){
-        TripDatabase tripDatabase = new TripDatabase(this);
-
-        return tripDatabase.getAllTrips();
-    }
-    */
-
-    /*
-    private void testDatabase() {
-        String METHOD = "testDatabase";
-        Log.d(METHOD, "called");
-
-        TripDatabase tripDatabase = new TripDatabase(this);
-        tripDatabase.deleteAllTrips();
-
-        //Check add function
-        tripDatabase.addTrip((new Date()).toString(), new Long(1400), "Toronto, Canada", "Tokyo, Japan", 150, 4000);
-        tripDatabase.addTrip((new Date()).toString(), new Long(1200), "Oshawa, Canada", "Mississauga, Japan", 250, 6000);
-        tripDatabase.addTrip((new Date()).toString(), new Long(1100), "Niagara Falls, Canada", "New York, USA", 50, 2000);
-
-        //check delete function
-        Trip toDel = tripDatabase.addTrip((new Date()).toString(), new Long(0), "TO DELETE", "TO DELETE", 0, 0);
-        tripDatabase.deleteTrip(toDel.getId());
-
-        //Print the current Database
-        ArrayList<Trip> trips = tripDatabase.getAllTrips();
-        for(Trip trip : trips){
-            System.out.println(trip);
-        }
-
-        showTrips(trips);
-    }
-    */
-
     public void showTrips(ArrayList<Trip> trips){
 
         TextView noPastTrips = (TextView) findViewById(R.id.empty_list);

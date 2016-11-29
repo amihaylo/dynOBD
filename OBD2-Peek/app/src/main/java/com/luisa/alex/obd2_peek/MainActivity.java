@@ -574,32 +574,6 @@ public class MainActivity
                 //.subButtonTextColor(Color.BLACK)
                 .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
                 .onSubButtonClick(this)
-                /*
-                .onSubButtonClick(new BoomMenuButton.OnSubButtonClickListener() {
-                    @Override
-                    public void onClick(int buttonIndex) {
-
-                        Log.d(TAG, "Button " + buttonIndex + " was clicked.");
-
-                        switch (buttonIndex) {
-                            case 0:
-                                LaunchAboutCarActivity();
-                                break;
-                            case 1:
-                                LaunchLocatorActivity();
-                                break;
-                            case 2:
-                                LaunchHelpActivity();
-                                break;
-                            case 3:
-                                LaunchPastTripsActivity();
-                                break;
-                            default:
-                                Log.d(TAG, "There has been an error with the subbuttons.");
-                                break;
-                        }
-                    }
-                })*/
                 .init(boomMenuButton);
     }
 
@@ -628,37 +602,7 @@ public class MainActivity
 
     //-----------------------LOCATION PERMISSIONS-----------------------
 
-    /*
-    private void checkLocationEnabled() {
-        //Determine if GPS is enabled, if not enable it
-        LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Log.d("checkLocationEnabled", "gps not enabled");
-            //Not enabled, request user to enable it
-            String locConfig = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
-            Intent enableGPSIntent = new Intent(locConfig);
-            startActivity(enableGPSIntent);
-
-        }else{
-            //isLocationEnabled = true;
-            Log.d("checkLocationEnabled", "gps is enabled!");
-        }
-    }
-
-    private void requestLocationPermissions() {
-        String TAG = "reqLocationPermissions";
-        //Get permission from the user to use the location services
-        if(this.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, START_TRIP_PERMISSIONS_REQ_CODE);
-            return;
-        }else{
-            Log.d(TAG, "Permissions OK");
-            //isLocationPermissionEnabled = true;
-            checkLocationEnabled();
-        }
-    }
-    */
-
+    //-----------Request Permissions Result-------------
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -827,6 +771,7 @@ public class MainActivity
         startActivity(intent);
     }
 
+    //-----------Show car data list-------------
     @Override
     public void showCarDataList(ArrayList<Tuple> data){
         String METHOD = "showCarDataList";

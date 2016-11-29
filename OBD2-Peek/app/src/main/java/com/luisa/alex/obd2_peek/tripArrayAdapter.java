@@ -77,8 +77,6 @@ public class tripArrayAdapter extends BaseAdapter {
             return convertView;
         } else {
 
-            //TODO post message saying there is nothing to show
-
             return null;
         }
     }

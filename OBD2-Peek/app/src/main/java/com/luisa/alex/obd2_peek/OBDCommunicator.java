@@ -76,6 +76,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
         }
     }
 
+    //-----------Init Trip-------------
     private void initTrip(){
         //Get the date
         this.startDate = new Date();
