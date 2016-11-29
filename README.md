@@ -45,15 +45,15 @@
 * Start your car
 * Before launching the app, pair your phone with the OBDII dongle <img src="img/obd_paired_device.png" width="150"/>
 * Launch dynOBD <img src="img/logo.png" width="30"/>
-* Click the <img src="img/obd_paired_device2.png" width="100"/> Button
-* Select your computer from the *list of paired devices* <img src="img/alex_paired_device.png" width="100"/> 
+* Click the <img src="img/connect_button.png" width="100"/> Button
+* Select the device from the *list of paired devices* <img src="img/obd_paired_device2.png" width="100"/> 
 * Click the <img src="img/start_button.png" width="100"/> Button
 * Can proceed using the app as normal from this point on
 
 
 #App Features
 
-###Show live trip data and save it and review it any time
+###Show live trip data to save and review at any time
 
 <img src="img/trip_example.gif" width="152">
 
@@ -61,7 +61,7 @@
 
 <img src="img/about_car.gif" width="152">
 
-###Get specifics about your current location
+###Find your exact current location at any time
 
 <img src="img/locator.gif" width="152">
 
