@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Step 3"
+            android:text="@string/lbl_Help_step3"
             android:textAllCaps="true"
             android:textColor="@color/md_amber_600"
             android:textSize="35sp"
@@ -29,14 +29,13 @@
 
 
         <TextView
-            android:text="Enjoy your trip"
+            android:text="@string/lbl_Help_step3_desc"
             android:layout_marginTop="-5dp"
             android:textColor="@color/md_amber_600"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textAlignment="center"
-            android:onClick="step1Click"
             />
 
         <ImageView
@@ -52,7 +51,7 @@
             android:textColor="@color/md_black_1000"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:text="Click the 'Start Trip' button. Keep an eye on the live data feed coming in from the car."
+            android:text="@string/lbl_Step3_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -73,7 +72,7 @@
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:textColor="@color/md_black_1000"
-            android:text="Don't forget to keep your eyes on the road!"
+            android:text="@string/lbl_Step3_desc2"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -85,7 +84,7 @@
         app:shadowEnabled="true"
         app:shadowHeight="2dp"
         app:cornerRadius="0dp"
-        android:text="Back"
+        android:text="@string/btn_Back"
         android:textColor="@color/md_white_1000"
         android:onClick="backClicked"
         android:layout_height="wrap_content"

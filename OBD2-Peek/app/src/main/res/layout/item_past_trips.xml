@@ -31,7 +31,7 @@
                 android:textColor="@color/md_white_1000"
                 android:textSize="15sp"
                 android:textAllCaps="true"
-                android:gravity="right"
+                android:gravity="end"
                 />
 
 
@@ -53,11 +53,10 @@
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:textColor="@color/md_deep_purple_400"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 />
 
             <TextView
-                android:text="Origin:"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_trip_origin"
@@ -81,7 +80,7 @@
                 android:textStyle="bold"
                 android:textAllCaps="true"
                 android:textColor="@color/md_deep_purple_400"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 />
 
             <TextView

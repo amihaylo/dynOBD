@@ -95,7 +95,7 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
 
             noPastTrips.setVisibility(View.GONE);
         } else {
-            noPastTrips.setText("There are no past trips to show.");
+            noPastTrips.setText(R.string.no_past_trips_to_show);
             noPastTrips.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         }
@@ -131,10 +131,10 @@ public class PastTripsActivity extends AppCompatActivity implements AdapterView.
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton4Colors[0], "Home")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], getString(R.string.about))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], getString(R.string.locator))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], getString(R.string.help))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton4Colors[0], getString(R.string.home))
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
                 .place(PlaceType.CIRCLE_4_2)

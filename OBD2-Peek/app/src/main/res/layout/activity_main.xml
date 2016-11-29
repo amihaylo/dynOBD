@@ -104,7 +104,7 @@
                 >
                 <TextView
                     android:id="@+id/gaugeView_speed"
-                    android:text="0"
+                    android:text="@string/lbl_Main_zero_speed"
                     android:textColor="@color/md_black_1000"
                     android:textSize="60sp"
                     android:typeface="monospace"
@@ -163,7 +163,7 @@
 
                 <TextView
                     android:id="@+id/lbl_rpm"
-                    android:text="Throttle"
+                    android:text="@string/lbl_Main_throttle"
                     android:textColor="@color/md_grey_700"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="0"
+                    android:text="@string/lbl_Main_zero_throttle"
                     android:textColor="@color/md_black_1000"
                     android:textSize="60sp"
                     android:typeface="monospace"
@@ -183,7 +183,7 @@
                 <TextView
                     android:layout_marginTop="-10dp"
                     android:id="@+id/lbl_rpm2"
-                    android:text="RPM"
+                    android:text="@string/lbl_Main_RPM"
                     android:textColor="@color/md_grey_700"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 >
 
                 <Switch

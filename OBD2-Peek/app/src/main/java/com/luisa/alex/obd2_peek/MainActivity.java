@@ -110,7 +110,7 @@ public class MainActivity
 
         //Initialize Location Permissions and other things
         initApp();
-        
+
     }
 
     @Override
@@ -145,13 +145,13 @@ public class MainActivity
     private void checkFirstTimeUser(){
         SharedPreferences prefs = getSharedPreferences("com.luisa.alex.obd2_peek", MODE_PRIVATE);
 
-        if (prefs.getBoolean("firstRunMainActivity", true)) {
+        if (prefs.getBoolean("firstRun", true)) {
             //Log.d("onResume", "firstRunMainActivity = true");
             //Set the first run to true
             MainActivity.firstRunMainActivity = true;
             MainActivity.firstRunHelpActivity = true;
             //Set the first time the app is run to false
-            prefs.edit().putBoolean("firstRunMainActivity", false).commit();
+            prefs.edit().putBoolean("firstRun", false).commit();
         }else{
             //Log.d("onResume", "firstRunMainActivity = false");
             //this.prefs.edit().putBoolean("firstRunMainActivity", true).commit();
@@ -190,14 +190,14 @@ public class MainActivity
 
         connectingDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         connectingDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        connectingDialog.setTitleText("Connecting...");
+        connectingDialog.setTitleText(getString(R.string.connecting));
         connectingDialog.setCancelable(false);
 
         //Init the TapTarget
-        Log.d("Tap Target", "firstRunMainActivity = " + this.firstRunMainActivity);
-        if(this.firstRunMainActivity) {
+        Log.d("Tap Target", "firstRunMainActivity = " + MainActivity.firstRunMainActivity);
+        if(MainActivity.firstRunMainActivity) {
             TapTargetView.showFor(this,                 // `this` is an Activity
-                    TapTarget.forView(findViewById(R.id.btn_Main_connect_obd), "Welcome to dynOBD", "Start by connecting to your OBD Device")
+                    TapTarget.forView(findViewById(R.id.btn_Main_connect_obd), getString(R.string.welcome_msg), getString(R.string.welcome_msg_desec))
                             // All options below are optional
                             .outerCircleColor(R.color.md_amber_600)      // Specify a color for the outer circle
                             .targetCircleColor(R.color.white)   // Specify a color for the target circle
@@ -297,7 +297,7 @@ public class MainActivity
         } else {
             //There are no existing Paired Devices
             Log.d(TAG, "[MainActivity.connectBtnClick] No Paired Devices Found");
-            MainActivity.showToast("Need to Pair with device first!");
+            MainActivity.showToast(getString(R.string.need_to_pair_msg));
             return;
         }
 
@@ -347,12 +347,12 @@ public class MainActivity
 
         //Let the user know that the connection was a success
         if (isConnected) {
-            toastMessage = "Connection Success!";
+            toastMessage = getString(R.string.connection_success);
             //set the socket
             this.commSocket = mmSocket;
 
             // Set Bluetooth status to ON
-            btStatus.setText("CONNECTED");
+            btStatus.setText(R.string.CONNECTED);
             btStatus.setTextColor(getResources().getColor(R.color.md_green_600));
 
             simulateTripSwitch.setEnabled(false);
@@ -362,12 +362,12 @@ public class MainActivity
             connectingDialog.dismiss();
 
         } else {
-            toastMessage = "Unsuccessful Connection!";
+            toastMessage = getString(R.string.unsuccessful_connection);
             //MainActivity.showToast(toastMessage);
             connectingDialog.dismiss();
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Something went wrong")
-                    .setContentText("We were unable to connect to this device. Please try again or use a different one.")
+                    .setTitleText(getString(R.string.something_went_wrong))
+                    .setContentText(getString(R.string.unable_to_connect_to_device))
                     .showCancelButton(true)
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -392,7 +392,7 @@ public class MainActivity
                 //MainActivity.showToast("Disconnect Successful!");
 
                 // Set Bluetooth status to OFF
-                btStatus.setText("DISCONNECTED");
+                btStatus.setText(R.string.DISCONNECTED);
                 btStatus.setTextColor(getResources().getColor(R.color.md_red_800));
 
                 simulateTripSwitch.setEnabled(true);
@@ -401,7 +401,7 @@ public class MainActivity
 
             } else {
                 //Show UnSuccess Toast
-                MainActivity.showToast("Disconnect Unsuccessful!");
+                MainActivity.showToast(getString(R.string.disconnect_unsuccessful));
             }
         }
     }
@@ -416,7 +416,7 @@ public class MainActivity
         //Response Intent once the Bluetooth has been enabled
         if (requestCode == REQUEST_ENABLE_BT && responseCode == RESULT_OK) {
             Log.d(TAG, "[MainActivity.onActivityResult] Bluetooth has been Enabled");
-            MainActivity.showToast("Bluetooth Enabled");
+            MainActivity.showToast(getString(R.string.bluetooth_enabled));
 
             //Connect to a paired bluetooth device
             connectToPairedDevice();
@@ -471,10 +471,10 @@ public class MainActivity
                 //GPS is OFF
                 //Dialog before prompting the user to turn location services on
                 new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText("Location Services are OFF")
-                        .setContentText("Taking you to settings now.")
-                        .setConfirmText("OK Take me")
-                        .setCancelText("CANCEL")
+                        .setTitleText(getString(R.string.location_services_off))
+                        .setContentText(getString(R.string.take_to_settings))
+                        .setConfirmText(getString(R.string.ok_take_me))
+                        .setCancelText(getString(R.string.CANCEL))
                         .showCancelButton(true)
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
@@ -512,7 +512,7 @@ public class MainActivity
                     isTripOngoing = true;
 
                 } else {
-                    showToast("Not connected to OBD");
+                    showToast(getString(R.string.not_connected_to_obd));
                 }
             } else {
                 //showToast("Either permissions or GPS are disabled.");
@@ -564,10 +564,10 @@ public class MainActivity
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], "Help")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], getString(R.string.about))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], getString(R.string.locator))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.help), subButton3Colors[0], getString(R.string.help))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], getString(R.string.trips))
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
                 .place(PlaceType.CIRCLE_4_2)
@@ -611,7 +611,7 @@ public class MainActivity
 
         //Check if Vin was not found
         if(vinNumber.isEmpty()){
-            showToast("Unable to Obtain Vin!");
+            showToast(getString(R.string.unable_to_obtain_vin));
 
             return;
         }
@@ -696,8 +696,8 @@ public class MainActivity
 
         if (isTripOngoing) {
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Oh, no!")
-                    .setContentText("Sorry, we can only do one connection at a time. Try again when you've completed your trip!")
+                    .setTitleText(getString(R.string.oh_no))
+                    .setContentText(getString(R.string.one_conn_at_a_time))
                     .showCancelButton(true)
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -712,8 +712,8 @@ public class MainActivity
         if(this.commSocket == null){
             //showToast("Please Connect First!");
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("There's no connection!")
-                    .setContentText("We need to connect to your vehicle in order to get you the information you need. Make sure you do that first!")
+                    .setTitleText(getString(R.string.no_connection))
+                    .setContentText(getString(R.string.need_to_connect_to_vehicle))
                     .showCancelButton(true)
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -729,8 +729,8 @@ public class MainActivity
         if(!this.commSocket.isConnected()){
             //showToast("OBD Not Connected!");
             new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("There's no connection!")
-                    .setContentText("We need to connect to your vehicle in order to get you the information you need. Make sure you do that first!")
+                    .setTitleText(getString(R.string.there_is_no_connection))
+                    .setContentText(getString(R.string.please_connect_to_car))
                     .showCancelButton(true)
                     .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -769,10 +769,10 @@ public class MainActivity
                 //GPS is OFF
                 //Dialog before prompting the user to turn location services on
                 new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                        .setTitleText("Location Services are OFF")
-                        .setContentText("Taking you to settings now.")
-                        .setConfirmText("OK Take me")
-                        .setCancelText("CANCEL")
+                        .setTitleText(getString(R.string.location_services_off))
+                        .setContentText(getString(R.string.take_to_settings))
+                        .setConfirmText(getString(R.string.ok_take_me))
+                        .setCancelText(getString(R.string.CANCEL))
                         .showCancelButton(true)
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
@@ -833,7 +833,7 @@ public class MainActivity
 
         //Check if there was an error in downloading the data from the site
         if(data.isEmpty()){
-            showToast("Unable to Download Data!");
+            showToast(getString(R.string.unable_to_download_data));
             return;
         }
 
@@ -905,10 +905,10 @@ public class MainActivity
 
         //Display an alert asking if the user wants to save the trip
         new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText("Save the Trip?")
-                .setContentText("Can't recover data if NO clicked")
-                .setConfirmText("YES Save trip")
-                .setCancelText("NO Discard it")
+                .setTitleText(getString(R.string.save_the_trip))
+                .setContentText(getString(R.string.cant_recover_if_no_clicked))
+                .setConfirmText(getString(R.string.yes_save_trip))
+                .setCancelText(getString(R.string.no_discard_it))
                 .showCancelButton(true)
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
@@ -937,10 +937,10 @@ public class MainActivity
 
         //Display an alert asking if the user wants to save the trip
         new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Your trip has been saved!")
-                .setContentText("You can view details later under Trips")
-                .setConfirmText("Show Details!")
-                .setCancelText("OK")
+                .setTitleText(getString(R.string.trip_has_been_saved))
+                .setContentText(getString(R.string.view_details_later))
+                .setConfirmText(getString(R.string.show_details))
+                .setCancelText(getString(R.string.OK))
                 .showCancelButton(true)
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override

@@ -18,10 +18,10 @@
             android:textStyle="bold"
             android:textAllCaps="true"
             android:textColor="@color/md_red_400"
-            android:textSize="15dp"/>
+            android:textSize="15sp"/>
 
         <TextView
-            android:text="Loading..."
+            android:text="@string/LOADING"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lbl_vin_data"

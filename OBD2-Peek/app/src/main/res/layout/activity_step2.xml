@@ -19,7 +19,7 @@
         app:shadowEnabled="true"
         app:shadowHeight="2dp"
         app:cornerRadius="0dp"
-        android:text="Back"
+        android:text="@string/btn_Back"
         android:textColor="@color/md_white_1000"
         android:onClick="backClicked"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Step 2"
+            android:text="@string/lbl_Help_step2"
             android:textAllCaps="true"
             android:textColor="@color/md_amber_600"
             android:textSize="35sp"
@@ -47,7 +47,7 @@
             />
 
         <TextView
-            android:text="Connect phone to OBD device"
+            android:text="@string/lbl_Help_step2_desc"
             android:layout_marginTop="-5dp"
             android:textColor="@color/md_amber_600"
             android:layout_width="match_parent"
@@ -62,14 +62,14 @@
             android:layout_width="120dp"
             android:src="@drawable/connect_click"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="-43dp"
+            android:layout_marginStart="-43dp"
             >
         </ImageView>
 
         <TextView
             android:textColor="@color/md_black_1000"
             android:textSize="16sp"
-            android:text="First, pair the phone with the OBDII bluetooth. Then, click the 'Connect to Vehicle' Button"
+            android:text="@string/lbl_Step2_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -90,7 +90,7 @@
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:textColor="@color/md_black_1000"
-            android:text="Finally, select the OBDII device from the list of paired devices"
+            android:text="@string/lbl_Step2_desc2"
             android:textAlignment="center"
             android:layout_marginTop="10dp"/>
 

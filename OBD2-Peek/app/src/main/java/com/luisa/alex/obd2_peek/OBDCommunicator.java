@@ -118,6 +118,7 @@ public class OBDCommunicator extends AsyncTask<BluetoothSocket, Integer , Trip> 
 
         //SIMULATION DUMMY DATA
         String secretVinNumber = "KMHHxxxDx3Uxxxxxx";
+        //String secretVinNumber = "JN1CV6AR6BM350293";
         Integer simDataStream[] = {0,0};
 
         //Query the OBD for the Vin Data ONLY

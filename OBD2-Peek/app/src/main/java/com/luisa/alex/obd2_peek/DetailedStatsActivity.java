@@ -128,13 +128,13 @@ public class DetailedStatsActivity extends AppCompatActivity {
     }
 
     public void deletePastTripClicked(View view) {
-        Log.d("TAG", "Item to delete: " + position);
+        //Log.d("TAG", "Item to delete: " + position);
 
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Are you sure?")
-                .setContentText("Won't be able to recover this trip!")
-                .setConfirmText("YES I\'m sure")
-                .setCancelText("NO Nevermind")
+                .setTitleText(getString(R.string.are_you_sure))
+                .setContentText(getString(R.string.unable_to_recover_trip))
+                .setConfirmText(getString(R.string.yes_im_sure))
+                .setCancelText(getString(R.string.no_nevermind))
                 .showCancelButton(true)
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
@@ -145,7 +145,7 @@ public class DetailedStatsActivity extends AppCompatActivity {
                         // delete from database
                         tripDatabase.deleteTrip(tripToDelete.getId());
 
-                        MainActivity.showToast("Trip deleted");
+                        MainActivity.showToast(getString(R.string.trip_deleted));
 
                         finish();
                     }

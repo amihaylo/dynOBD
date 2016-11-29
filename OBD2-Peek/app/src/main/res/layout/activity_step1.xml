@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Step 1"
+            android:text="@string/lbl_Help_step_1"
             android:textAllCaps="true"
             android:textColor="@color/md_amber_600"
             android:textSize="35sp"
@@ -28,7 +28,7 @@
             />
 
         <TextView
-            android:text="Connect OBD device to vehicle"
+            android:text="@string/lbl_Help_step1_desc2"
             android:textColor="@color/md_amber_600"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_marginTop="-5dp"
             android:textColor="@color/md_black_1000"
             android:textSize="16sp"
-            android:text="Ensure that the device supports your car's OBDII protocol. Look for an OBD2 ELM327 device, as it supports most protocols."
+            android:text="@string/lbl_Step1_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -70,7 +70,7 @@
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:textColor="@color/md_black_1000"
-            android:text="Plug the device into the car's DLC(Data link connector) which is typically located below, or to the left of the steering wheel"
+            android:text="@string/lbl_Step1_desc2"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -83,7 +83,7 @@
         app:shadowEnabled="true"
         app:shadowHeight="2dp"
         app:cornerRadius="0dp"
-        android:text="Back"
+        android:text="@string/btn_Back"
         android:textColor="@color/md_white_1000"
         android:onClick="backClicked"
         android:layout_height="wrap_content"

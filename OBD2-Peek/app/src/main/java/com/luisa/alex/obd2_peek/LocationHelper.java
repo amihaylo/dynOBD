@@ -25,7 +25,7 @@ public class LocationHelper {
 
     public static Location getLastLocation(FragmentActivity activity, LocationListener locListener) {
         String TAG = "getLastLocation";
-        Log.d(TAG, "called()");
+        //Log.d(TAG, "called()");
         Location lastKnownLocation = null;
         //Get the address of the last known location of the phone
         if(activity.checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){

@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="50dp"
-            android:paddingRight="50dp"
+            android:paddingEnd="50dp"
             android:onClick="step1Click">
 
             <LinearLayout
@@ -35,7 +35,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
-                        android:text="Step 1"
+                        android:text="@string/lbl_Help_step_1"
                         android:textAllCaps="true"
                         android:textColor="@color/md_amber_600"
                         android:textSize="25sp"
@@ -43,7 +43,7 @@
                         />
 
                     <TextView
-                        android:text="Plug in OBD device\nto vehicle"
+                        android:text="@string/lbl_Help_step1_desc"
                         android:textColor="@color/md_black_1000"
                         android:textSize="16sp"
                         android:layout_marginTop="-5dp"
@@ -83,8 +83,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="50dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="50dp"
             android:onClick="step2Click"
             >
 
@@ -113,21 +113,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="right">
+                    android:gravity="end">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
                         android:textColor="@color/md_amber_600"
-                        android:text="Step 2"
+                        android:text="@string/lbl_Help_step2"
                         android:textAllCaps="true"
                         android:textSize="25sp"
                         android:textStyle="normal"
-                        android:gravity="right"/>
+                        android:gravity="end"/>
 
                     <TextView
-                        android:text="Connect phone to OBD device"
+                        android:text="@string/lbl_Help_step2_desc"
                         android:layout_marginTop="-5dp"
                         android:layout_width="wrap_content"
                         android:textColor="@color/md_black_1000"
@@ -149,8 +149,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
             android:onClick="step3Click">
 
             <LinearLayout
@@ -169,14 +169,14 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
                         android:textColor="@color/md_amber_600"
-                        android:text="Step 3"
+                        android:text="@string/lbl_Help_step3"
                         android:textAllCaps="true"
                         android:textSize="25sp"
                         android:textStyle="normal"
                         android:textAlignment="center" />
 
                     <TextView
-                        android:text="Enjoy your Trip"
+                        android:text="@string/lbl_Help_step3_desc"
                         android:textColor="@color/md_black_1000"
                         android:textSize="16sp"
                         android:layout_marginTop="-5dp"

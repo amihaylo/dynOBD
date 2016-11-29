@@ -33,7 +33,7 @@ public class HelpActivity extends AppCompatActivity {
         if (MainActivity.firstRunHelpActivity) {
 
             TapTargetView.showFor(this,                 // `this` is an Activity
-                    TapTarget.forView(findViewById(R.id.lbl_step1), "Click each step", "It will give a more detailed instructions")
+                    TapTarget.forView(findViewById(R.id.lbl_step1), getString(R.string.click_each_step), getString(R.string.more_detail_instructions))
                             // All options below are optional
                             .outerCircleColor(R.color.md_amber_600)      // Specify a color for the outer circle
                             .targetCircleColor(R.color.white)   // Specify a color for the target circle
@@ -88,10 +88,10 @@ public class HelpActivity extends AppCompatActivity {
 
         // Now with Builder, you can init BMB more convenient
         new BoomMenuButton.Builder()
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], "About")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], "Locator")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton3Colors[0], "Home")
-                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], "Trips")
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.car), subButton1Colors[0], getString(R.string.about))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.where), subButton2Colors[0], getString(R.string.locator))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.home), subButton3Colors[0], getString(R.string.home))
+                .addSubButton(ContextCompat.getDrawable(this, R.drawable.past), subButton4Colors[0], getString(R.string.trips))
 
                 .button(ButtonType.CIRCLE)
                 .boom(BoomType.HORIZONTAL_THROW_2)
