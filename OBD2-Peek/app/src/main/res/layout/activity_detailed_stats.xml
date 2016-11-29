@@ -39,13 +39,13 @@
                 android:textColor="@color/md_white_1000"
                 android:textAllCaps="true"
                 android:background="@color/md_deep_purple_200"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:typeface="normal"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
                 android:layout_marginTop="10dp"
-                android:text="General"/>
+                android:text="@string/lbl_Stats_general"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -54,19 +54,18 @@
                 android:textColor="@color/md_deep_purple_300"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:typeface="normal"
                 android:layout_marginTop="5dp"
-                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
                 android:text="@string/date"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="30dp">
+                android:paddingStart="30dp">
 
                 <LinearLayout
-                    android:id="@+id/date_block1"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -74,7 +73,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Start Date: "
+                        android:text="@string/lbl_Stats_start_date"
                         android:textColor="@color/md_deep_purple_400"/>
 
                     <TextView
@@ -88,10 +87,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="30dp">
+                android:paddingStart="30dp">
 
                 <LinearLayout
-                    android:id="@+id/date_block2"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -118,16 +116,16 @@
                 android:textColor="@color/md_deep_purple_300"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:typeface="normal"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
                 android:text="@string/origin"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="30dp">
+                android:paddingStart="30dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -152,7 +150,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Origin Location: "
+                android:text="@string/lbl_Stats_origin_loc"
                 android:textColor="@color/md_deep_purple_400"
                 android:paddingLeft="30dp"
                 />
@@ -161,8 +159,8 @@
                 android:id="@+id/origin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="10dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/md_black_1000"/>
 
             <TextView
@@ -172,16 +170,16 @@
                 android:textColor="@color/md_deep_purple_300"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:typeface="normal"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
                 android:text="@string/destination"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="30dp">
+                android:paddingStart="30dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -207,16 +205,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Destination Location: "
+                android:text="@string/lbl_Stats_dest_loc"
                 android:textColor="@color/md_deep_purple_400"
-                android:paddingLeft="30dp"/>
+                android:paddingStart="30dp"/>
 
             <TextView
                 android:id="@+id/destination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="10dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="10dp"
                 android:textColor="@color/md_black_1000"/>
 
 
@@ -239,9 +237,9 @@
                 android:typeface="normal"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
                 android:layout_marginTop="10dp"
-                android:text="Tech"/>
+                android:text="@string/lbl_Stats_tech"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -250,16 +248,16 @@
                 android:textColor="@color/md_deep_purple_300"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:typeface="normal"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="15dp"
-                android:text="Speed"/>
+                android:paddingStart="15dp"
+                android:text="@string/lbl_Stats_speed"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="30dp">
+                android:paddingStart="30dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -288,16 +286,16 @@
                 android:textColor="@color/md_deep_purple_300"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:typeface="normal"
                 android:layout_marginTop="10dp"
-                android:paddingLeft="15dp"
-                android:text="Throttle"/>
+                android:paddingStart="15dp"
+                android:text="@string/lbl_Stats_throttle"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="30dp">
+                android:paddingStart="30dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -345,13 +343,13 @@
                         app:shadowEnabled="true"
                         app:shadowHeight="2dp"
                         app:cornerRadius="0dp"
-                        android:text="Back"
+                        android:text="@string/btn_Back"
                         android:textColor="@color/md_white_1000"
                         android:onClick="returnToMainClicked"
                         android:layout_height="wrap_content"
                         android:layout_width="100dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"/>
 
                     <info.hoang8f.widget.FButton
                         android:id="@+id/btn_delete_trip"
@@ -360,13 +358,13 @@
                         app:shadowEnabled="true"
                         app:shadowHeight="2dp"
                         app:cornerRadius="0dp"
-                        android:text="Delete"
+                        android:text="@string/btn_Stats_delete"
                         android:textColor="@color/md_white_1000"
                         android:onClick="deletePastTripClicked"
                         android:layout_height="wrap_content"
                         android:layout_width="100dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"/>
                     </RelativeLayout>
                 </LinearLayout>
 

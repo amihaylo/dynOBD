@@ -110,10 +110,7 @@ public class MainActivity
 
         //Initialize Location Permissions and other things
         initApp();
-
-        //TEMP - Delete database at start of app, TODO: Get rid of this after
-        tripDatabase = new TripDatabase(this);
-        tripDatabase.deleteAllTrips();
+        
     }
 
     @Override
@@ -134,6 +131,9 @@ public class MainActivity
     }
 
     protected void initApp() {
+        //Load the database
+        tripDatabase = new TripDatabase(this);
+
         //Obtain the shared preferences to see if it is a first time user
         checkFirstTimeUser();
 

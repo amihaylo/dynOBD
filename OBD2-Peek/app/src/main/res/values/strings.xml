@@ -42,5 +42,14 @@
     <string name="disconnected_status">DISCONNECTED</string>
     <string name="time_departure">Departure Time:&#160;</string>
     <string name="time_arrival">Arrival Time:&#160;</string>
+    <string name="lbl_Stats_general">General</string>
+    <string name="lbl_Stats_start_date">Start Date:</string>
+    <string name="lbl_Stats_origin_loc">Origin Location:</string>
+    <string name="lbl_Stats_dest_loc">Destination Location:</string>
+    <string name="lbl_Stats_tech">Tech</string>
+    <string name="lbl_Stats_speed">Speed</string>
+    <string name="lbl_Stats_throttle">Throttle</string>
+    <string name="btn_Back">Back</string>
+    <string name="btn_Stats_delete">Delete</string>
 
 </resources>
