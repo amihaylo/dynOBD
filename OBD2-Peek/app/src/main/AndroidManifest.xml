@@ -22,10 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".DetailedStatsActivity" />
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".PastTripsActivity" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".DetailedStatsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".HelpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".PastTripsActivity" android:screenOrientation="portrait"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,20 +40,22 @@
 
         <activity
             android:name=".LocatorActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".AboutCarActivity" />
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AboutCarActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".Splash"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Step1Activity" />
-        <activity android:name=".Step2Activity" />
-        <activity android:name=".Step3Activity"></activity>
+        <activity android:name=".Step1Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Step2Activity" android:screenOrientation="portrait"/>
+        <activity android:name=".Step3Activity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
