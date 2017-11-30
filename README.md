@@ -12,11 +12,13 @@
 <a href="https://github.com/amihaylo">
 <img border="0" alt="W3Schools" src="https://avatars2.githubusercontent.com/u/8698595?v=3&s=460" width="100" height="100" style="border-radius:25px;">
 </a>
+
 #### *Luisa Rojas* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *Alexandar Mihaylov*
 
 ---------
 # About
 <img src="img/app_running.gif" width="200"> 
+
 > **dynOBD** is an android application that keep track of statistics about any given car trip. It uses bluetooth to connect to an [OBDII](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) dongle that is connected seperately to the car's [DLC](https://en.wikipedia.org/wiki/Data_link_connector_(automotive)). Instructions on connecting the dongle to the car can be found [here](http://www.ehow.com/how_2214654_connect-obd2-car.html). Alternatively if there is no access to an OBDII dongle then the user can generate simulated data which is explained in further detail down below. 
 
 
