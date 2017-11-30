@@ -1,7 +1,7 @@
-#<img src="img/dynobd_logo2.png" width="100"> dynOBD 
+# <img src="img/dynobd_logo2.png" width="100"> dynOBD 
 ------------
 
-####Version:`1.0` Min SDK:`23` Target SDK:`24`
+#### Version:`1.0` Min SDK:`23` Target SDK:`24`
 
 ------
 
@@ -12,18 +12,18 @@
 <a href="https://github.com/amihaylo">
 <img border="0" alt="W3Schools" src="https://avatars2.githubusercontent.com/u/8698595?v=3&s=460" width="100" height="100" style="border-radius:25px;">
 </a>
-####*Luisa Rojas* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *Alexandar Mihaylov*
+#### *Luisa Rojas* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *Alexandar Mihaylov*
 
 ---------
-#About
+# About
 <img src="img/app_running.gif" width="200"> 
 > **dynOBD** is an android application that keep track of statistics about any given car trip. It uses bluetooth to connect to an [OBDII](https://en.wikipedia.org/wiki/On-board_diagnostics#OBD-II) dongle that is connected seperately to the car's [DLC](https://en.wikipedia.org/wiki/Data_link_connector_(automotive)). Instructions on connecting the dongle to the car can be found [here](http://www.ehow.com/how_2214654_connect-obd2-car.html). Alternatively if there is no access to an OBDII dongle then the user can generate simulated data which is explained in further detail down below. 
 
 
 ----------
 
-#Running dynOBD
-###Method 1 - Simulated Data (RANDY README)
+# Running dynOBD
+### Method 1 - Simulated Data (RANDY README)
 * Ensure that the switch at the bottom of the app.<img src="img/simulated_data.png" width="100"> is **ON** as shown. 
 * Only the datastream is simulated, so you still need to connect to **any** bluetooth device before proceeding
 * Turn on the Bluetooth to your computer <img src="img/bluetooth_on.png"" width="50"/>
@@ -39,7 +39,7 @@
 -----------
 
 
-###Method 2 - Real Data
+### Method 2 - Real Data
 * Connect the Dongle to the Car DLC, for more detailed instructions visit [this page](http://www.ehow.com/how_2214654_connect-obd2-car.html)
 * Ensure that the bluetooth is on, there should be a power button and lights indicating that the device is on
 * Start your car
@@ -51,25 +51,25 @@
 * Can proceed using the app as normal from this point on
 
 
-#App Features
+# App Features
 
-###Show live trip data to save and review at any time
+### Show live trip data to save and review at any time
 
 <img src="img/trip_example.gif" width="152">
 
-###Get specific information about your car
+### Get specific information about your car
 
 <img src="img/about_car.gif" width="152">
 
-###Find your exact current location at any time
+### Find your exact current location at any time
 
 <img src="img/locator.gif" width="152">
 
-###Help is just a fingertip away
+### Help is just a fingertip away
 
 <img src="img/help_preview.gif" width="152">
 
-##APIs Being Used
+## APIs Being Used
 Name | Description 
 -----|----------
 [ODBII Java api](https://github.com/pires/obd-java-api) | Handle the data collected by the ODBII diagnostic's system
@@ -80,14 +80,14 @@ Name | Description
 [Android Flat Button](https://github.com/hoang8f/android-flat-button) | Small library for customizable and styled buttons 
 [Tap Target View](https://github.com/KeepSafe/TapTargetView) | Tap targets to help first time users of the app
 
-##Specifics used to test application
+## Specifics used to test application
 * **Car Make**: 2003 Hyundai Elantra
 * **OBDII Protocol**: ISO 14230-4 
 * **ISO 14230-4 Supported by**: ELM323, ELM327, ELM327/L
 * **OBD Device**: OBD2 ELM327 Bluetooth KW901/KW903 Car Auto Diagnostic Interface Scanner Tool KONNWEI
 * **OBD2 Simulator**: [ScanTool 602201 ECUsim 2000 ECU CAN Simulator for OBD-II Development](https://www.amazon.com/ScanTool-602201-ECUsim-Simulator-Development/dp/B008NAH6WE)
 
-##Useful Links:
+## Useful Links:
 * [Hyundai OBD II diagnostic interface pinout](http://pinoutsguide.com/CarElectronics/hyundai_obd_2_pinout.shtml)
 * [ELM protocol support](https://www.elmelectronics.com/products/ics/obd/)
 * [ELM327 AT Commands](https://www.sparkfun.com/datasheets/Widgets/ELM327_AT_Commands.pdf)
@@ -101,13 +101,13 @@ Name | Description
 * [Awesome Android UI](https://github.com/wasabeef/awesome-android-ui)
 
 
-##Problems/Fixes
+## Problems/Fixes
 * [Bluetooth Fails to Connect](http://stackoverflow.com/questions/18657427/ioexception-read-failed-socket-might-closed-bluetooth-on-android-4-3/18786701details)
 * [Constant output issue](https://github.com/pires/obd-java-api/issues/98)
 
 
-##OBD-II PIDs and Java OBD Api
-###Control:
+## OBD-II PIDs and Java OBD Api
+### Control:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -124,7 +124,7 @@ AT | IGN | IgnitionMonitorCommand.java | N/A
 09 | 02 | VinCommand.java |  [Vehicle Identification Number (VIN)](https://en.wikipedia.org/wiki/Vehicle_identification_number)
 
 
-###Engine:
+### Engine:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -136,7 +136,7 @@ AT | 0C | RPMCommand.java | Engine RPM
 01 | 1F | RuntimeCommand.java | Run time since engine start
 01 | 11 | ThrottlePositionCommand.java | Throttle position
 
-###Fuel:
+### Fuel:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -147,7 +147,7 @@ Mode | PID(hex) | OBD-Java-Api | Description
 -- | -- | FuelTrimCommand.java | N/A
 01 | 34 | WidebandAirFuelRatioCommand.java | ? Oxyegen Sensor 1
 
-###Pressure:
+### Pressure:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
@@ -156,7 +156,7 @@ Mode | PID(hex) | OBD-Java-Api | Description
 01 | 23 | FuelRailPressureCommand.java | [Fuel Rail](https://en.wikipedia.org/wiki/Common_rail) Gauge Pressure (diesel, or gasoline direct injection)
 01 | 0B | IntakeManifoldPressureCommand.java | 	Intake manifold absolute pressure
 
-###Temperature:
+### Temperature:
 
 Mode | PID(hex) | OBD-Java-Api | Description
 -----|----------|--------------|-----------
